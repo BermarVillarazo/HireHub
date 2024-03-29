@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 import { google, lucia } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { oauthAccounts, superAdmin } from "@/lib/schema";
+import { oauthAccounts, users } from "@/lib/schema";
 
 interface GoogleUser {
     sub: string;
@@ -14,6 +14,7 @@ interface GoogleUser {
     family_name: string;
     email: string;
     picture: string;
+    role: string;
     email_verified: boolean;
     locale: string;
 }
@@ -22,8 +23,6 @@ export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
     const code = url.searchParams.get("code");
     const state = url.searchParams.get("state");
-
-    console.log("CALLBACKKKKKK")
 
     const storedState = cookies().get("google_oauth_state")?.value ?? null;
     const storedCodeVerifier = cookies().get("google_code_verifier")?.value ?? null;
@@ -50,6 +49,12 @@ export async function GET(request: Request): Promise<Response> {
             ),
         });
 
+        // TODO:
+        /**
+         * if no existingUser, check if there is a user with the same email
+         * then prompt to link the account (or just force?)
+         */
+
         if (existingUser) {
             const session = await lucia.createSession(existingUser.userId, {});
             const sessionCookie = lucia.createSessionCookie(session.id);
@@ -65,13 +70,23 @@ export async function GET(request: Request): Promise<Response> {
         const userId = generateId(15);
 
         await db.transaction(async (tx) => {
-            await tx.insert(superAdmin).values({
+            await tx.insert(users).values({
                 id: userId,
                 email: googleUser.email,
                 name: googleUser.name,
                 firstName: googleUser.given_name,
                 lastName: googleUser.family_name,
                 avatarUrl: googleUser.picture,
+                role:
+                    googleUser.role === "super_admin"
+                        ? "super_admin"
+                        : googleUser.role === "hr_head"
+                        ? "hr_head"
+                        : googleUser.role === "vp_acad"
+                        ? "vp_acad"
+                        : googleUser.role === "vp_admin"
+                        ? "vp_admin"
+                        : "user",
             });
             await tx
                 .insert(oauthAccounts)

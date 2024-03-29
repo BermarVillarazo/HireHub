@@ -1,6 +1,6 @@
 import { pgEnum, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
-export const roleEnums = pgEnum("role", ["user", "admin"]);
+export const roleEnums = pgEnum("role", ["user", "super_admin", "hr_head", "vp_acad", "vp_admin"]);
 
 export const users = pgTable("users", {
     id: text("id").primaryKey(),
@@ -10,16 +10,6 @@ export const users = pgTable("users", {
     avatarUrl: text("avatar_url"),
     email: text("email").unique().notNull(),
     role: roleEnums("role").notNull().default("user"),
-});
-
-export const superAdmin = pgTable("superAdmin", {
-    id: text("id").primaryKey(),
-    name: text("name"),
-    firstName: text("first_name"),
-    lastName: text("last_name"),
-    avatarUrl: text("avatar_url"),
-    email: text("email").unique().notNull(),
-    role: roleEnums("role").notNull().default("admin"),
 });
 
 export const oauthAccounts = pgTable(
