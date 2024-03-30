@@ -20,10 +20,10 @@ export default async function Page({ params }: Params) {
                     </>
                 </>
             )}
-            {params.slug[0] === "super_admin" && user && (
+            {params.slug[0] === "super_admin" && (
                 <>
                     <>
-                        <SuperAdmin user={user} />
+                        <SuperAdmin />
                         <Logout />
                     </>
                 </>

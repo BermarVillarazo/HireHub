@@ -1,4 +1,5 @@
 import { User } from "@/lib/schema";
+import { ReactNode } from "react";
 
 export type Params = {
     params: {
@@ -21,4 +22,8 @@ export type UsersProps = {
     lastName: string;
     email: string;
     role?: string;
+};
+
+export type ChildrenProps = {
+    children: ReactNode;
 };
