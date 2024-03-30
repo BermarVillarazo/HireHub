@@ -1,7 +1,7 @@
 import { Props } from "@/app/types/type";
 import Logout from "../ui/Logout";
 
-export default function User({ user, params }: Props) {
+export default function VpAcad({ user, params }: Props) {
     return (
         <>
             <h1>{params.slug} USER's POV ONLY</h1>
