@@ -8,9 +8,4 @@ export type Params = {
 
 export type Props = {
     user: User;
-    params: ParamsProps;
-};
-
-export type ParamsProps = {
-    slug: string[];
 };

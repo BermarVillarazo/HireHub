@@ -11,7 +11,7 @@ export default function Login({ searchParams }: Message) {
             method="GET"
             className="flex min-h-screen w-full flex-col items-center justify-center bg-red-900"
         >
-            <div className="flex bg-amber-500">
+            <div className="flex bg-amber-500 rounded-xl">
                 <Image
                     src={signInLogo}
                     alt="Sign in Logo"
@@ -21,7 +21,7 @@ export default function Login({ searchParams }: Message) {
                     priority
                     className="p-10"
                 />
-                <div className="flex flex-col items-center justify-center gap-5 bg-orange-300 px-5">
+                <div className="flex flex-col items-center justify-center gap-5 bg-orange-300 px-5 rounded-xl">
                     <h1 className="font-extrabold text-3xl">LOGIN</h1>
                     <button className="py-3 px-14 rounded-lg text-xl bg-amber-500 font-bold transform hover:scale-95 duration-200">
                         Sign in using Google
