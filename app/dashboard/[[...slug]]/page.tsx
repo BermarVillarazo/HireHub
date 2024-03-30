@@ -1,5 +1,6 @@
 import { Params } from "@/app/types/type";
 import HrHead from "@/components/dashboard/HrHead";
+import LandingPage, { Container } from "@/components/dashboard/LandingPage";
 import SuperAdmin from "@/components/dashboard/SuperAdmin";
 import Logout from "@/components/ui/Logout";
 import { validateRequest } from "@/lib/auth";
@@ -21,13 +22,9 @@ export default async function Page({ params }: Params) {
     }
 
     return (
-        <div>
-            <h1>This is the default dynamic route</h1>
-            <h1>Welcome, {user?.email}</h1>
-            <h1>{user?.email} POV</h1>
-            <h1>ROLE: "{user?.role}"</h1>
-            <p>YOUR ACCOUNT HAS BEEN LOCKED</p>
+        <Container>
+            <LandingPage />
             <Logout />
-        </div>
+        </Container>
     );
 }

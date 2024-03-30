@@ -8,7 +8,7 @@ type Route = {
     loginSuperAdmin: string;
 };
 
-export default function Button({ title, loginAdmin, loginSuperAdmin }: Route) {
+export default function SSOButton({ title, loginAdmin, loginSuperAdmin }: Route) {
     const router = useRouter();
 
     function handleRoute() {
@@ -18,7 +18,7 @@ export default function Button({ title, loginAdmin, loginSuperAdmin }: Route) {
     return (
         <button
             onClick={handleRoute}
-            className="px-8 py-4 rounded-lg bg-white font-bold tracking-widest uppercase transform hover:scale-105 duration-200"
+            className="px-8 py-4 rounded-lg bg-white font-bold transform hover:scale-105 duration-200"
         >
             {title}
         </button>
