@@ -1,18 +1,21 @@
 import { HandleUpdateUser } from "@/action/action";
 import { ChildrenProps } from "@/app/types/type";
-import { getUsers } from "@/lib/db";
+import { getUsers} from "@/lib/db";
+import { users } from "@/lib/schema";
 
 export default async function SuperAdmin() {
     const getAllUsers = await getUsers();
 
+
     return (
         <div className="w-full overflow-x-auto">
             {getAllUsers.map(({ id, name, firstName, lastName, email, role }) => (
-                <form key={id} action={HandleUpdateUser} method="PUT" className="w-full">
+                <form key={id} action={HandleUpdateUser} method="POST" className="w-full">
                     <div className="flex gap-3 py-2">
                         <Div>
                             <Title>Name</Title>
                             <Description>{name}</Description>
+                            
                         </Div>
                         <Div>
                             <Title>First Name</Title>
@@ -25,10 +28,11 @@ export default async function SuperAdmin() {
                         <Div>
                             <Title>Email</Title>
                             <Description>{email}</Description>
+                            
                         </Div>
                         <Div>
                             <h1 className="bg-amber-500 text-xl font-bold p-1.5">Role</h1>
-                            <select name="" id="" className="w-full bg-orange-300 p-1.5">
+                            <select name="role" id="role" className="w-full bg-orange-300 p-1.5">
                                 <option value="">{role}</option>
                                 <option value="hr_head">hr_head</option>
                                 <option value="vp_acad">vp_acad</option>
@@ -36,12 +40,11 @@ export default async function SuperAdmin() {
                             </select>
                         </Div>
                         <Div>
-                            <Title>Email</Title>
-                            <input type="checkbox" name="hr_head" />
-                            <input type="checkbox" name="vp_acad" />
-                            <input type="checkbox" name="vp_admin" />
+                            <Title>Verify</Title>
+                            <input type="checkbox" name="verify" defaultValue={`${name}`}/>
                         </Div>
                     </div>
+                    <button type="submit">Submit</button>
                 </form>
             ))}
         </div>
