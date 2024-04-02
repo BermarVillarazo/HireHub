@@ -1,21 +1,18 @@
 import { HandleUpdateUser } from "@/action/action";
 import { ChildrenProps } from "@/app/types/type";
-import { getUsers} from "@/lib/db";
-import { users } from "@/lib/schema";
+import { getUsers } from "@/lib/db";
 
 export default async function SuperAdmin() {
     const getAllUsers = await getUsers();
 
-
     return (
-        <div className="w-full overflow-x-auto">
-            {getAllUsers.map(({ id, name, firstName, lastName, email, role }) => (
-                <form key={id} action={HandleUpdateUser} method="POST" className="w-full">
-                    <div className="flex gap-3 py-2">
+        <form action={HandleUpdateUser} method="POST" className="w-full">
+            <div className="w-full overflow-x-auto">
+                {getAllUsers.map(({ id, name, firstName, lastName, email, role }) => (
+                    <div key={id} className="flex gap-3 py-2">
                         <Div>
                             <Title>Name</Title>
                             <Description>{name}</Description>
-                            
                         </Div>
                         <Div>
                             <Title>First Name</Title>
@@ -28,7 +25,6 @@ export default async function SuperAdmin() {
                         <Div>
                             <Title>Email</Title>
                             <Description>{email}</Description>
-                            
                         </Div>
                         <Div>
                             <h1 className="bg-amber-500 text-xl font-bold p-1.5">Role</h1>
@@ -41,13 +37,15 @@ export default async function SuperAdmin() {
                         </Div>
                         <Div>
                             <Title>Verify</Title>
-                            <input type="checkbox" name="verify" defaultValue={`${name}`}/>
+                            <input type="checkbox" name="verify" defaultValue={`${name}`} />
+                        </Div>
+                        <Div>
+                            <button type="submit">Submit</button>
                         </Div>
                     </div>
-                    <button type="submit">Submit</button>
-                </form>
-            ))}
-        </div>
+                ))}
+            </div>
+        </form>
     );
 }
 

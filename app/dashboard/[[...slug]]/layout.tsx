@@ -1,4 +1,4 @@
-import { Container } from "@/components/dashboard/LandingPage";
+import { MaroonBackGround } from "@/components/ui/MaroonBackground";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -24,5 +24,5 @@ export default async function layout({
         return redirect("/dashboard/hr_head");
     }
 
-    return <Container>{children}</Container>;
+    return <MaroonBackGround>{children}</MaroonBackGround>;
 }

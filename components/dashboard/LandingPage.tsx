@@ -1,9 +1,8 @@
 import { validateRequest } from "@/lib/auth";
 import homepageLogo from "@/public/images/large-logo.png";
 import Image from "next/image";
-import { ReactNode } from "react";
 
-export default async function LandingPage() {
+export default async function Container() {
     const { user } = await validateRequest();
 
     return (
@@ -27,13 +26,5 @@ export default async function LandingPage() {
                 )}
             </div>
         </div>
-    );
-}
-
-export function Container({ children }: { children: ReactNode }) {
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
-            {children}
-        </main>
     );
 }
