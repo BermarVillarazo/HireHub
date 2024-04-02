@@ -17,7 +17,7 @@ export async function HandleUpdateUser(formData: FormData) {
     }
     
     
-   const name = formData.get("verify")
+    const name = formData.get("verify")
     const role: UserRole | null = formData.get("role") as UserRole | null;
 
     if (role && Object.values(UserRole).includes(role)) {
