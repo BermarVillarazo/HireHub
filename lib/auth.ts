@@ -2,7 +2,7 @@ import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import { Lucia, type Session, type User } from "lucia";
 import { cookies } from "next/headers";
 
-import { Google } from "arctic";
+import { Google, MicrosoftEntraId } from "arctic";
 
 import { cache } from "react";
 import { db } from "./db";
@@ -39,6 +39,13 @@ export const google = new Google(
     process.env.GOOGLE_CLIENT_ID!,
     process.env.GOOGLE_CLIENT_SECRET!,
     process.env.GOOGLE_REDIRECT_URI!
+);
+
+export const entraId = new MicrosoftEntraId(
+    process.env.MICROSOFT_TENANT_ID!,
+    process.env.MICROSOFT_CLIENT_ID!,
+    process.env.MICROSOFT_CLIENT_SECRET!,
+    process.env.MICROSOFT_REDIRECT_URI!
 );
 
 export const validateRequest = cache(

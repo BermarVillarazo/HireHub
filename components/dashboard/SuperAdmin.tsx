@@ -6,7 +6,7 @@ export default async function SuperAdmin() {
     const getAllUsers = await getUsers();
 
     return (
-        <form action={HandleUpdateUser} method="POST" className="w-full">
+        <form action={HandleUpdateUser} method="PUT" className="w-full">
             <div className="w-full overflow-x-auto">
                 {getAllUsers.map(({ id, name, firstName, lastName, email, role }) => (
                     <div key={id} className="flex gap-3 py-2">

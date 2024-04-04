@@ -1,6 +1,7 @@
 import { validateRequest } from "@/lib/auth";
 import homepageLogo from "@/public/images/large-logo.png";
 import Image from "next/image";
+import Font from "../ui/Font";
 
 export default async function Container() {
     const { user } = await validateRequest();
@@ -17,7 +18,7 @@ export default async function Container() {
             />
             <div className="font-bold pr-7">
                 {user && <p className="py-5">Welcome to</p>}
-                <h1 className="text-7xl">HireHub</h1>
+                <Font>HireHub</Font>
                 {user && <p className="py-5">{user.email}</p>}
                 {user ? (
                     <p>YOUR ACCOUNT HAS BEEN LOCKED</p>

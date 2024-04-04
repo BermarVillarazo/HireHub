@@ -12,7 +12,7 @@ export default async function LandingPage() {
     }
 
     return (
-        <MaroonBackGround>
+        <MaroonBackGround IsMaroon={true}>
             <Container />
             <SSOButton title="Go to Login page" loginAdmin="/login" loginSuperAdmin="" />
         </MaroonBackGround>

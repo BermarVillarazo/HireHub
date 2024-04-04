@@ -27,3 +27,11 @@ export type UsersProps = {
 export type ChildrenProps = {
     children: ReactNode;
 };
+
+export type TextColorMaroonProps = {
+    textColorMaroon: boolean;
+};
+
+export type TextColorWhiteProps = {
+    textColorWhite: boolean;
+};

@@ -1,4 +1,5 @@
 import { MaroonBackGround } from "@/components/ui/MaroonBackground";
+import Navbar from "@/components/ui/Navbar";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -24,5 +25,10 @@ export default async function layout({
         return redirect("/dashboard/hr_head");
     }
 
-    return <MaroonBackGround>{children}</MaroonBackGround>;
+    return (
+        <MaroonBackGround IsMaroon={true}>
+            {user?.role === "hr_head" && params.slug[0] === "hr_head" && <Navbar />}
+            {children}
+        </MaroonBackGround>
+    );
 }
