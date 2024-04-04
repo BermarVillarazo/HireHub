@@ -1,13 +1,13 @@
-import { ChildrenProps, TextColorMaroonProps } from "@/app/types/type";
+import { ChildrenProps, BackGroundColorMaroon } from "@/app/types/type";
 
 export function MaroonBackGround({
     children,
-    textColorMaroon,
-}: ChildrenProps & TextColorMaroonProps) {
+    backgroundColorMaroon,
+}: ChildrenProps & BackGroundColorMaroon) {
     return (
         <main
             className={`flex min-h-screen flex-col items-center justify-center gap-24 p-24
-                ${textColorMaroon ? "bg-red-900" : ""}`}
+                ${backgroundColorMaroon ? "bg-red-900" : ""}`}
         >
             {children}
         </main>

@@ -11,7 +11,7 @@ export default async function Home() {
     }
 
     return (
-        <MaroonBackGround textColorMaroon={false}>
+        <MaroonBackGround backgroundColorMaroon={false}>
             <section className="bg-orange-300 w-1/2">
                 <Font textColorWhite={true}>WORK AT CIT UNIVERSITY</Font>
                 <p>

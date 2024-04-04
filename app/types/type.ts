@@ -28,8 +28,8 @@ export type ChildrenProps = {
     children: ReactNode;
 };
 
-export type TextColorMaroonProps = {
-    textColorMaroon: boolean;
+export type BackGroundColorMaroon = {
+    backgroundColorMaroon: boolean;
 };
 
 export type TextColorWhiteProps = {

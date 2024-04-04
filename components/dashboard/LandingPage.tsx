@@ -18,7 +18,7 @@ export default async function Container() {
             />
             <div className="font-bold pr-7">
                 {user && <p className="py-5">Welcome to</p>}
-                <Font>HireHub</Font>
+                <Font textColorWhite={false}>HireHub</Font>
                 {user && <p className="py-5">{user.email}</p>}
                 {user ? (
                     <p>YOUR ACCOUNT HAS BEEN LOCKED</p>
