@@ -26,7 +26,7 @@ export default async function layout({
     }
 
     return (
-        <MaroonBackGround IsMaroon={true}>
+        <MaroonBackGround textColorMaroon={true}>
             {user?.role === "hr_head" && params.slug[0] === "hr_head" && <Navbar />}
             {children}
         </MaroonBackGround>

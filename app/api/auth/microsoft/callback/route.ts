@@ -21,9 +21,7 @@ interface MicrosoftUser {
 
 export async function GET(request: Request): Promise<Response> {
     const url = new URL(request.url);
-    console.log(url);
     const code = url.searchParams.get("code");
-    console.log(code);
     const state = url.searchParams.get("state");
 
     const storedState = cookies().get("microsoft_oauth_state")?.value ?? null;

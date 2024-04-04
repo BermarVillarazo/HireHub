@@ -8,6 +8,7 @@ type Message = { searchParams: { message: string } };
 export default function Login({ searchParams }: Message) {
     return (
         <MaroonBackGround textColorMaroon={true}>
+            {/* PLEASE REFACTOR THIS PETTES ARDIZA */}
             <form action="/api/auth/google" method="GET">
                 <div className="flex bg-amber-500 rounded-xl">
                     <Image
@@ -33,6 +34,7 @@ export default function Login({ searchParams }: Message) {
                 )}
             </form>
 
+            {/* PLEASE REFACTOR THIS PETTES ARDIZA */}
             <form action="/api/auth/microsoft" method="GET">
                 <div className="flex bg-amber-500 rounded-xl">
                     <Image
