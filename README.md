@@ -47,6 +47,7 @@ npm @auth/drizzle-adapter @lucia-auth/adapter-drizzle @vercel/postgres arctic dr
 
 To learn more about Next.js, take a look at the following resources:
 
--   [Next.js Routing](https://nextjs.org/docs/app/building-your-application/routing) - learn about Next.js Routing.
+-   [Next.js Routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) - learn about Next.js Routing.
+-   [Next.js Pages ang Layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) - learn about Next.js Pages and Layouts.
 -   [Next.js Dynamic Routing](https://nextjs.org/docs/app/building-your-application/dynamic-routes) - learn about Next.js Dynamic Routing.
--   [Next.js Dynamic Routing](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) - learn about Next.js Dynamic Routing.
+-   [Next.js Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) - learn about Next.js Server Actions.
