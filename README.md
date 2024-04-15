@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# HireHub
+
+CIT University IT-Enabled Applicant Tracking System
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+
+Run the drizzle database:
+
+```bash
+npx drizzle-kit studio
+```
+
+Generate a migration script
+
+```bash
+npx drizzle-kit generate:migration
+```
+
+Push your migration to PostgreSQL
+
+```bash
+npz drizzle-kit push:pg
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Install the dependencies
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm @auth/drizzle-adapter @lucia-auth/adapter-drizzle @vercel/postgres arctic drizzle-orm lucia
+```
+
+## Tech stack
+
+-   [Nextjs 14](https://nextjs.org/docs/)
+-   [Lucia + Arctic](https://arctic.js.org/providers/microsoft-entra-id)
+-   [PostgreSQL + Drizzle ORM](https://orm.drizzle.team/docs/get-started-postgresql#postgresjs)
+-   [Vercel](https://vercel.com/)
 
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+-   [Next.js Routing](https://nextjs.org/docs/app/building-your-application/routing) - learn about Next.js Routing.
+-   [Next.js Dynamic Routing](https://nextjs.org/docs/app/building-your-application/dynamic-routes) - learn about Next.js Dynamic Routing.
+-   [Next.js Dynamic Routing](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations) - learn about Next.js Dynamic Routing.
