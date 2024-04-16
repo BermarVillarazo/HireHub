@@ -1,6 +1,10 @@
-import { pgEnum, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
 export const roleEnums = pgEnum("role", ["applicant", "user", "super_admin", "hr_head", "vp_acad", "vp_admin"]);
+
+export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"])
+
+export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"])
 
 export const users = pgTable("users", {
     id: text("id").primaryKey(),
@@ -14,11 +18,15 @@ export const users = pgTable("users", {
 
 export const applicant = pgTable("applicant", {
     id: text("id").primaryKey(),
-    name: text("name"),
     firstName: text("first_name"),
     lastName: text("last_name"),
-    resume: text("resume_url"),
     email: text("email").unique().notNull(),
+    contactNumber: integer('contact_number').notNull(),
+    resume: text("resume_url"),
+    communication: communicationEnums("communicationType").notNull(),
+    position: positionEnums("positionType").notNull(),
+    // Department must have a choices that the applicant can select
+    // department: text("department").notNull(),
     role: roleEnums("role").notNull().default("applicant"),
 });
 
@@ -31,7 +39,7 @@ export const oauthAccounts = pgTable(
             .notNull()
             .references(() => users.id),
     },
-    (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
+    // (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
 );
 
 export const sessions = pgTable("sessions", {
