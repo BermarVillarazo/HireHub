@@ -1,6 +1,5 @@
-import Font from "@/components/ui/Font";
-import { MaroonBackGround } from "@/components/ui/MaroonBackground";
 import { validateRequest } from "@/lib/auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -9,19 +8,6 @@ export default async function Home() {
 	if (user) {
 		return redirect("/dashboard/user");
 	}
-
-	// return (
-	//     <MaroonBackGround backgroundColorMaroon={false}>
-	//         <section className="bg-orange-300 w-1/2">
-	//             <Font textColorWhite={true}>WORK AT CIT UNIVERSITY</Font>
-	//             <p>
-	//                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore maiores
-	//                 cupiditate magnam obcaecati laudantium, fugit quisquam molestiae exercitationem
-	//                 asperiores aspernatur!
-	//             </p>
-	//         </section>
-	//     </MaroonBackGround>
-	// );
 
 	return (
 		<div className="flex min-h-screen w-full flex-col items-center justify-center bg-red-900">
@@ -51,9 +37,9 @@ export default async function Home() {
 					</div>
 				</div>
 
-				<button className="py-3 px-14 rounded-lg text-xl text-white bg-red-900 font-bold transform hover:scale-95 duration-200">
+				<Link href="/apply-now" className="py-3 px-14 rounded-lg text-xl text-white bg-red-900 font-bold transform hover:scale-95 duration-200">
 					APPLY NOW
-				</button>
+				</Link>
 			</form>
 		</div>
 	);
