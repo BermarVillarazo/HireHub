@@ -19,13 +19,13 @@ npx drizzle-kit studio
 Generate a migration script
 
 ```bash
-npx drizzle-kit generate:migration
+npx drizzle-kit generate:pg
 ```
 
 Push your migration to PostgreSQL
 
 ```bash
-npz drizzle-kit push:pg
+npx drizzle-kit push:pg
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
