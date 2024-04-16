@@ -36,6 +36,20 @@
       "when": 1711705858587,
       "tag": "0004_warm_green_goblin",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1713277339489,
+      "tag": "0005_graceful_karnak",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1713277457285,
+      "tag": "0006_fancy_grandmaster",
+      "breakpoints": true
     }
   ]
 }
