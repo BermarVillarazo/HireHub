@@ -6,11 +6,14 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "db:generate": "drizzle-kit generate:pg",
+        "db:migrate": "tsx"
     },
     "dependencies": {
         "@auth/drizzle-adapter": "^0.8.2",
         "@lucia-auth/adapter-drizzle": "^1.0.7",
+        "@nextui-org/radio": "^2.0.27",
         "@vercel/postgres": "^0.7.2",
         "arctic": "^1.4.0",
         "drizzle-orm": "^0.30.6",

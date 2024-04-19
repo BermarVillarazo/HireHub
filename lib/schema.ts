@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const roleEnums = pgEnum("role", ["applicant", "user", "super_admin", "hr_head", "vp_acad", "vp_admin"]);
 
@@ -6,6 +6,8 @@ export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNu
 
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"])
 
+
+// Todo: Generate migration, update Application table 
 export const users = pgTable("users", {
     id: text("id").primaryKey(),
     name: text("name"),
@@ -18,8 +20,8 @@ export const users = pgTable("users", {
 
 export const applicant = pgTable("applicant", {
     id: text("id").primaryKey(),
-    firstName: text("first_name"),
-    lastName: text("last_name"),
+    first_Name: text("first_name"),
+    last_Name: text("last_name"),
     email: text("email").unique().notNull(),
     contactNumber: integer('contact_number').notNull(),
     resume: text("resume_url"),
@@ -27,7 +29,7 @@ export const applicant = pgTable("applicant", {
     position: positionEnums("positionType").notNull(),
     // Department must have a choices that the applicant can select
     // department: text("department").notNull(),
-    role: roleEnums("role").notNull().default("applicant"),
+    // role: roleEnums("role").notNull().default("applicant"),
 });
 
 export const oauthAccounts = pgTable(
