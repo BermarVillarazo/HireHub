@@ -1,5 +1,6 @@
 "use client";
 
+import { ApplicantForm } from "@/action/action";
 import { ApplicantFormProps, RadioButtonProps } from "@/app/types/type";
 import toast from "react-hot-toast";
 
@@ -14,12 +15,11 @@ export default function Form() {
             applyingType: formData.get("applyingType")?.toString(),
         };
 
-        if (!applicantData || Object.values(applicantData).some((value) => !value)) {
-            toast.error("Please fill out all fields");
+        const response = await ApplicantForm(applicantData);
+        if (response?.error) {
+            toast.error("Failed to submit form");
             return;
         }
-
-        console.log(applicantData);
     }
 
     return (

@@ -27,9 +27,9 @@ export async function HandleUpdateUser(formData: FormData) {
     revalidatePath("/super_admin");
 }
 
-export async function ApplicantForm(applicantData: FormData) {
-    // if (!applicantData || Object.values(applicantData).some((value) => !value)) {
-    //     toast.error("Please fill out all fields");
-    //     return;
-    // }
+export async function ApplicantForm(applicantData: unknown) {
+    console.log(applicantData);
+    return {
+        error: !applicantData || Object.values(applicantData).some((value) => !value),
+    };
 }
