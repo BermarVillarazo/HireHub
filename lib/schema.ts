@@ -19,7 +19,7 @@ export const users = pgTable("users", {
 });
 
 export const applicant = pgTable("applicant", {
-    id: text("id").primaryKey(),
+    id: serial("id").primaryKey(),
     first_Name: text("first_name"),
     last_Name: text("last_name"),
     email: text("email").unique().notNull(),
@@ -27,10 +27,12 @@ export const applicant = pgTable("applicant", {
     resume: text("resume_url"),
     communication: communicationEnums("communicationType").notNull(),
     position: positionEnums("positionType").notNull(),
-    // Department must have a choices that the applicant can select
-    // department: text("department").notNull(),
-    // role: roleEnums("role").notNull().default("applicant"),
+    
 });
+
+// Department must have a choices that the applicant can select
+    // department: text("department").notNull(),
+    //role: roleEnums("role").notNull().default("applicant"),
 
 export const oauthAccounts = pgTable(
     "oauth_accounts",
@@ -56,3 +58,5 @@ export const sessions = pgTable("sessions", {
 });
 
 export type User = typeof users.$inferSelect;
+export type Applicant = typeof applicant.$inferSelect;
+export type UserRole = typeof roleEnums.enumValues;

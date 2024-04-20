@@ -8,7 +8,10 @@
         "start": "next start",
         "lint": "next lint",
         "db:generate": "drizzle-kit generate:pg",
-        "db:migrate": "tsx"
+        "db:migrate": "tsx",
+        "migration:generate": "drizzle-kit generate:pg --schema=./lib/schema.ts",
+        "migration:push": "node -r esbuild-register lib/migration.ts",
+        "migrate": "drizzle-kit generate:pg --schema=./lib/schema.ts && node -r esbuild-register lib/migration.ts"
     },
     "dependencies": {
         "@auth/drizzle-adapter": "^0.8.2",
@@ -16,6 +19,7 @@
         "@nextui-org/radio": "^2.0.27",
         "@vercel/postgres": "^0.7.2",
         "arctic": "^1.4.0",
+        "dotenv": "^16.4.5",
         "drizzle-orm": "^0.30.6",
         "lucia": "^3.1.1",
         "next": "14.1.4",
