@@ -35,3 +35,24 @@ export type BackGroundColorMaroon = {
 export type TextColorWhiteProps = {
     textColorWhite: boolean;
 };
+
+export type FormProps = {
+    formAction: string;
+    children: ReactNode;
+};
+
+export type RadioButtonProps = {
+    id: string;
+    value: string;
+    name: string;
+    label: string;
+};
+
+export interface ApplicantFormProps {
+    firstName: string | undefined;
+    lastName: string | undefined;
+    email: string | undefined;
+    contactNumber: string | undefined;
+    communicationOption: string | undefined;
+    applyingType: string | undefined;
+}
