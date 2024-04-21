@@ -1,0 +1,1 @@
+ALTER TABLE "applicant" DROP COLUMN IF EXISTS "id";

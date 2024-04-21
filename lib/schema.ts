@@ -19,7 +19,7 @@ export const users = pgTable("users", {
 });
 
 export const applicant = pgTable("applicant", {
-    id: text("id").primaryKey(),
+    id: serial("id").primaryKey(),
     first_Name: text("first_name"),
     last_Name: text("last_name"),
     email: text("email").unique().notNull(),
@@ -43,7 +43,7 @@ export const oauthAccounts = pgTable(
             .notNull()
             .references(() => users.id),
     },
-    // (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
+     (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
 );
 
 export const sessions = pgTable("sessions", {
@@ -58,6 +58,6 @@ export const sessions = pgTable("sessions", {
 });
 
 export type User = typeof users.$inferSelect;
-export type Applicant = typeof applicant.$inferSelect;
+export type applicants = typeof applicant.$inferInsert
 export type UserRole = typeof roleEnums;
 export type communicationEnums = typeof communicationEnums.enumValues;

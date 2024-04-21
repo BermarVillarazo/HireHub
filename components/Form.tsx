@@ -7,8 +7,8 @@ import * as schema from "@/lib/schema";
 
 export default function Form() {
     async function clientAction(formData: FormData) {
-        const applicantData: schema.Applicant = {
-            id: formData.get("id")?.toString() as string,
+        const applicantData: schema.applicants = {
+            // id: formData.get("id")?.toString() as unknown as number,
             first_Name: formData.get("first_name")?.toString() as string,
             last_Name: formData.get("last_name")?.toString() as string,
             email: formData.get("email")?.toString() as string,
@@ -27,10 +27,6 @@ export default function Form() {
 
     return (
         <form action={clientAction} className="flex flex-col">
-
-            <label>ID</label>
-            <input type="text" name="id" />
-
             <label>First Name</label>
             <input type="text" name="first_name" />
 

@@ -30,10 +30,10 @@ export async function HandleUpdateUser(formData: FormData) {
     revalidatePath("/super_admin");
 }
 
-export async function ApplicantForm(applicantData: schema.Applicant) {
+export async function ApplicantForm(applicantData: schema.applicants) {
     // console.log(applicantData.first_Name);
     const response = await db.insert(schema.applicant).values({
-        id: applicantData.id,
+        // id: applicantData.id,
         first_Name: applicantData.first_Name,
         last_Name: applicantData.last_Name,
         email : applicantData.email,
