@@ -4,6 +4,9 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { ApplicantFormProps } from "@/app/types/type";
+import * as schema from "@/lib/schema";
+
 
 export async function HandleUpdateUser(formData: FormData) {
     enum UserRole {
@@ -27,9 +30,24 @@ export async function HandleUpdateUser(formData: FormData) {
     revalidatePath("/super_admin");
 }
 
-export async function ApplicantForm(applicantData: unknown) {
-    console.log(applicantData);
+export async function ApplicantForm(applicantData: schema.Applicant) {
+    // console.log(applicantData.first_Name);
+    const response = await db.insert(schema.applicant).values({
+        id: applicantData.id,
+        first_Name: applicantData.first_Name,
+        last_Name: applicantData.last_Name,
+        email : applicantData.email,
+        contactNumber: applicantData.contactNumber,
+        resume : applicantData.resume,
+        communication : applicantData.communication,
+        position: applicantData.position
+    })
+
+    console.log(response)
+
+
     return {
         error: !applicantData || Object.values(applicantData).some((value) => !value),
     };
+
 }

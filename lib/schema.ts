@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { bigint, integer, pgEnum, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const roleEnums = pgEnum("role", ["applicant", "user", "super_admin", "hr_head", "vp_acad", "vp_admin"]);
 
@@ -19,11 +19,11 @@ export const users = pgTable("users", {
 });
 
 export const applicant = pgTable("applicant", {
-    id: serial("id").primaryKey(),
+    id: text("id").primaryKey(),
     first_Name: text("first_name"),
     last_Name: text("last_name"),
     email: text("email").unique().notNull(),
-    contactNumber: integer('contact_number').notNull(),
+    contactNumber: bigint('contact_number',{mode: "number"}),
     resume: text("resume_url"),
     communication: communicationEnums("communicationType").notNull(),
     position: positionEnums("positionType").notNull(),
@@ -59,4 +59,5 @@ export const sessions = pgTable("sessions", {
 
 export type User = typeof users.$inferSelect;
 export type Applicant = typeof applicant.$inferSelect;
-export type UserRole = typeof roleEnums.enumValues;
+export type UserRole = typeof roleEnums;
+export type communicationEnums = typeof communicationEnums.enumValues;

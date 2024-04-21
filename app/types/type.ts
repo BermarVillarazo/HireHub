@@ -1,5 +1,6 @@
 import { User } from "@/lib/schema";
 import { ReactNode } from "react";
+import * as schema from "@/lib/schema";
 
 export type Params = {
     params: {
@@ -48,11 +49,13 @@ export type RadioButtonProps = {
     label: string;
 };
 
-export interface ApplicantFormProps {
+export interface ApplicantFormProps{
+    id : string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
     email: string | undefined;
     contactNumber: string | undefined;
+    resume : string | undefined;
     communicationOption: string | undefined;
     applyingType: string | undefined;
 }

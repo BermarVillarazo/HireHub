@@ -3,16 +3,19 @@
 import { ApplicantForm } from "@/action/action";
 import { ApplicantFormProps, RadioButtonProps } from "@/app/types/type";
 import toast from "react-hot-toast";
+import * as schema from "@/lib/schema";
 
 export default function Form() {
     async function clientAction(formData: FormData) {
-        const applicantData: ApplicantFormProps = {
-            firstName: formData.get("first_name")?.toString(),
-            lastName: formData.get("last_name")?.toString(),
-            email: formData.get("email")?.toString(),
-            contactNumber: formData.get("contact_number")?.toString(),
-            communicationOption: formData.get("communicationOption")?.toString(),
-            applyingType: formData.get("applyingType")?.toString(),
+        const applicantData: schema.Applicant = {
+            id: formData.get("id")?.toString() as string,
+            first_Name: formData.get("first_name")?.toString() as string,
+            last_Name: formData.get("last_name")?.toString() as string,
+            email: formData.get("email")?.toString() as string,
+            contactNumber: formData.get("contact_number")?.toString() as unknown as number,
+            resume : formData.get("resume_url")?.toString() as string,
+            communication: formData.get("communicationOption")?.toString() as "Email" | "PhoneNumber",
+            position: formData.get("applyingType")?.toString() as "teachingStaff" | "non-teachingStaff",
         };
 
         const response = await ApplicantForm(applicantData);
@@ -24,6 +27,10 @@ export default function Form() {
 
     return (
         <form action={clientAction} className="flex flex-col">
+
+            <label>ID</label>
+            <input type="text" name="id" />
+
             <label>First Name</label>
             <input type="text" name="first_name" />
 
@@ -35,6 +42,9 @@ export default function Form() {
 
             <label>Contact Number</label>
             <input type="number" name="contact_number" />
+
+            <label>Resume</label>
+            <input type="text" name="resume_url" />
 
             {/* RADIO BUTTONS */}
             <RadioButton />
@@ -50,13 +60,13 @@ function RadioButton() {
             <legend>Preferred mode of communication</legend>
             <CommunicationOption
                 id="email"
-                value="email"
+                value="Email"
                 name="communicationOption"
                 label="Email"
             />
             <CommunicationOption
                 id="phone_number"
-                value="phone_number"
+                value="PhoneNumber"
                 name="communicationOption"
                 label="Phone Number"
             />
@@ -64,13 +74,13 @@ function RadioButton() {
             <legend>What type are you applying for?</legend>
             <CommunicationOption
                 id="teaching_staff"
-                value="teaching_staff"
+                value="teachingStaff"
                 name="applyingType"
                 label="Teaching Staff"
             />
             <CommunicationOption
                 id="non-teaching_staff"
-                value="non-teaching_staff"
+                value="non-teachingStaff"
                 name="applyingType"
                 label="Non-Teaching Staff"
             />
