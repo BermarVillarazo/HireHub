@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { EdgeStoreProvider } from '@/lib/edgestore'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
             <body className={inter.className}>
                 <Toaster position="top-center" />
                 <ApplicantNavigation />
-                {children}
+                <EdgeStoreProvider>{children}</EdgeStoreProvider>
             </body>
         </html>
     );
