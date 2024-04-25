@@ -30,6 +30,19 @@ export const applicant = pgTable("applicant", {
     
 });
 
+export const Department = pgTable("Department", {
+    department_id: serial("DepartmentID").primaryKey(),
+    department_name: text("department_name").unique().notNull(),
+    department_type: text("department_type").unique().notNull()
+})
+
+// export const Office = pgTable("Office", {
+//     office_id: serial("OfficeID").primaryKey(),
+//     office_name: text("office_name").unique().notNull(),
+
+
+// })
+
 // Department must have a choices that the applicant can select
     // department: text("department").notNull(),
     //role: roleEnums("role").notNull().default("applicant"),
@@ -43,7 +56,7 @@ export const oauthAccounts = pgTable(
             .notNull()
             .references(() => users.id),
     },
-     (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
+    (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
 );
 
 export const sessions = pgTable("sessions", {
