@@ -1,0 +1,1 @@
+ALTER TABLE "office" DROP COLUMN IF EXISTS "office_id";

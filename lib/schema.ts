@@ -7,11 +7,16 @@ export const roleEnums = pgEnum("role", [
     "hr_head",
     "vp_acad",
     "vp_admin",
+    "recruiter"
 ]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
+
+export const departmentEnums = pgEnum("departmentEnums" , ["CSS", "CE", "SHS"] )
+
+
 
 // Todo: Generate migration, update Application table
 export const users = pgTable("users", {
@@ -35,10 +40,19 @@ export const applicant = pgTable("applicant", {
     position: positionEnums("positionType").notNull(),
 });
 
-export const Department = pgTable("Department", {
-    department_id: serial("DepartmentID").primaryKey(),
+export const department = pgTable("department", {
+    department_id: serial("department_id").primaryKey(),
     department_name: text("department_name").unique().notNull(),
-    department_type: text("department_type").unique().notNull()
+    department_type: text("department_type").unique().notNull(),
+    department_code: text("department_code").unique().notNull(),
+})
+
+export const office = pgTable("office", {
+    office_id: serial("office_id").primaryKey(),
+    office_name: text("office_name").unique().notNull(),
+    office_type: text("office_type").unique().notNull(),
+    office_code: text("office_code").unique().notNull(),
+
 })
 
 // export const Office = pgTable("Office", {
@@ -61,7 +75,7 @@ export const oauthAccounts = pgTable(
             .notNull()
             .references(() => users.id),
     },
-    (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
+   (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
 );
 
 export const sessions = pgTable("sessions", {
@@ -75,7 +89,8 @@ export const sessions = pgTable("sessions", {
     }).notNull(),
 });
 
-export type User = typeof users.$inferSelect;
+export type User  = typeof users.$inferSelect;
 export type applicants = typeof applicant.$inferInsert;
-export type UserRole = typeof roleEnums;
+export type UserRole = typeof roleEnums.enumValues;
 export type communicationEnums = typeof communicationEnums.enumValues;
+

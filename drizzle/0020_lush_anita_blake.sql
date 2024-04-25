@@ -1,0 +1,1 @@
+ALTER TABLE "office" ADD COLUMN "office_id" serial NOT NULL;
