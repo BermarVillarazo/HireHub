@@ -1,4 +1,4 @@
-import ReusableLoading from "@/components/ui/ReusableLoading";
+import ReusableLoading from "@/components/ReusableLoading";
 
 export default function Loading() {
     return <ReusableLoading />;

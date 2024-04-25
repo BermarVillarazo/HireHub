@@ -1,20 +1,24 @@
 import Container from "@/components/dashboard/LandingPage";
-import { MaroonBackGround } from "@/components/ui/MaroonBackground";
-import SSOButton from "@/components/ui/SSOButton";
 import { validateRequest } from "@/lib/auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function LandingPage() {
     const { user } = await validateRequest();
 
-    if (user) {
-        return redirect("/dashboard/user");
+    if (user?.role === "hr_head") {
+        return redirect("/hr_head");
     }
 
     return (
-        <MaroonBackGround backgroundColorMaroon={true}>
+        <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
             <Container />
-            <SSOButton title="Go to Login page" loginAdmin="/login" loginSuperAdmin="" />
-        </MaroonBackGround>
+            <Link
+                href={"/login"}
+                className="px-8 py-4 rounded-lg bg-white font-bold transform hover:scale-105 duration-200"
+            >
+                Go to Login Page
+            </Link>
+        </section>
     );
 }

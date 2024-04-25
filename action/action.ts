@@ -1,12 +1,10 @@
 "use server";
 
 import { db } from "@/lib/db";
+import * as schema from "@/lib/schema";
 import { users } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { ApplicantFormProps } from "@/app/types/type";
-import * as schema from "@/lib/schema";
-
 
 export async function HandleUpdateUser(formData: FormData) {
     enum UserRole {
@@ -31,23 +29,24 @@ export async function HandleUpdateUser(formData: FormData) {
 }
 
 export async function ApplicantForm(applicantData: schema.applicants) {
-    // console.log(applicantData.first_Name);
-    const response = await db.insert(schema.applicant).values({
-        // id: applicantData.id,
+    if (!applicantData.contactNumber) {
+        return {
+            error: true,
+            message: "Please input all fields",
+        };
+    }
+
+    await db.insert(schema.applicant).values({
         first_Name: applicantData.first_Name,
         last_Name: applicantData.last_Name,
-        email : applicantData.email,
+        email: applicantData.email,
         contactNumber: applicantData.contactNumber,
-        resume : applicantData.resume,
-        communication : applicantData.communication,
-        position: applicantData.position
-    })
-
-    console.log(response)
-
+        resume: applicantData.resume,
+        communication: applicantData.communication,
+        position: applicantData.position,
+    });
 
     return {
         error: !applicantData || Object.values(applicantData).some((value) => !value),
     };
-
 }

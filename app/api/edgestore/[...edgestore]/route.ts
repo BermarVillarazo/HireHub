@@ -1,20 +1,16 @@
 import { initEdgeStore } from "@edgestore/server";
-import {
-  createEdgeStoreNextHandler,
-} from "@edgestore/server/adapters/next/app";
-
+import { createEdgeStoreNextHandler } from "@edgestore/server/adapters/next/app";
 
 const es = initEdgeStore.create();
 
 const edgeStoreRouter = es.router({
-    myPublicFiles: es.fileBucket()
-
-})
+    myPublicFiles: es.fileBucket(),
+});
 
 const handler = createEdgeStoreNextHandler({
-    router: edgeStoreRouter
-})
+    router: edgeStoreRouter,
+});
 
-export {handler as GET, handler as POST}
+export { handler as GET, handler as POST };
 
-export type EdgeStoreRouter = typeof edgeStoreRouter
+export type EdgeStoreRouter = typeof edgeStoreRouter;
