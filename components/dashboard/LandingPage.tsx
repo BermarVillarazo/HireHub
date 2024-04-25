@@ -1,7 +1,7 @@
 import { validateRequest } from "@/lib/auth";
 import homepageLogo from "@/public/images/large-logo.png";
 import Image from "next/image";
-import Font from "../ui/Font";
+import Font from "../Font";
 
 export default async function Container() {
     const { user } = await validateRequest();

@@ -1,13 +1,19 @@
-import { bigint, integer, pgEnum, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { bigint, pgEnum, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const roleEnums = pgEnum("role", ["applicant", "user", "super_admin", "hr_head", "vp_acad", "vp_admin"]);
+export const roleEnums = pgEnum("role", [
+    "applicant",
+    "user",
+    "super_admin",
+    "hr_head",
+    "vp_acad",
+    "vp_admin",
+]);
 
-export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"])
+export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 
-export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"])
+export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
 
-
-// Todo: Generate migration, update Application table 
+// Todo: Generate migration, update Application table
 export const users = pgTable("users", {
     id: text("id").primaryKey(),
     name: text("name"),
@@ -23,11 +29,10 @@ export const applicant = pgTable("applicant", {
     first_Name: text("first_name"),
     last_Name: text("last_name"),
     email: text("email").unique().notNull(),
-    contactNumber: bigint('contact_number',{mode: "number"}),
+    contactNumber: bigint("contact_number", { mode: "number" }),
     resume: text("resume_url"),
     communication: communicationEnums("communicationType").notNull(),
     position: positionEnums("positionType").notNull(),
-    
 });
 
 export const Department = pgTable("Department", {
@@ -44,8 +49,8 @@ export const Department = pgTable("Department", {
 // })
 
 // Department must have a choices that the applicant can select
-    // department: text("department").notNull(),
-    //role: roleEnums("role").notNull().default("applicant"),
+// department: text("department").notNull(),
+//role: roleEnums("role").notNull().default("applicant"),
 
 export const oauthAccounts = pgTable(
     "oauth_accounts",
@@ -71,6 +76,6 @@ export const sessions = pgTable("sessions", {
 });
 
 export type User = typeof users.$inferSelect;
-export type applicants = typeof applicant.$inferInsert
+export type applicants = typeof applicant.$inferInsert;
 export type UserRole = typeof roleEnums;
 export type communicationEnums = typeof communicationEnums.enumValues;

@@ -1,106 +1,103 @@
 "use client";
 
 import { ApplicantForm } from "@/action/action";
-import { ApplicantFormProps, RadioButtonProps } from "@/app/types/type";
-import toast from "react-hot-toast";
+import { RadioButtonProps } from "@/app/types/type";
+import { useEdgeStore } from "@/lib/edgestore";
 import * as schema from "@/lib/schema";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { FileState, MultiFileDropzone } from "./multi-file-dropzone";
-import { useEdgeStore } from '@/lib/edgestore';
-import { useState } from 'react';
-import Link from "next/link";
 
 export default function Form() {
     async function clientAction(formData: FormData) {
         const applicantData: schema.applicants = {
-            // id: formData.get("id")?.toString() as unknown as number,
-            first_Name: formData.get("first_name")?.toString() as string,
-            last_Name: formData.get("last_name")?.toString() as string,
-            email: formData.get("email")?.toString() as string,
-            contactNumber: formData.get("contact_number")?.toString() as unknown as number,
-            resume : formData.get("resume_url")?.toString() as string,
-            communication: formData.get("communicationOption")?.toString() as "Email" | "PhoneNumber",
-            position: formData.get("applyingType")?.toString() as "teachingStaff" | "non-teachingStaff",
+            first_Name: formData.get("first_name") as string,
+            last_Name: formData.get("last_name") as string,
+            email: formData.get("email") as string,
+            contactNumber: formData.get("contact_number") as unknown as number,
+            resume: formData.get("resume_url") as string,
+            communication: formData.get("communicationOption") as "Email" | "PhoneNumber",
+            position: formData.get("applyingType") as "teachingStaff" | "non-teachingStaff",
         };
 
         const response = await ApplicantForm(applicantData);
-        if (response?.error) {
-            toast.error("Failed to submit form");
-            return;
+        if (response?.message) {
+            return toast.error(response.message);
         }
     }
 
-    
-        const [fileStates, setFileStates] = useState<FileState[]>([]);
-        const { edgestore } = useEdgeStore();
-        const [url, setUrls] = useState<{
-            url: string;
-        }>()
-    function updateFileProgress(key: string, progress: FileState['progress']) {
-            setFileStates((fileStates) => {
+    const [fileStates, setFileStates] = useState<FileState[]>([]);
+    const { edgestore } = useEdgeStore();
+    const [url, setUrls] = useState<{
+        url: string;
+    }>();
+    function updateFileProgress(key: string, progress: FileState["progress"]) {
+        setFileStates((fileStates) => {
             const newFileStates = structuredClone(fileStates);
-            const fileState = newFileStates.find(
-                (fileState) => fileState.key === key,
-            );
+            const fileState = newFileStates.find((fileState) => fileState.key === key);
             if (fileState) {
                 fileState.progress = progress;
             }
             return newFileStates;
-    });
-  }
+        });
+    }
 
     return (
         <form action={clientAction} className="flex flex-col">
-            <label>First Name</label>
-            <input type="text" name="first_name" />
+            <div className="flex flex-col text-white">
+                <label>First Name</label>
+                <input type="text" name="first_name" className="text-black" />
+                <label>Last Name</label>
+                <input type="text" name="last_name" className="text-black" />
+                <label>Email</label>
+                <input type="text" name="email" className="text-black" />
+                <label>Contact Number</label>
+                <input type="number" name="contact_number" className="text-black" />
 
-            <label>Last Name</label>
-            <input type="text" name="last_name" />
-
-            <label>Email</label>
-            <input type="text" name="email" />
-
-            <label>Contact Number</label>
-            <input type="number" name="contact_number" />
-
-            <input type="text" value={url?.url} name="resume_url" className="hidden" />
-
-
-            {/* RADIO BUTTONS */}
-            <RadioButton />
+                <input
+                    type="text"
+                    value={url?.url || ""}
+                    readOnly
+                    name="resume_url"
+                    className="hidden"
+                />
+                {/* RADIO BUTTONS */}
+                <RadioButton />
+            </div>
 
             <MultiFileDropzone
                 value={fileStates}
                 onChange={(files) => {
-                setFileStates(files);
+                    setFileStates(files);
                 }}
                 onFilesAdded={async (addedFiles) => {
-                setFileStates([...fileStates, ...addedFiles]);
-                await Promise.all(
-                    addedFiles.map(async (addedFileState) => {
-                    try {
-                        const res = await edgestore.myPublicFiles.upload({
-                        file: addedFileState.file,
-                        onProgressChange: async (progress) => {
-                            updateFileProgress(addedFileState.key, progress);
-                            if (progress === 100) {
-                            // wait 1 second to set it to complete
-                            // so that the user can see the progress bar at 100%
-                            await new Promise((resolve) => setTimeout(resolve, 1000));
-                            updateFileProgress(addedFileState.key, 'COMPLETE');
+                    setFileStates([...fileStates, ...addedFiles]);
+                    await Promise.all(
+                        addedFiles.map(async (addedFileState) => {
+                            try {
+                                const res = await edgestore.myPublicFiles.upload({
+                                    file: addedFileState.file,
+                                    onProgressChange: async (progress: number) => {
+                                        updateFileProgress(addedFileState.key, progress);
+                                        if (progress === 100) {
+                                            // wait 1 second to set it to complete
+                                            // so that the user can see the progress bar at 100%
+                                            await new Promise((resolve) =>
+                                                setTimeout(resolve, 1000)
+                                            );
+                                            updateFileProgress(addedFileState.key, "COMPLETE");
+                                        }
+                                    },
+                                });
+                                setUrls({
+                                    url: res.url,
+                                });
+                                console.log(res);
+                            } catch (err) {
+                                updateFileProgress(addedFileState.key, "ERROR");
                             }
-                        },
-                        });
-                        setUrls({
-                            url: res.url,
-                
-                            
                         })
-                        console.log(res);
-                    } catch (err) {
-                        updateFileProgress(addedFileState.key, 'ERROR');
-                    }
-                    }),
-                );
+                    );
                 }}
             />
             <button type="submit">submit</button>

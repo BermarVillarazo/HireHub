@@ -82,10 +82,10 @@ export async function GET(request: Request): Promise<Response> {
                         ? "super_admin"
                         : microsoftUser.role === "hr_head"
                         ? "hr_head"
-                        : microsoftUser.role === "vp_acad"
-                        ? "vp_acad"
-                        : microsoftUser.role === "vp_admin"
-                        ? "vp_admin"
+                        // : microsoftUser.role === "vp_acad"
+                        // ? "vp_acad"
+                        // : microsoftUser.role === "vp_admin"
+                        // ? "vp_admin"
                         : "user",
             });
             await tx

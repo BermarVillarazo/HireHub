@@ -3,44 +3,34 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-	const { user } = await validateRequest();
+    const { user } = await validateRequest();
 
-	if (user) {
-		return redirect("/dashboard/user");
-	}
+    if (user?.role === "hr_head") {
+        return redirect("/hr_head");
+    }
 
-	return (
-		<div className="flex min-h-screen w-full flex-col items-center justify-center bg-red-900">
-			{/* navigation bar mockup */}
-			<div className="h-20 w-full bg-red-900 text-white flex items-center fixed top-0 px-6">
-				<p>Hirehub</p>
-				<div className="flex-grow"></div>
-				<p>Contact Us</p>
-			</div>
+    return (
+        <section className="flex min-h-screen w-full flex-col items-center text-white justify-center bg-white gap-y-8">
+            <div className="h-96 w-1/2 flex items-center justify-center bg-amber-500 rounded-xl">
+                <div className="h-full w-full flex flex-row gap-x-10 p-10 justify-center items-center">
+                    <div className="w-3/5 flex flex-col text-center gap-y-1.5">
+                        <div className="text-5xl font-bold">WORK AT CIT UNIVERSITY</div>
+                        <div className="font-semibold">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                            veniam, quis nostrud exercitation ullamco laboris
+                        </div>
+                    </div>
+                    <div className="bg-gray-600 w-2/5 h-full rounded-xl" />
+                </div>
+            </div>
 
-			<form className="flex min-h-screen w-full flex-col items-center justify-center bg-white gap-y-8">
-				<div className="h-96 w-1/2 flex items-center justify-center bg-amber-500 rounded-xl">
-					<div className="h-full w-full flex flex-row gap-x-10 p-10 justify-center items-center">
-						<div className="w-3/5 flex flex-col text-center gap-y-1.5">
-							<div className="text-5xl font-bold">
-								WORK AT CIT UNIVERSITY
-							</div>
-							<div className="font-semibold">
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit, sed do eiusmod tempor
-								incididunt ut labore et dolore magna aliqua. Ut
-								enim ad minim veniam, quis nostrud exercitation
-								ullamco laboris
-							</div>
-						</div>
-						<div className="bg-gray-600 w-2/5 h-full rounded-xl" />
-					</div>
-				</div>
-
-				<Link href="/apply-now" className="py-3 px-14 rounded-lg text-xl text-white bg-red-900 font-bold transform hover:scale-95 duration-200">
-					APPLY NOW
-				</Link>
-			</form>
-		</div>
-	);
+            <Link
+                href="/apply-now"
+                className="py-3 px-14 rounded-lg text-xl bg-red-900 font-bold transform hover:scale-95 duration-200"
+            >
+                APPLY NOW
+            </Link>
+        </section>
+    );
 }
