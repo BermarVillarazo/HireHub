@@ -1,6 +1,6 @@
-import { User } from "@/app/types/type";
+import { UserProps } from "@/app/types/type";
 
-export default function HrHead({ user }: User) {
+export default function HrHead({ user }: UserProps) {
     return (
         <>
             <h1>{user?.email}</h1>
