@@ -33,6 +33,7 @@ export default async function SuperAdmin() {
                                 <option value="hr_head">hr_head</option>
                                 <option value="vp_acad">vp_acad</option>
                                 <option value="vp_admin">vp_admin</option>
+                                <option value="recruiter">recruiter</option>
                             </select>
                         </Div>
                         <Div>

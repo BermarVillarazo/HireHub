@@ -1,26 +1,34 @@
-import { Params } from "@/app/types/type";
-import LandingPage from "@/components/dashboard/LandingPage";
-import SuperAdmin from "@/components/dashboard/SuperAdmin";
+import { DepartmentProps } from "@/app/types/type";
 import Logout from "@/components/Logout";
-import { validateRequest } from "@/lib/auth";
+import SuperAdmin from "@/components/dashboard/SuperAdmin";
+import CCS from "@/components/department/CCS";
+import CE from "@/components/department/CE";
+import SHS from "@/components/department/SHS";
 
-export default async function Page({ params }: Params) {
-    const { user } = await validateRequest();
-
+export default async function Page({ params }: DepartmentProps) {
     return (
         <>
-            {params.slug[0] === "user" && (
-                <>
-                    <LandingPage />
-                    <Logout />
-                </>
-            )}
-            {params.slug[0] === "super_admin" && (
+            {params.department === "super_admin" && (
                 <>
                     <SuperAdmin />
-                    <Logout />
                 </>
             )}
+            {params.department === "css" && (
+                <>
+                    <CCS />
+                </>
+            )}
+            {params.department === "ce" && (
+                <>
+                    <CE />
+                </>
+            )}
+            {params.department === "shs" && (
+                <>
+                    <SHS />
+                </>
+            )}
+            <Logout />
         </>
     );
 }

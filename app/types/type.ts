@@ -1,27 +1,32 @@
 import { User } from "@/lib/schema";
 import { ReactNode } from "react";
 
-export type Params = {
+export type DepartmentProps = {
     params: {
-        slug: string[];
+        department: string;
     };
 };
 
-export type Props = {
+export const SHSNavigation = [
+    { href: "/shs/requests", name: "Requests" },
+    { href: "/shs/applicants", name: "Applicants" },
+    { href: "/shs/records", name: "Records" },
+];
+
+export const CCSNavigation = [
+    { href: "/css/requests", name: "Requests" },
+    { href: "/css/applicants", name: "Applicants" },
+    { href: "/css/records", name: "Records" },
+];
+
+// export const CENavigation = [
+//     { href: "/ce/requests", name: "Requests" },
+//     { href: "/ce/applicants", name: "Applicants" },
+//     { href: "/ce/records", name: "Records" },
+// ];
+
+export type UserProps = {
     user: User;
-};
-
-export type GetAllUsers = {
-    getAllUsers: User;
-};
-
-export type UsersProps = {
-    id?: string;
-    name: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role?: string;
 };
 
 export type ChildrenProps = {

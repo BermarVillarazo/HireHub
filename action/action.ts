@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
-import { users } from "@/lib/schema";
+import { department, users } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
@@ -12,6 +12,7 @@ export async function HandleUpdateUser(formData: FormData) {
         SUPER_ADMIN = "super_admin",
         VP_ACAD = "vp_acad",
         VP_ADMIN = "vp_admin",
+        RECRUITER = "recruiter",
     }
 
     const name = formData.get("verify");
@@ -24,6 +25,29 @@ export async function HandleUpdateUser(formData: FormData) {
             .where(eq(users.name, `${name}`));
     } else {
         console.error("Invalid role:", role);
+    }
+    revalidatePath("/super_admin");
+}
+
+export async function HandleUpdateRecruiter(formData: FormData) {
+    enum RecruiterDepartment {
+        CCS = "ccs",
+        CE = "ce",
+        SHS = "shs",
+    }
+
+    const name = formData.get("verify");
+    const recruiterDepartment: RecruiterDepartment | null = formData.get(
+        "department"
+    ) as RecruiterDepartment | null;
+
+    if (recruiterDepartment && Object.values(RecruiterDepartment).includes(recruiterDepartment)) {
+        await db
+            .update(department)
+            .set({ department_type: recruiterDepartment })
+            .where(eq(users.name, `${name}`));
+    } else {
+        console.error("Invalid department:", department);
     }
     revalidatePath("/super_admin");
 }

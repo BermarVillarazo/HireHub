@@ -7,6 +7,8 @@ export default async function Home() {
 
     if (user?.role === "hr_head") {
         return redirect("/hr_head");
+    } else if (user?.role) {
+        return redirect(`/${user?.role}`);
     }
 
     return (

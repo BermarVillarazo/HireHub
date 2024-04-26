@@ -11,4 +11,7 @@ export function getUsers() {
     return getAllUsers;
 }
 
-
+export function getRecruiters() {
+    const getAllRecruiters = db.select().from(schema.users).where(eq(schema.users.role, "recruiter"));
+    return getAllRecruiters;
+}
