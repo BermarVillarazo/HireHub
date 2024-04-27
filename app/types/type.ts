@@ -18,9 +18,9 @@ export const SHSNavigation = [
 ];
 
 export const CCSNavigation = [
-    { href: "/css/requests", name: "Requests" },
-    { href: "/css/applicants", name: "Applicants" },
-    { href: "/css/records", name: "Records" },
+    { href: "/ccs/requests", name: "Requests" },
+    { href: "/ccs/applicants", name: "Applicants" },
+    { href: "/ccs/records", name: "Records" },
 ];
 
 // export const CENavigation = [
