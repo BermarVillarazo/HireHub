@@ -1,4 +1,4 @@
-import SHSDepartmentNavigation from "@/components/DepartmentNavigation";
+import DepartmentNavigation from "@/components/DepartmentNavigation";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
@@ -12,15 +12,18 @@ export default async function layout({
 }) {
     const { user } = await validateRequest();
 
-    if (!user) {
-        return redirect("/login");
-    } else if (user && params.department !== user?.role) {
+    if (!user) return redirect("/login");
+    else if (
+        (user && user?.role === "user") ||
+        user?.role === "hr_head" ||
+        user?.role === "super_admin"
+    ) {
         return redirect(`/${user?.role}`);
-    }
+    } else if (user && params.department !== user?.role) return redirect(`/${user?.role}/requests`);
 
     return (
         <div className="flex min-h-screen flex-col items-center bg-red-900">
-            <SHSDepartmentNavigation />
+            {user && user?.role !== "user" && <DepartmentNavigation />}
             {children}
         </div>
     );

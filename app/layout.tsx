@@ -24,7 +24,7 @@ export default async function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <Toaster position="top-center" />
-                {!user && <ApplicantNavigation />}
+                {user && !(<ApplicantNavigation />)}
                 {children}
             </body>
         </html>

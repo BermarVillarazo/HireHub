@@ -1,0 +1,1 @@
+ALTER TABLE "applicant" ADD COLUMN "id" serial NOT NULL;

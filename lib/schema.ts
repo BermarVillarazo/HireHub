@@ -8,7 +8,7 @@ export const roleEnums = pgEnum("role", [
     "vp_acad",
     "vp_admin",
     "recruiter",
-    "css",
+    "ccs",
     "ce",
     "shs",
 ]);
@@ -17,7 +17,7 @@ export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNu
 
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
 
-export const departmentEnums = pgEnum("departmentEnums", ["CSS", "CE", "SHS"]);
+export const departmentEnums = pgEnum("departmentEnums", ["CCS", "CE", "SHS"]);
 
 // Todo: Generate migration, update Application table
 export const users = pgTable("users", {

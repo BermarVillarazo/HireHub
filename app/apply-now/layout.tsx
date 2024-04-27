@@ -6,7 +6,11 @@ import { redirect } from "next/navigation";
 export default async function layout({ children }: ChildrenProps) {
     const { user } = await validateRequest();
 
-    if (user) {
+    if (
+        (user && user?.role === "user") ||
+        user?.role === "hr_head" ||
+        user?.role === "super_admin"
+    ) {
         return redirect(`/${user?.role}`);
     }
 

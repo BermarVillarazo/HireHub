@@ -1,10 +1,29 @@
 "use server";
 
+import { ActionResult } from "@/app/types/type";
+import { lucia, validateRequest } from "@/lib/auth";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { department, users } from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+export async function LogoutAction(): Promise<ActionResult> {
+    const { session } = await validateRequest();
+    if (!session) {
+        return {
+            error: "Unauthorized",
+        };
+    }
+
+    await lucia.invalidateSession(session.id);
+
+    const sessionCookie = lucia.createBlankSessionCookie();
+    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+    return redirect("/login");
+}
 
 export async function HandleUpdateUser(formData: FormData) {
     enum UserRole {

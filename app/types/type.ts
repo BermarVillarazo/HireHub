@@ -1,6 +1,10 @@
 import { User } from "@/lib/schema";
 import { ReactNode } from "react";
 
+export interface ActionResult {
+    error: string | null;
+}
+
 export type DepartmentProps = {
     params: {
         department: string;

@@ -2,7 +2,7 @@ import { HandleUpdateUser } from "@/action/action";
 import { ChildrenProps } from "@/app/types/type";
 import { getUsers } from "@/lib/db";
 
-export default async function SuperAdmin() {
+export default async function SuperAdminDashboard() {
     const getAllUsers = await getUsers();
 
     return (
@@ -50,14 +50,14 @@ export default async function SuperAdmin() {
     );
 }
 
-export function Div({ children }: ChildrenProps) {
+function Div({ children }: ChildrenProps) {
     return <div className="text-md font-semibold bg-white w-full p-1.5">{children}</div>;
 }
 
-export function Title({ children }: ChildrenProps) {
+function Title({ children }: ChildrenProps) {
     return <h1 className="bg-amber-500 text-xl font-bold p-1.5">{children}</h1>;
 }
 
-export function Description({ children }: ChildrenProps) {
+function Description({ children }: ChildrenProps) {
     return <h1 className="bg-orange-300 p-1.5">{children}</h1>;
 }

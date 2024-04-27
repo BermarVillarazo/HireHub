@@ -3,7 +3,7 @@ import { validateRequest } from "@/lib/auth";
 import Link from "next/link";
 import Logout from "./Logout";
 
-export default async function SHSDepartmentNavigation() {
+export default async function DepartmentNavigation() {
     const { user } = await validateRequest();
     return (
         <nav className="bg-white border-gray-200 w-full dark:bg-gray-900">
@@ -41,7 +41,7 @@ export default async function SHSDepartmentNavigation() {
                                     </Link>
                                 </li>
                             ))} */}
-                        {user?.role === "css" &&
+                        {user?.role === "ccs" &&
                             CCSNavigation.map(({ href, name }) => (
                                 <li key={href}>
                                     <Link
