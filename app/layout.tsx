@@ -1,4 +1,5 @@
 import ApplicantNavigation from "@/components/ApplicantNavigation";
+import { validateRequest } from "@/lib/auth";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
@@ -17,11 +18,13 @@ export default async function RootLayout({
 }: Readonly<{
     children: ReactNode;
 }>) {
+    const { user } = await validateRequest();
+
     return (
         <html lang="en">
             <body className={inter.className}>
                 <Toaster position="top-center" />
-                <ApplicantNavigation />
+                {!user && <ApplicantNavigation />}
                 {children}
             </body>
         </html>

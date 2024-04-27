@@ -1,9 +1,21 @@
 import Image from "next/image";
 
 import SSOButton from "@/components/SSOButton";
+import { validateRequest } from "@/lib/auth";
 import signInLogo from "@/public/images/signIn-logo.png";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+    const { user } = await validateRequest();
+
+    if (user?.role === "hr_head") {
+        return redirect("/hr_head");
+    } else if (user?.role === "super_admin") {
+        return redirect("/super_admin");
+    } else if (user?.role) {
+        return redirect(`/${user?.role}`);
+    }
+
     return (
         <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
             <form method="GET">
@@ -30,4 +42,5 @@ export default function Login() {
             </form>
         </section>
     );
+    // }
 }

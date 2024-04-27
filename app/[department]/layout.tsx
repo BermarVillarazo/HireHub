@@ -14,9 +14,7 @@ export default async function layout({
 
     if (!user) {
         return redirect("/login");
-    } else if (user?.role === "super_admin" && params.department !== "super_admin") {
-        return redirect("/super_admin");
-    } else if (user?.role && params.department !== user?.role) {
+    } else if (user && params.department !== user?.role) {
         return redirect(`/${user?.role}`);
     }
 
