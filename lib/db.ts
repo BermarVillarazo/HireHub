@@ -1,17 +1,11 @@
+import { loadEnvConfig } from "@next/env";
 import { sql } from "@vercel/postgres";
 import { drizzle } from "drizzle-orm/vercel-postgres";
-
-import { eq } from "drizzle-orm";
+import { cwd } from "process";
 import * as schema from "./schema";
+
+loadEnvConfig(cwd());
 
 export const db = drizzle(sql, { schema });
 
-export function getUsers() {
-    const getAllUsers = db.select().from(schema.users).where(eq(schema.users.role, "user"));
-    return getAllUsers;
-}
-
-export function getRecruiters() {
-    const getAllRecruiters = db.select().from(schema.users).where(eq(schema.users.role, "recruiter"));
-    return getAllRecruiters;
-}
+// console.log("db url: ", process.env.POSTGRES_URL);

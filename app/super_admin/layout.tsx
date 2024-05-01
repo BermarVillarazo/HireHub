@@ -10,7 +10,7 @@ export default async function layout({ children }: ChildrenProps) {
         return redirect(`/${user?.role}`);
     } else if (user && !["user", "super_admin", "hr_head"].includes(user?.role)) {
         return redirect(`/${user?.role}/requests`);
-    }   
+    }
 
     return <div>{children}</div>;
 }
