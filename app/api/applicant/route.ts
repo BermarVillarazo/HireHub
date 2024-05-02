@@ -13,6 +13,8 @@ export async function GET() {
     }
 }
 
+
+
 // export async function PUT(request: Request) {
 //     const body = request.body;
 //     console.log(body);
