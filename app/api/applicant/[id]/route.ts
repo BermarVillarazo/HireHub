@@ -10,26 +10,27 @@ export async function GET(request: NextApiRequest, { params }: { params: { id: s
     return new Response(JSON.stringify({ userId }), { status: 200 });
 }
 
-export async function PUT(request: NextApiRequest,res: NextApiResponse, { params }: { params: { id: string } }){
-    // try {
 
-        // const id = params.id.toString();
-        // const {role} = request.body;
-        // console.log(role)
-        // console.log(id)
+
+export async function PUT(request: Request, { params }: { params: { id: string } }){
+    try {
+
+        const id = params.id.toString();
+        const {role} = await request.json();
+
         // Fetch the user from the database based on the id
-        // const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
+        const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
-        // if (!user) {
-        //     return res.status(404).json({ error: 'User not found' });
-        // }
+        if (!user) {
+            return NextResponse.json({ status: 404, msg: "user not found" });
+        }
 
-        // // Update the user's role
-        // const reponse = await db.update(schema.users).set({ role: role }).where(eq(schema.users.id, id));
-
-        return NextResponse.json(JSON.stringify({ msg: "hello" }), { status: 200 });
-    // } catch (error) {
-    //     return res.status(500).json({ error: 'Internal server error' });
-    // }
+        // Update the user's role
+        const reponse = await db.update(schema.users).set({ role: role }).where(eq(schema.users.id, id));
+         const {command} = reponse;
+        return NextResponse.json({command, status: 200, msg: "user role updated" , rows: user});
+    } catch (error) {
+        return NextResponse.json({ status: 500 , msg: "internal Error User role not found" });
+    }
 
 }
