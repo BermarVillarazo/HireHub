@@ -22,7 +22,7 @@ export default async function layout({
     } else if (user && params.department !== user?.role) return redirect(`/${user?.role}/requests`);
 
     return (
-        <div className="flex min-h-screen flex-col items-center bg-red-900">
+        <div className="flex min-h-screen flex-col items-center ">
             {user && user?.role !== "user" && <DepartmentNavigation />}
             {children}
         </div>
