@@ -30,7 +30,9 @@ export default function AdminForm({ users }: { users: User }) {
             const userId = formData.get("verify");
             const role: UserRole = formData.get("role") as UserRole;
 
-            if (role && Object.values(UserRole).includes(role)) {
+            if (!userId) {
+                return toast.error("Please don't forget to verify the user");
+            } else if (role && Object.values(UserRole).includes(role)) {
                 console.log("role:", role, "userId:", userId);
             } else {
                 console.error("Invalid role:", role);
@@ -52,7 +54,7 @@ export default function AdminForm({ users }: { users: User }) {
             router.refresh();
 
             // PLEASE NOT THAT users.name WILL BE OUTPUTTED AS UNDEFINED
-            return toast.success(`${users.name} has updated the role into ${role}!`);
+            return toast.success(`User has updated the role into ${role}!`);
         } catch (error: unknown) {
             return toast.error("Something went wrong!" + (error as Error).message);
         }

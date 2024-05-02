@@ -3,7 +3,7 @@ import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
     try {
         const users = await db.select().from(schema.users).where(eq(schema.users.role, "user"));
 

@@ -36,10 +36,17 @@ export default function ApplicantForm() {
             return toast.error("Please input all fields");
         }
 
-        await fetch("/api/applicant/apply-now", {
+        const response = await fetch("/api/applicant/apply-now", {
             method: "POST",
             body: JSON.stringify(applicantData),
         });
+
+        if (response.status === 409) {
+            const data = await response.json();
+            return toast.error(data.message);
+        } else if (!response.ok) {
+            return toast.error("An error occurred while submitting the application.");
+        }
 
         return toast.success("Application submitted successfully!");
     }
