@@ -1,4 +1,4 @@
-import { bigint, pgEnum, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { bigint, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const roleEnums = pgEnum("role", [
     "applicant",
@@ -73,7 +73,7 @@ export const oauthAccounts = pgTable(
         userId: text("user_id")
             .notNull()
             .references(() => users.id),
-    },
+    }
     // (table) => ({ pk: primaryKey({ columns: [table.providerId, table.providerUserId] }) })
 );
 

@@ -6,7 +6,7 @@ export async function getAllUsers() {
     return data;
 }
 
-export async function getUsersbyID(){
+export async function getUsersbyID() {
     const reponse = await fetch("http://localhost:3000/api/getuser", {
         cache: "no-cache",
     });

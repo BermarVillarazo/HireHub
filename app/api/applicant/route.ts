@@ -6,17 +6,13 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try {
         const users = await db.select().from(schema.users).where(eq(schema.users.role, "user"));
-        return NextResponse.json(users);
+
+        if (!users) {
+            return NextResponse.json({ message: "No user found!", status: 404 });
+        }
+
+        return NextResponse.json({ users, status: 200 });
     } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: error }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error", status: 500 });
     }
 }
-
-
-
-// export async function PUT(request: Request) {
-//     const body = request.body;
-//     console.log(body);
-//     return NextResponse.json({ body });
-// }
