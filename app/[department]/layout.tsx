@@ -1,4 +1,4 @@
-import DepartmentNavigation from "@/components/DepartmentNavigation";
+import DepartmentNavigation from "@/components/department/DepartmentNavigation";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";

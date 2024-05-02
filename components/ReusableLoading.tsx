@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function ReusableLoading() {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
+        <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
             <div className="flex flex-col justify-center mx-auto text-center p-12 bg-white rounded-lg">
                 <Image
                     src={homepageLogo}
@@ -14,6 +14,6 @@ export default function ReusableLoading() {
                 />
                 Processing...
             </div>
-        </div>
+        </section>
     );
 }
