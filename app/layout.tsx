@@ -1,4 +1,4 @@
-import ApplicantNavigation from "@/components/ApplicantNavigation";
+import ApplicantNavigation from "@/components/applicant/ApplicantNavigation";
 import { validateRequest } from "@/lib/auth";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

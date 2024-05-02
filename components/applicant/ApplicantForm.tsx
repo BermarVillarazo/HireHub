@@ -5,9 +5,9 @@ import { useEdgeStore } from "@/lib/edgestore";
 import * as schema from "@/lib/schema";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { FileState, MultiFileDropzone } from "./multi-file-dropzone";
+import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
-export default function Form() {
+export default function ApplicantForm() {
     async function clientAction(formData: FormData) {
         const applicantData: schema.applicants = {
             first_Name: formData.get("first_name") as string,

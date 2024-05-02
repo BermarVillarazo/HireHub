@@ -1,7 +1,7 @@
 import { CCSNavigation } from "@/app/types/type";
 import { validateRequest } from "@/lib/auth";
 import Link from "next/link";
-import Logout from "./Logout";
+import Logout from "../Logout";
 
 export default async function DepartmentNavigation() {
     const { user } = await validateRequest();
