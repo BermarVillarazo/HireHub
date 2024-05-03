@@ -4,8 +4,8 @@ import { RadioButtonProps } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
 import * as schema from "@/lib/schema";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
+import toast from "react-hot-toast";
 
 export default function ApplicantForm() {
     async function clientAction(formData: FormData) {
@@ -19,29 +19,24 @@ export default function ApplicantForm() {
             position: formData.get("applyingType") as "teachingStaff" | "non-teachingStaff",
         };
 
-        // const response = await ApplicantForm(applicantData);
-        // if (response?.message) {
-        //     return toast.error(response.message);
-        // }
-
-        if (
-            !applicantData.first_Name!.trim() ||
-            !applicantData.last_Name!.trim() ||
-            !applicantData.email!.trim() ||
-            !applicantData.contactNumber ||
-            !applicantData.communication ||
-            !applicantData.position ||
-            !applicantData.resume!.trim()
-        ) {
-            return toast.error("Please input all fields");
-        }
-
-        await fetch("/api/applicant/apply-now", {
+        const response = await fetch("/api/applicant/apply-now", {
             method: "POST",
             body: JSON.stringify(applicantData),
         });
 
-        return toast.success("Application submitted successfully!");
+        if (response.status === 409) {
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                const errorMessages = data.map(({ message }) => message);
+                errorMessages.forEach((errorMessages) => {
+                    return toast.error(errorMessages);
+                });
+            } else {
+                return toast.error(data.message);
+            }
+        } else {
+            return toast.success("Application submitted successfully!");
+        }
     }
 
     const [fileStates, setFileStates] = useState<FileState[]>([]);
@@ -64,21 +59,23 @@ export default function ApplicantForm() {
         <form action={clientAction} className="flex flex-col">
             <div className="flex flex-col text-white">
                 <label>First Name</label>
-                <input type="text" name="first_name" required className="text-black" />
+                <input type="text" name="first_name" className="text-black" />
                 <label>Last Name</label>
-                <input type="text" name="last_name" required className="text-black" />
+                <input type="text" name="last_name" className="text-black" />
                 <label>Email</label>
-                <input type="text" name="email" required className="text-black" />
+                <input type="text" name="email" className="text-black" />
                 <label>Contact Number</label>
-                <input type="number" name="contact_number" required className="text-black" />
+                <input type="number" name="contact_number" className="text-black" />
 
-                <input
-                    type="text"
-                    value={url?.url || ""}
-                    readOnly
-                    name="resume_url"
-                    className="hidden"
-                />
+                {url && (
+                    <input
+                        type="text"
+                        value={url.url}
+                        readOnly
+                        name="resume_url"
+                        className="hidden"
+                    />
+                )}
                 {/* RADIO BUTTONS */}
                 <RadioButton />
             </div>

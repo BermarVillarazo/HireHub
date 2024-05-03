@@ -3,22 +3,28 @@ import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
-export async function GET({ params }: { params: { id: string } }) {
+type ParamsProps = {
+    params: {
+        id: string;
+    };
+};
+
+export async function GET(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id.toString();
         const userId = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
-        if (userId) {
-            return NextResponse.json({ message: "User ID not found"}, {status: 404 });
+        if (!userId) {
+            return NextResponse.json({ message: "User ID not found", status: 404 });
         }
 
         return NextResponse.json({ userId}, {status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: "Internal Error"}, {status: 500 });
+        return NextResponse.json({ message: "Internal Error", status: 500 });
     }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id.toString();
         const { role } = await request.json();
@@ -26,7 +32,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
         if (!user) {
-            return NextResponse.json({ message: "User Id not found", status: 404 });
+            return NextResponse.json(
+                { message: "User Id not found", status: 404 },
+                { status: 404 }
+            );
         }
 
         const reponse = await db
@@ -36,8 +45,16 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 
         const { command } = reponse;
 
-        return NextResponse.json({ command, message: "User role updated", status: 200, rows: user });
+        return NextResponse.json({
+            command,
+            message: "User role updated",
+            status: 200,
+            rows: user,
+        });
     } catch (error) {
-        return NextResponse.json({ message: "Internal Server Error", status: 500 });
+        return NextResponse.json(
+            { message: "Internal Server Error", status: 500 },
+            { status: 500 }
+        );
     }
 }
