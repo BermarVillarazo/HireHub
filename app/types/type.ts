@@ -11,6 +11,14 @@ export type DepartmentProps = {
     };
 };
 
+export const HRHeadNavigation = [
+    { href: "/hr_head/dashboard", name: "Dashbord" },
+    { href: "/hr_head/requests", name: "Requests" },
+    { href: "/hr_head/applicants", name: "Applicants" },
+    { href: "/hr_head/records", name: "Records" },
+];
+
+
 export const SHSNavigation = [
     { href: "/shs/requests", name: "Requests" },
     { href: "/shs/applicants", name: "Applicants" },

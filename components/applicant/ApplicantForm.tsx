@@ -4,8 +4,8 @@ import { RadioButtonProps } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
 import * as schema from "@/lib/schema";
 import { useState } from "react";
-import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 import toast from "react-hot-toast";
+import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
 export default function ApplicantForm() {
     async function clientAction(formData: FormData) {
@@ -30,7 +30,7 @@ export default function ApplicantForm() {
                 const errorMessages = data.map(({ message }) => message);
                 errorMessages.forEach((errorMessages) => {
                     return toast.error(errorMessages);
-                });x
+                });
             } else {
                 return toast.error(data.message);
             }

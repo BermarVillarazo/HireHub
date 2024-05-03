@@ -1,6 +1,7 @@
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ChildrenProps } from "../types/type";
+import HRNavigation from "@/components/HRNavigation";
 
 export default async function layout({ children }: ChildrenProps) {
     const { user } = await validateRequest();
@@ -12,5 +13,10 @@ export default async function layout({ children }: ChildrenProps) {
         return redirect(`/${user?.role}/requests`);
     }
 
-    return <div>{children}</div>;
+    return (
+        <div>
+            <HRNavigation />
+            {children}
+        </div>
+    );
 }
