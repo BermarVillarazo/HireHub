@@ -93,7 +93,45 @@
 // //         position: applicantData.position,
 // //     });
 
+<<<<<<< HEAD
 // //     return {
 // //         error: !applicantData || Object.values(applicantData).some((value) => !value),
 // //     };
 // // }
+=======
+    if (recruiterDepartment && Object.values(RecruiterDepartment).includes(recruiterDepartment)) {
+        await db
+            .update(department)
+            .set({ department_type: recruiterDepartment })
+            .where(eq(users.name, `${name}`));
+    } else {
+        console.error("Invalid department:", department);
+    }
+    revalidatePath("/super_admin");
+}
+
+// THIS FUNCTION IS DEAD SWITCHED TO API ROUTER
+// PLEASE PROCEED TO app/api/applicant/apply-now/route.ts
+export async function ApplicantForm(applicantData: schema.applicants) {
+    if (!applicantData.contactNumber) {
+        return {
+            error: true,
+            message: "Please input all fields",
+        };
+    }
+
+    await db.insert(schema.applicant).values({
+        first_Name: applicantData.first_Name,
+        last_Name: applicantData.last_Name,
+        email: applicantData.email,
+        contactNumber: applicantData.contactNumber,
+        resume: applicantData.resume,
+        communication: applicantData.communication,
+        position: applicantData.position,
+    });
+
+    return {
+        error: !applicantData || Object.values(applicantData).some((value) => !value),
+    };
+}
+>>>>>>> ac589baa8da441354b31270a69e1529e029d538d

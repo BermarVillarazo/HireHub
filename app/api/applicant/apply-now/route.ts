@@ -1,14 +1,11 @@
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
-import { eq } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
-import validator from "validator";
-import { z } from "zod";
+import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
         const applicants = await db.select().from(schema.applicant);
-
+    
         if (!applicants) {
             return NextResponse.json(
                 { message: "No applicant found!", status: 404 },
@@ -25,6 +22,7 @@ export async function GET() {
     }
 }
 
+<<<<<<< HEAD
 // ZOD schema for applicant data validation
 const applicantSchema = z.object({
     first_Name: z
@@ -48,31 +46,17 @@ const applicantSchema = z.object({
 type applicantSchemaProps = z.infer<typeof applicantSchema>;
 
 export async function POST(request: NextRequest) {
+=======
+export async function POST(request: Request) {
+>>>>>>> ac589baa8da441354b31270a69e1529e029d538d
     try {
-        const data: applicantSchemaProps = await request.json();
-        // Client validation
-        const validationResult = applicantSchema.safeParse(data);
-        // Client validation
-        if (!validationResult.success) {
-            console.log(validationResult.error.issues);
-            return NextResponse.json(validationResult.error.issues, { status: 409 });
+        const { first_Name, last_Name, email, contactNumber, communication, position, resume } =
+            await request.json();
+
+        if (!first_Name || !last_Name || !email || !contactNumber || !communication || !position) {
+            return NextResponse.json({ message: "Please input all fields", status: 400 });
         }
-        // Database email validation if there is existing email
-        const existingApplicant = await db
-            .select()
-            .from(schema.applicant)
-            .where(eq(schema.applicant.email, data.email));
-        // Database email validation if there is existing email
-        if (existingApplicant.length > 0) {
-            return NextResponse.json(
-                {
-                    message: "Email already exists. Please use a different email.",
-                    status: 409,
-                },
-                { status: 409 }
-            );
-        }
-        // Applicant data insertion if no existing email, and client validation is successful
+
         await db.insert(schema.applicant).values({
             ...data,
             contactNumber: parseInt(data.contactNumber),
@@ -80,9 +64,8 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({ data, status: 200 }, { status: 200 });
     } catch (error) {
-        return NextResponse.json(
-            { message: "Internal Server Error", status: 500 },
-            { status: 500 }
-        );
+        return NextResponse.json({ message: "Internal Server Error", status: 500 });
     }
+
+
 }

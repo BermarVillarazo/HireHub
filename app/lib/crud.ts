@@ -6,6 +6,15 @@ export async function getAllUsers() {
     return data;
 }
 
+export async function getAllRecruiter() {
+    const reponse = await fetch("http://localhost:3000/api/hr_head", {
+        cache: "no-cache",
+    });
+    const data = await reponse.json();
+    return data;
+}
+
+
 export async function getUsersbyID() {
     const reponse = await fetch("http://localhost:3000/api/getuser", {
         cache: "no-cache",
@@ -13,3 +22,4 @@ export async function getUsersbyID() {
     const data = await reponse.json();
     return data;
 }
+
