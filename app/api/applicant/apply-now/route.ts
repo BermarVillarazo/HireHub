@@ -25,6 +25,7 @@ export async function GET() {
     }
 }
 
+// ZOD schema for applicant data validation
 const applicantSchema = z.object({
     first_Name: z
         .string()
@@ -43,6 +44,7 @@ const applicantSchema = z.object({
     resume: z.string(),
 });
 
+// Infer the type of the applicantSchema
 type applicantSchemaProps = z.infer<typeof applicantSchema>;
 
 export async function POST(request: NextRequest) {

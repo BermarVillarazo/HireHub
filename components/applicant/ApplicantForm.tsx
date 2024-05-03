@@ -30,7 +30,7 @@ export default function ApplicantForm() {
                 const errorMessages = data.map(({ message }) => message);
                 errorMessages.forEach((errorMessages) => {
                     return toast.error(errorMessages);
-                });
+                });x
             } else {
                 return toast.error(data.message);
             }

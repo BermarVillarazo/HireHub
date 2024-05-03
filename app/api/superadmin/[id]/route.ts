@@ -21,7 +21,7 @@ export async function GET(request: Request, { params }: ParamsProps) {
             );
         }
 
-        return NextResponse.json({ userId, status: 200 });
+        return NextResponse.json({ userId, status: 200 }, { status: 200 });
     } catch (error) {
         console.log(error);
         return NextResponse.json(
@@ -52,12 +52,15 @@ export async function PUT(request: Request, { params }: ParamsProps) {
 
         const { command } = reponse;
 
-        return NextResponse.json({
-            command,
-            message: "User role updated",
-            status: 200,
-            rows: user,
-        });
+        return NextResponse.json(
+            {
+                command,
+                message: "User role updated",
+                status: 200,
+                rows: user,
+            },
+            { status: 200 }
+        );
     } catch (error) {
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },

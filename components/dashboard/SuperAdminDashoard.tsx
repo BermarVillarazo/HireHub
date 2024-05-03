@@ -39,12 +39,6 @@ export default function AdminForm({ users }: { users: User }) {
                 return toast.error("Please update the role");
             }
 
-            // const response: Response = await fetch(`http://localhost:3000/api/applicant/${userId}`, {
-            //     method: "PUT",
-            //     body: JSON.stringify({ role }),
-            // });
-            // const userData = await response.json();
-            // console.log(userData);
             await fetch(`http://localhost:3000/api/superadmin/${userId}`, {
                 method: "PUT",
                 cache: "no-cache",
@@ -87,8 +81,6 @@ export default function AdminForm({ users }: { users: User }) {
                                 <select name="role" className="w-full bg-orange-300 p-1.5">
                                     <option value="">{role}</option>
                                     <option value="hr_head">hr_head</option>
-                                    <option value="vp_acad">vp_acad</option>
-                                    <option value="vp_admin">vp_admin</option>
                                     <option value="recruiter">recruiter</option>
                                 </select>
                             </Div>
