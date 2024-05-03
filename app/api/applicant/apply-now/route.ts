@@ -1,11 +1,12 @@
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
         const applicants = await db.select().from(schema.applicant);
-
+    
         if (!applicants) {
             return NextResponse.json({ message: "No applicant found!", status: 404 });
         }
@@ -18,13 +19,19 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        const { first_Name, last_Name, email, contactNumber, communication, position, resume } =
+        const { first_Name, last_Name, email, contactNumber, communication, position, resume }: schema.applicants =
             await request.json();
 
         if (!first_Name || !last_Name || !email || !contactNumber || !communication || !position) {
-            return NextResponse.json({ message: "Please input all fields", status: 400 });
+            return NextResponse.json({ message: "Please input all fields"}, {status: 400 });
         }
 
+        const existingApplicant = await db.select().from(schema.applicant).where(eq(schema.applicant.email, email));
+
+        if (existingApplicant.length > 0) {
+            return NextResponse.json({ message: "User already exists"}, {status: 404 });
+        }
+        
         await db.insert(schema.applicant).values({
             first_Name,
             last_Name,
@@ -46,6 +53,8 @@ export async function POST(request: Request) {
             status: 200,
         });
     } catch (error) {
-        return NextResponse.json({ message: "Internal Server Error", status: 500 });
+        return NextResponse.json({ message: "Internal Server Error"}, {status: 500 });
     }
+
+
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "applicant" ADD COLUMN "role" "role" DEFAULT 'applicant' NOT NULL;

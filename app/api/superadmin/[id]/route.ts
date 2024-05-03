@@ -8,13 +8,13 @@ export async function GET({ params }: { params: { id: string } }) {
         const id = params.id.toString();
         const userId = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
-        if (!userId) {
-            return NextResponse.json({ message: "User ID not found", status: 404 });
+        if (userId) {
+            return NextResponse.json({ message: "User ID not found"}, {status: 404 });
         }
 
-        return NextResponse.json({ userId, status: 200 });
+        return NextResponse.json({ userId}, {status: 200 });
     } catch (error) {
-        return NextResponse.json({ message: "Internal Error", status: 500 });
+        return NextResponse.json({ message: "Internal Error"}, {status: 500 });
     }
 }
 
