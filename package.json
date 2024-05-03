@@ -32,12 +32,14 @@
         "react-dropzone": "^14.2.3",
         "react-hot-toast": "^2.4.1",
         "tailwind-merge": "^2.3.0",
+        "validator": "^13.11.0",
         "zod": "^3.22.5"
     },
     "devDependencies": {
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
+        "@types/validator": "^13.11.9",
         "autoprefixer": "^10.0.1",
         "drizzle-kit": "^0.20.17",
         "postcss": "^8",
