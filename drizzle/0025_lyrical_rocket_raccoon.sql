@@ -1,0 +1,1 @@
+ALTER TABLE "applicant" ADD COLUMN "application_letter" text;

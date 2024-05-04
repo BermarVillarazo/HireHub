@@ -38,6 +38,7 @@ export const applicant = pgTable("applicant", {
     email: text("email").unique().notNull(),
     contactNumber: bigint("contact_number", { mode: "number" }),
     resume: text("resume_url"),
+    applicationLetter: text("application_letter"),
     communication: communicationEnums("communicationType").notNull(),
     position: positionEnums("positionType").notNull(),
     role: roleEnums("role").notNull().default("applicant"),
