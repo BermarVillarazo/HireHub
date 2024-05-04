@@ -2,20 +2,11 @@ import { lucia, validateRequest } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function Logout() {
-    return (
-        <form action={LogoutAction}>
-            <button>Sign out</button>
-        </form>
-    );
-}
-
 interface ActionResult {
     error: string | null;
 }
 
-async function LogoutAction(): Promise<ActionResult> {
-    "use server";
+export async function GET(request: Request): Promise<ActionResult> {
     const { session } = await validateRequest();
     if (!session) {
         return {

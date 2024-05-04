@@ -3,7 +3,7 @@ import { getAllRecruiter } from "../lib/crud";
 
 export default async function HRHeadPage() {
     const recuiter = await getAllRecruiter()
-    console.log(recuiter)
+    // console.log(recuiter)
     return (
         <div>
             <p>HRHeadPage</p>
