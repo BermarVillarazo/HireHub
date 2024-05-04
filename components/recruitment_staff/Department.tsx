@@ -1,6 +1,6 @@
 "use client";
 
-import { InputProps, TitleProps } from "@/app/types/type";
+import { Button, Input } from "@/app/recruitment_staff/department/page";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -40,27 +40,5 @@ export default function DepartmentForm() {
 
             <Button title="Add Department" />
         </form>
-    );
-}
-
-export function Input({ name, placeholder }: InputProps) {
-    return (
-        <input
-            type="text"
-            name={name}
-            placeholder={placeholder}
-            className="block w-full p-3 text-sm text-black border border-gray-300 rounded-lg dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-    );
-}
-
-export function Button({ title }: TitleProps) {
-    return (
-        <button
-            type="submit"
-            className="text-white bg-red-900 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-900 font-medium rounded-lg text-sm px-3 py-1.5"
-        >
-            {title}
-        </button>
     );
 }

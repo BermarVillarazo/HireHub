@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { departmentSchema, departmentSchemaProps } from "../route";
 
@@ -106,6 +107,8 @@ export async function DELETE(request: Request, { params }: ParamsProps) {
             .where(eq(schema.department.department_id, id));
 
         const { command } = response;
+
+        revalidatePath("/recruitment_staff/department");
 
         return NextResponse.json(
             {

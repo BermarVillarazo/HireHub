@@ -22,6 +22,7 @@ export default function DepartmentLists({ departments }: DepartmentListsProps) {
             const error = await response.json();
             return toast.error(error);
         } else {
+            
             return toast.success(data.message);
         }
     }
