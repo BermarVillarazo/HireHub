@@ -1,13 +1,17 @@
 "use client";
 
-import { RadioButtonProps } from "@/app/types/type";
+import { applicantInputs, nonTeachingStaff, teachingStaff } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
 import * as schema from "@/lib/schema";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
 export default function ApplicantForm() {
+    const [selectedPosition, setSelectedPosition] = useState<
+        "teachingStaff" | "non-teachingStaff"
+    >();
+
     async function clientAction(formData: FormData) {
         const applicantData: schema.applicants = {
             first_Name: formData.get("first_name") as string,
@@ -56,115 +60,218 @@ export default function ApplicantForm() {
     }
 
     return (
-        <form action={clientAction} className="flex flex-col">
-            <div className="flex flex-col text-white">
-                <label>First Name</label>
-                <input type="text" name="first_name" className="text-black" />
-                <label>Last Name</label>
-                <input type="text" name="last_name" className="text-black" />
-                <label>Email</label>
-                <input type="text" name="email" className="text-black" />
-                <label>Contact Number</label>
-                <input type="number" name="contact_number" className="text-black" />
+        <form action={clientAction} className="flex flex-col mt-10">
+            <div className="flex gap-10 text-white">
+                <div className="flex flex-col flex-1 gap-5">
+                    {applicantInputs.map(({ label, type, name }) => (
+                        <div className="flex flex-col" key={name}>
+                            <label className="text-lg font-semibold">{label}</label>
+                            <input
+                                type={type}
+                                name={name}
+                                className="text-black rounded-md p-1.5 mt-1.5"
+                            />
+                        </div>
+                    ))}
 
-                {url && (
-                    <input
-                        type="text"
-                        value={url.url}
-                        readOnly
-                        name="resume_url"
-                        className="hidden"
+                    {/* THE INPUT BELOW IS THE IMAGE URL */}
+                    {/* SO BASICALLY AFTER UPLOADING THE IMAGE */}
+                    {/* IT WILL GO DIRECTLY TO THE EDGESTORE DATABASE SOMETHING LIKE THAT */}
+                    {/* THEN FETCHING(GET) THE EDGESTORE DATABASE AND DISPLAY INTO THE INPUT BELOW */}
+                    {/* SO THAT IT WILL GO TO OUR DATABASE TO SEE THE PDF FILE */}
+                    {url && (
+                        <input
+                            type="text"
+                            value={url.url}
+                            readOnly
+                            name="resume_url"
+                            className="hidden"
+                        />
+                    )}
+
+                    {/* RADIO BUTTONS */}
+                    <RadioButton
+                        setSelectedPosition={(value: string) =>
+                            setSelectedPosition(value as "teachingStaff" | "non-teachingStaff")
+                        }
                     />
-                )}
-                {/* RADIO BUTTONS */}
-                <RadioButton />
+
+                    <label className="text-lg font-semibold">Position</label>
+                    {selectedPosition === "teachingStaff" && (
+                        <div className="flex flex-col text-white">
+                            <select name="teachingStaff" className="text-black rounded-md p-1.5">
+                                {teachingStaff.map(({ value, label }) => (
+                                    <option key={value} value={value}>
+                                        {label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+
+                    {selectedPosition === "non-teachingStaff" && (
+                        <div className="flex flex-col text-white">
+                            <select
+                                name="non-teachingStaff"
+                                className="text-black rounded-md p-1.5"
+                            >
+                                {nonTeachingStaff.map(({ value, label }) => (
+                                    <option key={value} value={value}>
+                                        {label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+                </div>
+
+                <div className="flex-1">
+                    <label>Upload your CV/RESUME</label>
+                    <MultiFileDropzone
+                        value={fileStates}
+                        onChange={(files) => {
+                            setFileStates(files);
+                        }}
+                        onFilesAdded={async (addedFiles) => {
+                            setFileStates([...fileStates, ...addedFiles]);
+                            await Promise.all(
+                                addedFiles.map(async (addedFileState) => {
+                                    try {
+                                        const res = await edgestore.myPublicFiles.upload({
+                                            file: addedFileState.file,
+                                            onProgressChange: async (progress: number) => {
+                                                updateFileProgress(addedFileState.key, progress);
+                                                if (progress === 100) {
+                                                    // wait 1 second to set it to complete
+                                                    // so that the user can see the progress bar at 100%
+                                                    await new Promise((resolve) =>
+                                                        setTimeout(resolve, 1000)
+                                                    );
+                                                    updateFileProgress(
+                                                        addedFileState.key,
+                                                        "COMPLETE"
+                                                    );
+                                                }
+                                            },
+                                        });
+                                        setUrls({
+                                            url: res.url,
+                                        });
+                                        console.log(res);
+                                    } catch (err) {
+                                        updateFileProgress(addedFileState.key, "ERROR");
+                                    }
+                                })
+                            );
+                        }}
+                    />
+                </div>
             </div>
 
-            <MultiFileDropzone
-                value={fileStates}
-                onChange={(files) => {
-                    setFileStates(files);
-                }}
-                onFilesAdded={async (addedFiles) => {
-                    setFileStates([...fileStates, ...addedFiles]);
-                    await Promise.all(
-                        addedFiles.map(async (addedFileState) => {
-                            try {
-                                const res = await edgestore.myPublicFiles.upload({
-                                    file: addedFileState.file,
-                                    onProgressChange: async (progress: number) => {
-                                        updateFileProgress(addedFileState.key, progress);
-                                        if (progress === 100) {
-                                            // wait 1 second to set it to complete
-                                            // so that the user can see the progress bar at 100%
-                                            await new Promise((resolve) =>
-                                                setTimeout(resolve, 1000)
-                                            );
-                                            updateFileProgress(addedFileState.key, "COMPLETE");
-                                        }
-                                    },
-                                });
-                                setUrls({
-                                    url: res.url,
-                                });
-                                console.log(res);
-                            } catch (err) {
-                                updateFileProgress(addedFileState.key, "ERROR");
-                            }
-                        })
-                    );
-                }}
-            />
-            <button type="submit">submit</button>
+            <Button />
         </form>
     );
 }
 
-function RadioButton() {
+function RadioButton({ setSelectedPosition }: { setSelectedPosition: (value: string) => void }) {
     return (
-        <fieldset className="flex flex-col">
-            <legend>Preferred mode of communication</legend>
-            <CommunicationOption
-                id="email"
-                value="Email"
-                name="communicationOption"
-                label="Email"
-            />
-            <CommunicationOption
-                id="phone_number"
-                value="PhoneNumber"
-                name="communicationOption"
-                label="Phone Number"
-            />
+        <div className="flex">
+            <fieldset className="flex-1">
+                <legend className="text-lg font-semibold mb-3">
+                    Preferred mode of communication
+                </legend>
+                <CommunicationRadioButton
+                    id="email"
+                    value="Email"
+                    name="communicationOption"
+                    label="Email"
+                />
+                <CommunicationRadioButton
+                    id="phone_number"
+                    value="PhoneNumber"
+                    name="communicationOption"
+                    label="Phone Number"
+                />
+            </fieldset>
 
-            <legend>What type are you applying for?</legend>
-            <CommunicationOption
-                id="teaching_staff"
-                value="teachingStaff"
-                name="applyingType"
-                label="Teaching Staff"
-            />
-            <CommunicationOption
-                id="non-teaching_staff"
-                value="non-teachingStaff"
-                name="applyingType"
-                label="Non-Teaching Staff"
-            />
-        </fieldset>
+            <fieldset className="flex-1">
+                <legend className="text-lg font-semibold mb-3">
+                    What type are you applying for?
+                </legend>
+                <PositionOption
+                    id="teaching_staff"
+                    value="teachingStaff"
+                    name="applyingType"
+                    label="Teaching Staff"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setSelectedPosition(e.target.value)
+                    }
+                />
+                <PositionOption
+                    id="non-teaching_staff"
+                    value="non-teachingStaff"
+                    name="applyingType"
+                    label="Non-Teaching Staff"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        setSelectedPosition(e.target.value)
+                    }
+                />
+            </fieldset>
+        </div>
     );
 }
 
-function CommunicationOption({ id, value, name, label }: RadioButtonProps) {
+export type CommunicationRadioButtonProps = {
+    id: string;
+    value: string;
+    name: string;
+    label: string;
+};
+
+function CommunicationRadioButton({ id, value, name, label }: CommunicationRadioButtonProps) {
     return (
         <div>
             <input
-                className="w-4 h-4 transition-colors bg-white border-2 rounded-full appearance-none cursor-pointer peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600"
                 type="radio"
                 id={id}
                 value={value}
                 name={name}
+                className="w-4 h-4 transition-colors bg-white border-2 rounded-full appearance-none cursor-pointer peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600"
             />
-            <label className="pl-2 cursor-pointer">{label}</label>
+            <label className="pl-2 cursor-pointer text-lg font-medium">{label}</label>
         </div>
+    );
+}
+
+export type PositionOptionProps = {
+    id: string;
+    value: string;
+    name: string;
+    label: string;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+
+function PositionOption({ id, value, name, label, onChange }: PositionOptionProps) {
+    return (
+        <div>
+            <input
+                type="radio"
+                id={id}
+                value={value}
+                name={name}
+                onChange={onChange}
+                className="w-4 h-4 transition-colors bg-white border-2 rounded-full appearance-none cursor-pointer peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600"
+            />
+            <label className="pl-2 cursor-pointer text-lg font-medium">{label}</label>
+        </div>
+    );
+}
+
+function Button() {
+    return (
+        <button className="group w-32 mx-auto relative m-1 inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-b-2 border-l-2 border-r-2 border-red-950 bg-gradient-to-tr from-red-900 to-red-800 px-4 py-1 text-white shadow-lg transition duration-100 ease-in-out active:translate-y-0.5 active:border-red-700 active:shadow-none">
+            <span className="absolute h-0 w-0 rounded-full bg-white opacity-10 transition-all duration-300 ease-out group-hover:h-32 group-hover:w-32"></span>
+            <span className="relative font-medium">Syntax UI</span>
+        </button>
     );
 }

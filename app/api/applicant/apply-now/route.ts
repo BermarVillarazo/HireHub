@@ -54,7 +54,6 @@ export async function POST(request: NextRequest) {
         const validationResult = applicantSchema.safeParse(data);
         // Client validation
         if (!validationResult.success) {
-            console.log(validationResult.error.issues);
             return NextResponse.json(validationResult.error.issues, { status: 409 });
         }
         // Database email validation if there is existing email

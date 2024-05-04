@@ -12,12 +12,11 @@ export type DepartmentProps = {
 };
 
 export const HRHeadNavigation = [
-    { href: "/hr_head/dashboard", name: "Dashbord" },
+    { href: "/hr_head", name: "Dashbord" },
     { href: "/hr_head/requests", name: "Requests" },
     { href: "/hr_head/applicants", name: "Applicants" },
     { href: "/hr_head/records", name: "Records" },
 ];
-
 
 export const SHSNavigation = [
     { href: "/shs/requests", name: "Requests" },
@@ -58,13 +57,6 @@ export type FormProps = {
     children: ReactNode;
 };
 
-export type RadioButtonProps = {
-    id: string;
-    value: string;
-    name: string;
-    label: string;
-};
-
 export interface ApplicantFormProps {
     id: string | undefined;
     firstName: string | undefined;
@@ -79,3 +71,25 @@ export interface ApplicantFormProps {
 export type UrlProps = {
     url: string;
 };
+
+// APPLICANT FORM
+export const applicantInputs = [
+    { label: "First Name", type: "text", name: "first_name" },
+    { label: "Last Name", type: "text", name: "last_name" },
+    { label: "Email", type: "email", name: "email" },
+    { label: "Contact Number", type: "text", name: "contact_number"  },
+]
+
+export const nonTeachingStaff = [
+    { value: "EO", label: "Executive Office" },
+    { value: "CORE", label: "Center for Communications, Creatives, and Marketing" },
+    { value: "MIS", label: "Office of the Management Information System" },
+    { value: "CREATE", label: "Center for e-Learning, and Technology Education" },
+];
+
+export const teachingStaff = [
+    { value: "IT", label: "Department of Information Technology" },
+    { value: "IE", label: "Depeartment of Industrial Engineering" },
+    { value: "PE", label: "Department of Physical Education" },
+    { value: "PHARMA", label: "Department of Pharmacy" },
+];
