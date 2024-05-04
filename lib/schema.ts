@@ -5,14 +5,9 @@ import { PgColumn, PgTableWithColumns, bigint, integer, pgEnum, pgTable, serial,
 export const roleEnums = pgEnum("role", [
     "applicant",
     "user",
-    "super_admin",
-    "hr_head",
-    "vp_acad",
-    "vp_admin",
-    "recruiter",
-    "ccs",
-    "ce",
-    "shs",
+    "department_representave",
+    "office_representave",
+    "recruitment_staff",
 ]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
@@ -31,6 +26,9 @@ export const users = pgTable("users", {
     avatarUrl: text("avatar_url"),
     email: text("email").unique().notNull(),
     role: roleEnums("role").notNull().default("user"),
+    departmentId: integer("department_id"),
+    officeId : integer("office_id"),
+
 });
 
 export const applicant = pgTable("applicant", {
@@ -67,10 +65,12 @@ export const office = pgTable("office", {
 
 export const departmenttRelation = relations(department, ({ many }) => ({
   applicant: many(applicant),
+  user: many(users),
 }));
 
 export const officeRelation = relations(office, ({ many }) => ({
     applicant: many(applicant),
+    user: many(users),
 }));
 
 
@@ -85,6 +85,16 @@ export const applicantRelation = relations(applicant, ({ one }) => ({
   }),
 }));
 
+export const userRelation = relations(users, ({ one }) => ({
+  department: one(users, {
+    fields: [users.id],
+    references: [users.departmentId],
+  }),
+  office: one(users, {
+    fields: [users.id],
+    references: [users.officeId],
+  }),
+}));
 
 
 // export const Office = pgTable("Office", {

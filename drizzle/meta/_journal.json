@@ -169,6 +169,13 @@
       "when": 1714742203859,
       "tag": "0023_curious_ultron",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1714804660217,
+      "tag": "0024_good_colossus",
+      "breakpoints": true
     }
   ]
 }
