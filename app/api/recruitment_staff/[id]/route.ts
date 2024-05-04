@@ -35,7 +35,6 @@ export async function PUT(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id.toString();
         const { role } = await request.json();
-
         const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
         if (!user) {

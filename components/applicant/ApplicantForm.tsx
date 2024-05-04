@@ -29,14 +29,14 @@ export default function ApplicantForm() {
         });
 
         if (response.status === 409) {
-            const data = await response.json();
-            if (Array.isArray(data)) {
-                const errorMessages = data.map(({ message }) => message);
+            const error = await response.json();
+            if (Array.isArray(error)) {
+                const errorMessages = error.map(({ message }) => message);
                 errorMessages.forEach((errorMessages) => {
                     return toast.error(errorMessages);
                 });
             } else {
-                return toast.error(data.message);
+                return toast.error(error.message);
             }
         } else {
             return toast.success("Application submitted successfully!");

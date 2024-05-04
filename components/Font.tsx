@@ -1,4 +1,8 @@
-import { ChildrenProps, TextColorWhiteProps } from "@/app/types/type";
+import { ChildrenProps } from "@/app/types/type";
+
+type TextColorWhiteProps = {
+    textColorWhite: boolean;
+};
 
 export default function Font({ children, textColorWhite }: ChildrenProps & TextColorWhiteProps) {
     return (
