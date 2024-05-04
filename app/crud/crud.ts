@@ -7,7 +7,7 @@ export async function getAllUsers() {
 }
 
 export async function getAllRecruiter() {
-    const reponse = await fetch("http://localhost:3000/api/hr_head", {
+    const reponse = await fetch("http://localhost:3000/api/recruitment_staff", {
         cache: "no-cache",
     });
     const data = await reponse.json();

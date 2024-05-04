@@ -39,7 +39,7 @@ export default function AdminForm({ users }: { users: User }) {
                 return toast.error("Please update the role");
             }
 
-            await fetch(`http://localhost:3000/api/superadmin/${userId}`, {
+            await fetch(`http://localhost:3000/api/recruitment_staff/${userId}`, {
                 method: "PUT",
                 cache: "no-cache",
                 body: JSON.stringify({ role }),

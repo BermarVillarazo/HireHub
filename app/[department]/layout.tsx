@@ -13,13 +13,9 @@ export default async function layout({
     const { user } = await validateRequest();
 
     if (!user) return redirect("/login");
-    else if (
-        (user && user?.role === "user") ||
-        user?.role === "hr_head" ||
-        user?.role === "super_admin"
-    ) {
-        return redirect(`/${user?.role}`);
-    } else if (user && params.department !== user?.role) return redirect(`/${user?.role}/requests`);
+    // else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
+    //     return redirect(`/${user?.role}`);
+    // } else if (user && params.department !== user?.role) return redirect(`/${user?.role}/requests`);
 
     return (
         <div className="flex min-h-screen flex-col items-center ">

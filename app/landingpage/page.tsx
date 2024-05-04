@@ -6,13 +6,11 @@ import { redirect } from "next/navigation";
 export default async function LandingPage() {
     const { user } = await validateRequest();
 
-    if (
-        (user && user?.role === "user") ||
-        user?.role === "hr_head" ||
-        user?.role === "super_admin"
-    ) {
+    if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
-    } else if (user && user?.role) return redirect(`/${user?.role}/requests`);
+    }
+    // TODO: ADD DEPARTMENT/OFFICE REDIRECT
+    // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
 
     return (
         <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">

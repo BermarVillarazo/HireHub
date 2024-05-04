@@ -8,11 +8,7 @@ import { redirect } from "next/navigation";
 export default async function Login() {
     const { user } = await validateRequest();
 
-    if (
-        (user && user?.role === "user") ||
-        user?.role === "hr_head" ||
-        user?.role === "super_admin"
-    ) {
+    if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
     } else if (user && user?.role) return redirect(`/${user?.role}/requests`);
 

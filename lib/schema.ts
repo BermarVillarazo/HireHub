@@ -11,9 +11,7 @@ export const roleEnums = pgEnum("role", [
 ]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
-
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
-
 export const departmentEnums = pgEnum("departmentEnums", ["CCS", "CE", "SHS"]);
 export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"])
 

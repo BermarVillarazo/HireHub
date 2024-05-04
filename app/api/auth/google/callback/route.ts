@@ -77,16 +77,7 @@ export async function GET(request: Request): Promise<Response> {
                 firstName: googleUser.given_name,
                 lastName: googleUser.family_name,
                 avatarUrl: googleUser.picture,
-                role:
-                    googleUser.role === "super_admin"
-                        ? "super_admin"
-                        : googleUser.role === "hr_head"
-                        ? "hr_head"
-                        : googleUser.role === "vp_acad"
-                        ? "vp_acad"
-                        : googleUser.role === "vp_admin"
-                        ? "vp_admin"
-                        : "user",
+                role: googleUser.role === "recruitment_staff" ? "recruitment_staff" : "user",
             });
             await tx
                 .insert(oauthAccounts)

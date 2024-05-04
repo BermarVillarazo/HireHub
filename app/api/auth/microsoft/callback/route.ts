@@ -77,16 +77,7 @@ export async function GET(request: Request): Promise<Response> {
                 firstName: microsoftUser.given_name,
                 lastName: microsoftUser.family_name,
                 avatarUrl: microsoftUser.picture,
-                role:
-                    microsoftUser.role === "super_admin"
-                        ? "super_admin"
-                        : microsoftUser.role === "hr_head"
-                        ? "hr_head"
-                        : microsoftUser.role === "ccs"
-                        ? "ccs"
-                        // : microsoftUser.role === "vp_admin"
-                        // ? "vp_admin"
-                        : "user",
+                role: microsoftUser.role === "recruitment_staff" ? "recruitment_staff" : "user",
             });
             await tx
                 .insert(oauthAccounts)

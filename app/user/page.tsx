@@ -6,11 +6,11 @@ export default async function User() {
     const { user } = await validateRequest();
 
     if (!user) return redirect("/login");
-    else if ((user && user?.role === "hr_head") || user?.role === "super_admin") {
+    else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
-    }  else if (user && !["user", "super_admin", "hr_head"].includes(user?.role)) {
-        return redirect(`/${user?.role}/requests`);
     }
+    // TODO: ADD DEPARTMENT/OFFICE REDIRECT
+    // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
 
     return (
         <div className="relative flex items-center justify-center">
