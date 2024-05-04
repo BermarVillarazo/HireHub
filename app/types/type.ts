@@ -17,23 +17,11 @@ export const RecruitmentStaffNavigationLinks = [
     { href: "/recruitment_staff/office", name: "Office" },
 ];
 
-export const SHSNavigation = [
-    { href: "/shs/requests", name: "Requests" },
-    { href: "/shs/applicants", name: "Applicants" },
-    { href: "/shs/records", name: "Records" },
-];
-
 export const CCSNavigation = [
     { href: "/ccs/requests", name: "Requests" },
     { href: "/ccs/applicants", name: "Applicants" },
     { href: "/ccs/records", name: "Records" },
 ];
-
-// export const CENavigation = [
-//     { href: "/ce/requests", name: "Requests" },
-//     { href: "/ce/applicants", name: "Applicants" },
-//     { href: "/ce/records", name: "Records" },
-// ];
 
 export type UserProps = {
     user: User;
@@ -45,10 +33,6 @@ export type ChildrenProps = {
 
 export type BackGroundColorMaroon = {
     backgroundColorMaroon: boolean;
-};
-
-export type TextColorWhiteProps = {
-    textColorWhite: boolean;
 };
 
 export type FormProps = {
@@ -76,8 +60,8 @@ export const applicantInputs = [
     { label: "First Name", type: "text", name: "first_name" },
     { label: "Last Name", type: "text", name: "last_name" },
     { label: "Email", type: "email", name: "email" },
-    { label: "Contact Number", type: "text", name: "contact_number"  },
-]
+    { label: "Contact Number", type: "text", name: "contact_number" },
+];
 
 export const nonTeachingStaff = [
     { value: "EO", label: "Executive Office" },
@@ -92,3 +76,13 @@ export const teachingStaff = [
     { value: "PE", label: "Department of Physical Education" },
     { value: "PHARMA", label: "Department of Pharmacy" },
 ];
+
+// RECRUITMENT STAFF
+export type InputProps = {
+    name: string;
+    placeholder: string;
+};
+
+export type TitleProps = {
+    title: string;
+};

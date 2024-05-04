@@ -49,7 +49,7 @@ export const applicant = pgTable("applicant", {
 export const department = pgTable("department", {
     department_id: serial("department_id").primaryKey(),
     department_name: text("department_name").unique().notNull(),
-    department_type: text("department_type").unique().notNull(),
+   
     department_code: text("department_code").unique().notNull(),
     
 });
@@ -57,7 +57,7 @@ export const department = pgTable("department", {
 export const office = pgTable("office", {
     office_id: serial("office_id").primaryKey(),
     office_name: text("office_name").unique().notNull(),
-    office_type: text("office_type").unique().notNull(),
+   
     office_code: text("office_code").unique().notNull(),
 });
 
