@@ -41,7 +41,7 @@ export default async function DepartmentNavigation() {
                                     </Link>
                                 </li>
                             ))} */}
-                        {user?.role === "ccs" &&
+                        {/* {user?.role === "ccs" &&
                             CCSNavigation.map(({ href, name }) => (
                                 <li key={href}>
                                     <Link
@@ -55,7 +55,7 @@ export default async function DepartmentNavigation() {
                                         {name}
                                     </Link>
                                 </li>
-                            ))}
+                            ))} */}
                     </ul>
                 </div>
                 <Logout />

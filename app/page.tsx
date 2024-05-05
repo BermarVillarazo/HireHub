@@ -7,7 +7,7 @@ export default async function Home() {
 
     if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
-    } else if (user && !["recruitment_staff"].includes(user?.role)) {
+    } else if (user && !["user", "recruitment_staff"].includes(user?.role)) {
         return redirect(`/${user?.role}/requests`);
     } else if (user && user?.role === "user") {
         return redirect("/user");

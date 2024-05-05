@@ -1,13 +1,19 @@
 "use client";
 
-import { applicantInputs, nonTeachingStaff, teachingStaff } from "@/app/types/type";
+import { DepartmentListsProps, OfficeListsProps, applicantInputs } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
 import * as schema from "@/lib/schema";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
-export default function ApplicantForm() {
+export default function ApplicantForm({
+    departments,
+    offices,
+}: {
+    departments: DepartmentListsProps;
+    offices: OfficeListsProps;
+}) {
     const [selectedPosition, setSelectedPosition] = useState<
         "teachingStaff" | "non-teachingStaff"
     >();
@@ -21,6 +27,8 @@ export default function ApplicantForm() {
             resume: formData.get("resume_url") as string,
             communication: formData.get("communicationOption") as "Email" | "PhoneNumber",
             position: formData.get("applyingType") as "teachingStaff" | "non-teachingStaff",
+            departmentName: formData.get("teachingStaff") as string,
+            officeName: formData.get("non-teachingStaff") as string,
         };
 
         const response = await fetch("/api/applicant/apply-now", {
@@ -33,14 +41,17 @@ export default function ApplicantForm() {
             if (Array.isArray(error)) {
                 const errorMessages = error.map(({ message }) => message);
                 errorMessages.forEach((errorMessages) => {
+                    console.log(error);
                     return toast.error(errorMessages);
                 });
             } else {
+                console.log(error);
                 return toast.error(error.message);
             }
         } else {
             return toast.success("Application submitted successfully!");
         }
+        console.log(applicantData);
     }
 
     const [fileStates, setFileStates] = useState<FileState[]>([]);
@@ -96,32 +107,35 @@ export default function ApplicantForm() {
                         }
                     />
 
-                    <label className="text-lg font-semibold">Position</label>
-                    {selectedPosition === "teachingStaff" && (
+                    {selectedPosition === "teachingStaff" ? (
                         <div className="flex flex-col text-white">
+                            <label className="text-lg font-semibold">Department</label>
                             <select name="teachingStaff" className="text-black rounded-md p-1.5">
-                                {teachingStaff.map(({ value, label }) => (
-                                    <option key={value} value={value}>
-                                        {label}
-                                    </option>
-                                ))}
+                                {Array.isArray(departments) &&
+                                    departments.map(({ department_id, department_name }) => (
+                                        <option key={department_id} value={department_name}>
+                                            {department_name}
+                                        </option>
+                                    ))}
                             </select>
                         </div>
-                    )}
-
-                    {selectedPosition === "non-teachingStaff" && (
-                        <div className="flex flex-col text-white">
-                            <select
-                                name="non-teachingStaff"
-                                className="text-black rounded-md p-1.5"
-                            >
-                                {nonTeachingStaff.map(({ value, label }) => (
-                                    <option key={value} value={value}>
-                                        {label}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                    ) : (
+                        selectedPosition === "non-teachingStaff" && (
+                            <div className="flex flex-col text-white">
+                                <label className="text-lg font-semibold">Office</label>
+                                <select
+                                    name="non-teachingStaff"
+                                    className="text-black rounded-md p-1.5"
+                                >
+                                    {Array.isArray(offices) &&
+                                        offices.map(({ office_id, office_name }) => (
+                                            <option key={office_id} value={office_name}>
+                                                {office_name}
+                                            </option>
+                                        ))}
+                                </select>
+                            </div>
+                        )
                     )}
                 </div>
 

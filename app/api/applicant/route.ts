@@ -1,9 +1,9 @@
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         const users = await db.select().from(schema.users).where(eq(schema.users.role, "user"));
 

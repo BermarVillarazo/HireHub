@@ -1,9 +1,9 @@
+import { officeSchema, officeSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { officeSchema, officeSchemaProps } from "../route";
 
 type ParamsProps = {
     params: {

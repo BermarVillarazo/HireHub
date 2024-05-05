@@ -1,10 +1,10 @@
+import { departmentSchema, departmentSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(response: NextResponse) {
+export async function GET(request: NextRequest, response: NextResponse) {
     try {
         const departments = await db.select().from(schema.department);
 
@@ -13,19 +13,6 @@ export async function GET(response: NextResponse) {
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
-
-export const departmentSchema = z.object({
-    department_name: z
-        .string()
-        .min(1, { message: "Department Name must have 2 or more characters" })
-        .max(256, { message: "Department Name must have 256 or less characters" }),
-    department_code: z
-        .string()
-        .min(1, { message: "Department Code must have 2 or more characters" })
-        .max(256, { message: "Department Code must have 256 or less characters" }),
-});
-
-export type departmentSchemaProps = z.infer<typeof departmentSchema>;
 
 export async function POST(request: Request) {
     try {

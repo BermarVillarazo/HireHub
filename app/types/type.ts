@@ -1,5 +1,6 @@
 import { User } from "@/lib/schema";
 import { ReactNode } from "react";
+import { z } from "zod";
 
 export interface ActionResult {
     error: string | null;
@@ -90,17 +91,71 @@ export type TitleProps = {
 // DEPARTMENT TYPE
 export type DepartmentListsProps = {
     departments: {
-        department_id: number;
-        department_name: string;
-        department_code: string;
+        department_id?: number;
+        department_name?: string;
+        department_code?: string;
     };
 };
 
 // OFFICE TYPE
 export type OfficeListsProps = {
     offices: {
-        office_id: number;
-        office_name: string;
-        office_code: string;
+        office_id?: number;
+        office_name?: string;
+        office_code?: string;
     };
 }
+
+// API ZOD VALIDATION
+export const requirementStaffDepartmentSchema = z.object({
+    department_name: z
+        .string()
+        .min(1, { message: "Department Name must have 2 or more characters" })
+        .max(256, { message: "Department Name must have 256 or less characters" }),
+    department_code: z
+        .string()
+        .min(1, { message: "Department Code must have 2 or more characters" })
+        .max(256, { message: "Department Code must have 256 or less characters" }),
+});
+
+export type requirementStaffDepartmentSchemaProps = z.infer<typeof requirementStaffDepartmentSchema>;
+
+// USAGE: app/api/recruitment_staff/staff/department/[id]
+export type ParamsProps = {
+    params: {
+        id: string;
+    };
+};
+
+export const departmentSchema = z.object({
+    department_name: z
+        .string()
+        .min(1, { message: "Department Name must have 2 or more characters" })
+        .max(256, { message: "Department Name must have 256 or less characters" }),
+    department_code: z
+        .string()
+        .min(1, { message: "Department Code must have 2 or more characters" })
+        .max(256, { message: "Department Code must have 256 or less characters" }),
+});
+
+export type departmentSchemaProps = z.infer<typeof departmentSchema>;
+
+export const staffDepartmentSchema = z.object({
+    departmentName: z.string(),
+});
+
+export type staffDepartmentSchemaProps = z.infer<typeof staffDepartmentSchema>;
+
+// API ZOD VALIDATION | OFFICE SCHEMA
+export const officeSchema = z.object({
+    office_name: z
+        .string()
+        .min(1, { message: "office Name must have 2 or more characters" })
+        .max(256, { message: "office Name must have 256 or less characters" }),
+    office_code: z
+        .string()
+        .min(1, { message: "office Code must have 2 or more characters" })
+        .max(256, { message: "office Code must have 256 or less characters" }),
+});
+
+export type officeSchemaProps = z.infer<typeof officeSchema>;

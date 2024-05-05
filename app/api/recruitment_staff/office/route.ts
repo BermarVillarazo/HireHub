@@ -1,10 +1,10 @@
+import { officeSchema, officeSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(response: NextResponse) {
+export async function GET(request: NextRequest, response: NextResponse) {
     try {
         const offices = await db.select().from(schema.office);
 
@@ -13,19 +13,6 @@ export async function GET(response: NextResponse) {
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
-
-export const officeSchema = z.object({
-    office_name: z
-        .string()
-        .min(1, { message: "office Name must have 2 or more characters" })
-        .max(256, { message: "office Name must have 256 or less characters" }),
-    office_code: z
-        .string()
-        .min(1, { message: "office Code must have 2 or more characters" })
-        .max(256, { message: "office Code must have 256 or less characters" }),
-});
-
-export type officeSchemaProps = z.infer<typeof officeSchema>;
 
 export async function POST(request: Request) {
     try {

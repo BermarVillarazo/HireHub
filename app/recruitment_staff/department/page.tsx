@@ -1,4 +1,4 @@
-import { getAllDepartments } from "@/app/GET/GET";
+import { getAllDepartments, getAllUsers } from "@/app/GET/GET";
 import { InputProps, TitleProps } from "@/app/types/type";
 import DepartmentForm from "@/components/recruitment_staff/Department";
 import DepartmentLists from "@/components/recruitment_staff/DepartmentLists";

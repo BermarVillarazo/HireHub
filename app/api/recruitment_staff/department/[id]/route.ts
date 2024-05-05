@@ -1,8 +1,8 @@
+import { requirementStaffDepartmentSchema, requirementStaffDepartmentSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { departmentSchema, departmentSchemaProps } from "../route";
 
 type ParamsProps = {
     params: {
@@ -39,8 +39,8 @@ export async function GET(request: Request, { params }: ParamsProps) {
 export async function PUT(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id;
-        const body: departmentSchemaProps = await request.json();
-        const validationResult = departmentSchema.safeParse(body);
+        const body: requirementStaffDepartmentSchemaProps = await request.json();
+        const validationResult = requirementStaffDepartmentSchema.safeParse(body);
 
         if (!validationResult.success) {
             return NextResponse.json(validationResult.error.issues, { status: 409 });
