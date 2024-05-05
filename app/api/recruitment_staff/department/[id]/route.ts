@@ -35,6 +35,7 @@ export async function GET(request: Request, { params }: ParamsProps) {
     }
 }
 
+// Update Deparment Code and name
 export async function PUT(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id;

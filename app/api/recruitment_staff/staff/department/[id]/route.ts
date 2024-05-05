@@ -3,15 +3,25 @@ import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ParamsProps } from "../../[id]/route";
+import { z } from "zod";
 
-// Note: set Office
+// Note: set Department
 // uses: To set/ update Deparment ID
+
+const departmentSchema = z.object({
+    departmentName: z.string(),
+})
+
+type departmentSchemaProps= z.infer<typeof departmentSchema>;
+
+
 export async function PUT(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id.toString();
-        const department_id = await request.json();
+        const data: departmentSchemaProps = await request.json();
+        let deptId
 
-        console.log();
+        
         const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
         if (!user) {
@@ -20,11 +30,19 @@ export async function PUT(request: Request, { params }: ParamsProps) {
                 { status: 404 }
             );
         }
-
+        const departmentName = data.departmentName
+        const departmentId = await db.select().from(schema.department).where(eq(schema.department.department_name, departmentName))
+        departmentId.forEach(({ department_id }) => {
+            
+            deptId = department_id
+            
+        })
+      
         const reponse = await db
             .update(schema.users)
             .set({
-                ...department_id,
+                departmentName: departmentName,
+                departmentId: deptId,
                 role: "representave",
             })
             .where(eq(schema.users.id, id));

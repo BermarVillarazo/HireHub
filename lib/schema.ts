@@ -24,7 +24,9 @@ export const users = pgTable("users", {
     email: text("email").unique().notNull(),
     role: roleEnums("role").notNull().default("user"),
     departmentId: integer("department_id").references(() => department.department_id),
-    officeId : integer("office_id"),
+    departmentName: text("department_name"),
+    officeId: integer("office_id").references(() => office.office_id),
+    officeName: text("office_name"),
 
 });
 

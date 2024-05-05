@@ -1,9 +1,9 @@
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(response: NextResponse) {
     try {
         const users = await db.select().from(schema.users).where(eq(schema.users.role, "user"));
 
@@ -17,7 +17,7 @@ export async function GET() {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
         return NextResponse.json({ body }, { status: 200 });
