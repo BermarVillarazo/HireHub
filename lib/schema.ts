@@ -41,7 +41,8 @@ export const applicant = pgTable("applicant", {
     role: roleEnums("role").notNull().default("applicant"),
     departmentId: integer("department_id").references(() => department.department_id),
     officeId: integer("office_id").references(() => office.office_id),
-    applicationName: text("application_name"),
+    departmentName: text("department_name"),
+    officeName: text("office_name"),
     status: statusEnums("status").notNull().default("pending")
     
 });

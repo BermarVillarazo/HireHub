@@ -41,7 +41,8 @@ const applicantSchema = z.object({
     }),
     communication: z.enum(["Email", "PhoneNumber"]),
     position: z.enum(["teachingStaff", "non-teachingStaff"]),
-    applicationName: z.string(),
+    departmentName: z.string(),
+    officeName: z.string(),
     resume: z.string(),
 
 });
@@ -72,8 +73,9 @@ export async function POST(request: NextRequest) {
             );
         }
        
-        const applicationName = data.applicationName;
-        const existDepartment = await db.select().from(schema.department).where(eq(schema.department.department_name, applicationName))
+        const officeName = data.officeName;
+        const departmentName = data.departmentName
+        const existDepartment = await db.select().from(schema.department).where(eq(schema.department.department_name, departmentName))
         let officeId 
         let departmentId
 
@@ -88,7 +90,7 @@ export async function POST(request: NextRequest) {
            
         } else {
          
-            const existOffice = await db.select().from(schema.office).where(eq(schema.office.office_name, applicationName))
+            const existOffice = await db.select().from(schema.office).where(eq(schema.office.office_name, officeName))
             console.log(existOffice)
             existOffice.forEach(({ office_id }) => {
                 console.log(office_id);   // Example: accessing 'id' property
