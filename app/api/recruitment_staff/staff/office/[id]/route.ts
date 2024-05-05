@@ -2,40 +2,16 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { ParamsProps } from "../../[id]/route";
 
-type ParamsProps = {
-    params: {
-        id: string;
-    };
-};
-
-export async function GET(request: Request, { params }: ParamsProps) {
-    try {
-        const id = params.id.toString();
-        const userId = await db.select().from(schema.users).where(eq(schema.users.id, id));
-
-        if (!userId) {
-            return NextResponse.json(
-                { message: "User ID not found", status: 404 },
-                { status: 404 }
-            );
-        }
-
-        return NextResponse.json({ userId, status: 200 }, { status: 200 });
-    } catch (error) {
-        console.log(error);
-        return NextResponse.json(
-            { message: "Internal Server Error", status: 500 },
-            { status: 500 }
-        );
-    }
-}
-
+//Note: update Office
+// Uses : To set/Update the User's OfficeId
 export async function PUT(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id.toString();
-        const { role } = await request.json();
+        const officeId = await request.json();
 
+        console.log();
         const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
 
         if (!user) {
@@ -47,7 +23,10 @@ export async function PUT(request: Request, { params }: ParamsProps) {
 
         const reponse = await db
             .update(schema.users)
-            .set({ role: role })
+            .set({
+                ...officeId,
+                role: "representave",
+            })
             .where(eq(schema.users.id, id));
 
         const { command } = reponse;
@@ -55,13 +34,13 @@ export async function PUT(request: Request, { params }: ParamsProps) {
         return NextResponse.json(
             {
                 command,
-                message: "User role updated",
+                message: "Office has been set",
                 status: 200,
-                rows: user,
             },
             { status: 200 }
         );
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }

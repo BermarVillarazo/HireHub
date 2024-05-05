@@ -190,6 +190,62 @@
       "when": 1714818607476,
       "tag": "0026_omniscient_hemingway",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1714881312807,
+      "tag": "0027_harsh_gwen_stacy",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "5",
+      "when": 1714882250242,
+      "tag": "0028_stale_grim_reaper",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "5",
+      "when": 1714882299736,
+      "tag": "0029_hard_katie_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "5",
+      "when": 1714883455766,
+      "tag": "0030_simple_vertigo",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "5",
+      "when": 1714883669124,
+      "tag": "0031_furry_tinkerer",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1714889371067,
+      "tag": "0032_open_warpath",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "5",
+      "when": 1714889514012,
+      "tag": "0033_special_husk",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "5",
+      "when": 1714892063228,
+      "tag": "0034_concerned_exodus",
+      "breakpoints": true
     }
   ]
 }

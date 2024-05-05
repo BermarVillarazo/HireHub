@@ -41,7 +41,9 @@ const applicantSchema = z.object({
     }),
     communication: z.enum(["Email", "PhoneNumber"]),
     position: z.enum(["teachingStaff", "non-teachingStaff"]),
+    applicationName: z.string(),
     resume: z.string(),
+
 });
 
 // Infer the type of the applicantSchema
@@ -50,18 +52,16 @@ type applicantSchemaProps = z.infer<typeof applicantSchema>;
 export async function POST(request: NextRequest) {
     try {
         const data: applicantSchemaProps = await request.json();
-        // Client validation
         const validationResult = applicantSchema.safeParse(data);
-        // Client validation
+        
         if (!validationResult.success) {
             return NextResponse.json(validationResult.error.issues, { status: 409 });
         }
-        // Database email validation if there is existing email
         const existingApplicant = await db
             .select()
             .from(schema.applicant)
             .where(eq(schema.applicant.email, data.email));
-        // Database email validation if there is existing email
+       
         if (existingApplicant.length > 0) {
             return NextResponse.json(
                 {
@@ -71,14 +71,48 @@ export async function POST(request: NextRequest) {
                 { status: 409 }
             );
         }
-        // Applicant data insertion if no existing email, and client validation is successful
+       
+        const applicationName = data.applicationName;
+        const existDepartment = await db.select().from(schema.department).where(eq(schema.department.department_name, applicationName))
+        let officeId 
+        let departmentId
+
+        if (existDepartment.length > 0) {
+            existDepartment.forEach(({ department_id }) => {
+                console.log(department_id);   // Example: accessing 'id' property
+                departmentId = department_id
+                
+            })
+            
+            
+           
+        } else {
+         
+            const existOffice = await db.select().from(schema.office).where(eq(schema.office.office_name, applicationName))
+            console.log(existOffice)
+            existOffice.forEach(({ office_id }) => {
+                console.log(office_id);   // Example: accessing 'id' property
+                officeId = office_id
+                
+            });
+
+
+            
+        }
+        
+
         await db.insert(schema.applicant).values({
             ...data,
             contactNumber: parseInt(data.contactNumber),
+            officeId: officeId,
+            departmentId: departmentId
+
+         
         });
 
         return NextResponse.json({ data, status: 200 }, { status: 200 });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }

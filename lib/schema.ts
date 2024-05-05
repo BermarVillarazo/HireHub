@@ -5,8 +5,7 @@ import { PgColumn, PgTableWithColumns, bigint, integer, pgEnum, pgTable, serial,
 export const roleEnums = pgEnum("role", [
     "applicant",
     "user",
-    "department_representave",
-    "office_representave",
+    "representave",
     "recruitment_staff",
 ]);
 
@@ -24,7 +23,7 @@ export const users = pgTable("users", {
     avatarUrl: text("avatar_url"),
     email: text("email").unique().notNull(),
     role: roleEnums("role").notNull().default("user"),
-    departmentId: integer("department_id"),
+    departmentId: integer("department_id").references(() => department.department_id),
     officeId : integer("office_id"),
 
 });
@@ -40,8 +39,9 @@ export const applicant = pgTable("applicant", {
     communication: communicationEnums("communicationType").notNull(),
     position: positionEnums("positionType").notNull(),
     role: roleEnums("role").notNull().default("applicant"),
-    departmentId: integer("department_id"),
-    officeId : integer("office_id"),
+    departmentId: integer("department_id").references(() => department.department_id),
+    officeId: integer("office_id").references(() => office.office_id),
+    applicationName: text("application_name"),
     status: statusEnums("status").notNull().default("pending")
     
 });
@@ -49,15 +49,12 @@ export const applicant = pgTable("applicant", {
 export const department = pgTable("department", {
     department_id: serial("department_id").primaryKey(),
     department_name: text("department_name").unique().notNull(),
-   
     department_code: text("department_code").unique().notNull(),
-    
 });
 
 export const office = pgTable("office", {
     office_id: serial("office_id").primaryKey(),
     office_name: text("office_name").unique().notNull(),
-   
     office_code: text("office_code").unique().notNull(),
 });
 
@@ -74,27 +71,33 @@ export const officeRelation = relations(office, ({ many }) => ({
 
 
 export const applicantRelation = relations(applicant, ({ one }) => ({
-  department: one(applicant, {
-    fields: [applicant.id],
-    references: [applicant.departmentId],
+  department: one(department, {
+    fields: [applicant.departmentId],
+    references: [department.department_id],
   }),
-  office: one(applicant, {
-    fields: [applicant.id],
-    references: [applicant.officeId],
+  office: one(office, {
+    fields: [applicant.officeId],
+    references: [office.office_id],
   }),
 }));
 
 export const userRelation = relations(users, ({ one }) => ({
-  department: one(users, {
-    fields: [users.id],
-    references: [users.departmentId],
+  department: one(department, {
+    fields: [users.departmentId],
+    references: [department.department_id],
   }),
-  office: one(users, {
-    fields: [users.id],
-    references: [users.officeId],
+  office: one(office, {
+    fields: [users.officeId],
+    references: [office.office_id],
   }),
 }));
 
+
+
+
+// export const departmentRelation = relations(department, ({ }) => ({
+//   user: 
+// }))
 
 // export const Office = pgTable("Office", {
 //     office_id: serial("OfficeID").primaryKey(),
