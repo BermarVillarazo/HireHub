@@ -7,8 +7,8 @@ export default async function Department() {
     const { departments } = await getAllDepartments();
 
     return (
-        <section>
-            <section className="w-10/12 mx-auto mt-10 rounded-lg bg-amber-500">
+        <section className="py-10">
+            <section className="w-10/12 mx-auto rounded-lg bg-amber-500">
                 <div className="p-10">
                     <Title title="Department" />
                     <DepartmentForm />

@@ -157,7 +157,6 @@ export default function ApplicantForm() {
                                         setUrls({
                                             url: res.url,
                                         });
-                                        console.log(res);
                                     } catch (err) {
                                         updateFileProgress(addedFileState.key, "ERROR");
                                     }

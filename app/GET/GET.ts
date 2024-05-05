@@ -29,3 +29,11 @@ export async function getAllDepartments() {
     const data = await response.json();
     return data;
 }
+
+export async function getAllOffices() {
+    const response = await fetch("http://localhost:3000/api/recruitment_staff/office", {
+        cache: "no-cache",
+    });
+    const data = await response.json();
+    return data;
+}

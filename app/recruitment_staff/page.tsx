@@ -1,14 +1,10 @@
-import Logout from "@/components/Logout";
-import AdminForm from "@/components/dashboard/SuperAdminDashoard";
-import { getAllUsers } from "../GET/GET";
+import RecruitmentStaffDashboard from "@/components/dashboard/RecruitmentStaffDashboard";
+import { getAllDepartments, getAllOffices, getAllUsers } from "../GET/GET";
 
-export default async function SuperAdmin() {
+export default async function RecruitmentStaff() {
     const { users } = await getAllUsers();
+    const { departments } = await getAllDepartments();
+    const { offices } = await getAllOffices();
 
-    return (
-        <>
-            <AdminForm users={users} />
-            <Logout />
-        </>
-    );
+    return <RecruitmentStaffDashboard users={users} departments={departments} offices={offices} />;
 }

@@ -21,8 +21,8 @@ export const departmentSchema = z.object({
         .max(256, { message: "Department Name must have 256 or less characters" }),
     department_code: z
         .string()
-        .min(1, { message: "Department Type must have 2 or more characters" })
-        .max(256, { message: "Department Type must have 256 or less characters" }),
+        .min(1, { message: "Department Code must have 2 or more characters" })
+        .max(256, { message: "Department Code must have 256 or less characters" }),
 });
 
 export type departmentSchemaProps = z.infer<typeof departmentSchema>;

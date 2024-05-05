@@ -1,6 +1,5 @@
 import { relations } from "drizzle-orm";
-import { PgColumn, PgTableWithColumns, bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
-
+import { bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const roleEnums = pgEnum("role", [
     "applicant",
@@ -13,7 +12,7 @@ export const roleEnums = pgEnum("role", [
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
 export const departmentEnums = pgEnum("departmentEnums", ["CCS", "CE", "SHS"]);
-export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"])
+export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"]);
 
 // Todo: Generate migration, update Application table
 export const users = pgTable("users", {
@@ -25,8 +24,7 @@ export const users = pgTable("users", {
     email: text("email").unique().notNull(),
     role: roleEnums("role").notNull().default("user"),
     departmentId: integer("department_id"),
-    officeId : integer("office_id"),
-
+    officeId: integer("office_id"),
 });
 
 export const applicant = pgTable("applicant", {
@@ -41,30 +39,25 @@ export const applicant = pgTable("applicant", {
     position: positionEnums("positionType").notNull(),
     role: roleEnums("role").notNull().default("applicant"),
     departmentId: integer("department_id"),
-    officeId : integer("office_id"),
-    status: statusEnums("status").notNull().default("pending")
-    
+    officeId: integer("office_id"),
+    status: statusEnums("status").notNull().default("pending"),
 });
 
 export const department = pgTable("department", {
     department_id: serial("department_id").primaryKey(),
     department_name: text("department_name").unique().notNull(),
-   
     department_code: text("department_code").unique().notNull(),
-    
 });
 
 export const office = pgTable("office", {
     office_id: serial("office_id").primaryKey(),
     office_name: text("office_name").unique().notNull(),
-   
     office_code: text("office_code").unique().notNull(),
 });
 
-
 export const departmenttRelation = relations(department, ({ many }) => ({
-  applicant: many(applicant),
-  user: many(users),
+    applicant: many(applicant),
+    user: many(users),
 }));
 
 export const officeRelation = relations(office, ({ many }) => ({
@@ -72,29 +65,27 @@ export const officeRelation = relations(office, ({ many }) => ({
     user: many(users),
 }));
 
-
 export const applicantRelation = relations(applicant, ({ one }) => ({
-  department: one(applicant, {
-    fields: [applicant.id],
-    references: [applicant.departmentId],
-  }),
-  office: one(applicant, {
-    fields: [applicant.id],
-    references: [applicant.officeId],
-  }),
+    department: one(applicant, {
+        fields: [applicant.id],
+        references: [applicant.departmentId],
+    }),
+    office: one(applicant, {
+        fields: [applicant.id],
+        references: [applicant.officeId],
+    }),
 }));
 
 export const userRelation = relations(users, ({ one }) => ({
-  department: one(users, {
-    fields: [users.id],
-    references: [users.departmentId],
-  }),
-  office: one(users, {
-    fields: [users.id],
-    references: [users.officeId],
-  }),
+    department: one(users, {
+        fields: [users.id],
+        references: [users.departmentId],
+    }),
+    office: one(users, {
+        fields: [users.id],
+        references: [users.officeId],
+    }),
 }));
-
 
 // export const Office = pgTable("Office", {
 //     office_id: serial("OfficeID").primaryKey(),
@@ -133,5 +124,3 @@ export type User = typeof users.$inferSelect;
 export type applicants = typeof applicant.$inferInsert;
 export type UserRole = typeof roleEnums.enumValues;
 export type communicationEnums = typeof communicationEnums.enumValues;
-
-

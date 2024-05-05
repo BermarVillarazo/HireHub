@@ -23,7 +23,6 @@ export async function GET(request: Request, { params }: ParamsProps) {
 
         return NextResponse.json({ userId, status: 200 }, { status: 200 });
     } catch (error) {
-        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }
@@ -61,6 +60,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             { status: 200 }
         );
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }

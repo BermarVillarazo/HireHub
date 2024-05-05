@@ -17,7 +17,6 @@ const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
 let connectionString;
-console.log("Drizzle Config: ", process.env.POSTGRES_URL);
 
 if (process.env.VERCEL_ENV === "production") {
     connectionString = process.env.POSTGRES_URL;
