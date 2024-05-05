@@ -1,28 +1,23 @@
+import { getAllDepartments } from "@/app/GET/GET";
 import { InputProps, TitleProps } from "@/app/types/type";
+import DepartmentForm from "@/components/recruitment_staff/Department";
+import DepartmentLists from "@/components/recruitment_staff/DepartmentLists";
 
-export default function Department() {
+export default async function Department() {
+    const { departments } = await getAllDepartments();
+
     return (
-        <section>
-            <section className="w-10/12 mx-auto mt-10 rounded-lg bg-amber-500">
+        <section className="py-10">
+            <section className="w-10/12 mx-auto rounded-lg bg-amber-500">
                 <div className="p-10">
                     <Title title="Department" />
-                    <form className="flex gap-8 mt-5">
-                        <div className="flex flex-1 gap-8">
-                            <div className="">
-                                <Input name="department_code" placeholder="Department Code" />
-                            </div>
-                            <div className="w-10/12">
-                                <Input name="department_name" placeholder="Department Name" />
-                            </div>
-                        </div>
-
-                        <Button title="Add Department" />
-                    </form>
+                    <DepartmentForm />
                 </div>
             </section>
             <section className="w-10/12 mx-auto mt-10 rounded-lg bg-amber-500">
                 <div className="p-10">
                     <Title title="Lists of Departments" />
+                    <DepartmentLists departments={departments} />
                 </div>
             </section>
         </section>

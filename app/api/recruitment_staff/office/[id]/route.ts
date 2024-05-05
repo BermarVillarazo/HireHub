@@ -2,8 +2,8 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { z } from "zod"
-
+import { z } from "zod";
+import { officeSchema, officeSchemaProps } from "../route";
 
 type ParamsProps = {
     params: {
@@ -13,19 +13,22 @@ type ParamsProps = {
 
 export async function GET(request: Request, { params }: ParamsProps) {
     try {
-        const id = params.id
-        const officeId = await db.select().from(schema.office).where(eq(schema.office.office_id, id));
+        const id = params.id;
+
+        const officeId = await db
+            .select()
+            .from(schema.office)
+            .where(eq(schema.office.office_id, id));
 
         if (!officeId) {
             return NextResponse.json(
-                { message: "User ID not found", status: 404 },
+                { message: "Office ID not found", status: 404 },
                 { status: 404 }
             );
         }
 
         return NextResponse.json({ officeId, status: 200 }, { status: 200 });
     } catch (error) {
-        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }
@@ -33,99 +36,81 @@ export async function GET(request: Request, { params }: ParamsProps) {
     }
 }
 
-
-const officeSchema = z.object({
-    office_name: z
-        .string()
-        .min(2, { message: "office Name must have 2 or more characters" })
-        .max(75, { message: "office Name must have 75 or less characters" }),
-    office_code: z 
-        .string()
-        .min(3, { message: "office Type must have 2 or more characters" })
-        .max(75, { message: "office Type must have 75 or less characters" }),
-})
-type officeSchemaProps = z.infer<typeof officeSchema>
-
 export async function PUT(request: Request, { params }: ParamsProps) {
-    
     try {
         const id = params.id;
-        const body : officeSchemaProps = await request.json()
-        const validationResult = officeSchema.safeParse(body)
+        const body: officeSchemaProps = await request.json();
+        const validationResult = officeSchema.safeParse(body);
+
         if (!validationResult.success) {
             return NextResponse.json(validationResult.error.issues, { status: 409 });
         }
 
-        const office = await db.select().from(schema.department).where(eq(schema.department.department_id, id));
+        const office = await db
+            .select()
+            .from(schema.department)
+            .where(eq(schema.department.department_id, id));
 
         if (!office) {
-            return NextResponse.json(
-                { message: "Office not found", status: 404 },
-                { status: 404 }
-            )
+            return NextResponse.json({ message: "Office not found", status: 404 }, { status: 404 });
         }
 
         const reponse = await db
-        .update(schema.office)
-        .set({
-            office_name: body.office_name,
-            office_code: body.office_code,
-        })
-        .where(eq(schema.office.office_id, id));
+            .update(schema.office)
+            .set({
+                office_name: body.office_name,
+                office_code: body.office_code,
+            })
+            .where(eq(schema.office.office_id, id));
 
         const { command } = reponse;
-        
+
         return NextResponse.json(
             {
                 command,
-                message: "Office updated",
+                message: "Office Updated",
                 status: 200,
                 rows: office,
             },
             { status: 200 }
         );
-    }catch (error) {
-        return NextResponse.json(
-            { message: "Internal Server Error", status: 500 },
-            { status: 500 }
-        );
-    }
-    
-}
-
-export async function DELETE(request: Request, { params }: ParamsProps) {
-    try {
-        const id = params.id
-        const office = await db.select().from(schema.office).where(eq(schema.office.office_id, id));
-
-        if (!office) {
-            return NextResponse.json(
-                { message: "Department not found", status: 404 },
-                { status: 404 }
-            );
-        }
-
-        const response = await db.delete(schema.office).where(eq(schema.office.office_id, id))
-
-        const { command } = response;
-
-        return NextResponse.json(
-            {
-                command,
-                message: "department updated",
-                status: 200,
-                rows: office,
-            },
-            { status: 200 }
-        );
- 
-        
     } catch (error) {
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }
         );
     }
-    
 }
 
+export async function DELETE(request: Request, { params }: ParamsProps) {
+    try {
+        const id = params.id;
+        const office = await db.select().from(schema.office).where(eq(schema.office.office_id, id));
+
+        if (!office) {
+            return NextResponse.json(
+                { message: "Office Not Found", status: 404 },
+                { status: 404 }
+            );
+        }
+
+        const response = await db.delete(schema.office).where(eq(schema.office.office_id, id));
+
+        const { command } = response;
+
+        return NextResponse.json(
+            {
+                command,
+                message: "Office Updated",
+                status: 200,
+                rows: office,
+            },
+            { status: 200 }
+        );
+    } catch (error) {
+        return NextResponse.json(
+            { message: "Internal Server Error", status: 500 },
+            { status: 500 }
+        );
+    }
+}

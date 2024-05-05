@@ -86,3 +86,21 @@ export type InputProps = {
 export type TitleProps = {
     title: string;
 };
+
+// DEPARTMENT TYPE
+export type DepartmentListsProps = {
+    departments: {
+        department_id: number;
+        department_name: string;
+        department_code: string;
+    };
+};
+
+// OFFICE TYPE
+export type OfficeListsProps = {
+    offices: {
+        office_id: number;
+        office_name: string;
+        office_code: string;
+    };
+}

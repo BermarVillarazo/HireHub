@@ -12,25 +12,9 @@ export default function Navbar() {
     }
 
     return (
-        <div className="bg-red-900 flex justify-between items-center h-20 w-full mx-auto px-4 text-white">
-            {/* Logo */}
-            <h1 className="w-full text-3xl font-bold">HireHub</h1>
-
-            {/* Desktop Navigation */}
-            <ul className="hidden md:flex">
-                {RecruitmentStaffNavigationLinks.map(({ href, name }) => (
-                    <Link
-                        key={href}
-                        href={href}
-                        className="p-4 rounded-xl m-2 cursor-pointer duration-300 hover:text-black"
-                    >
-                        {name}
-                    </Link>
-                ))}
-            </ul>
-
+        <>
             {/* Mobile Navigation Icon */}
-            <div onClick={handleNav} className="block md:hidden">
+            <div onClick={handleNav} className="block px-3 md:hidden">
                 {nav ? "Close" : "Open"}
             </div>
 
@@ -47,16 +31,16 @@ export default function Navbar() {
 
                 {/* Mobile Navigation Items */}
                 {RecruitmentStaffNavigationLinks.map(({ href, name }) => (
-                    <li key={href} className="p-4 m-2">
+                    <li key={href} className="py-2 px-5">
                         <Link
                             href={href}
-                            className="rounded-xl cursor-pointer duration-300 hover:text-black"
+                            className="group font-bold relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-lg hover:border-red-900 bg-gradient-to-tr hover:from-red-700 hover:to-red-800 p-5 text-white hover:shadow-lg transition duration-100 ease-in-out active:translate-y-0.5 hover:scale-90 active:shadow-none"
                         >
                             {name}
                         </Link>
                     </li>
                 ))}
             </ul>
-        </div>
+        </>
     );
 }

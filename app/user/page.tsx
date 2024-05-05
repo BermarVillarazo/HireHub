@@ -6,9 +6,10 @@ export default async function User() {
     const { user } = await validateRequest();
 
     if (!user) return redirect("/login");
-    else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
+    else if ((user && user?.role !== "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
     }
+
     // TODO: ADD DEPARTMENT/OFFICE REDIRECT
     // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
 

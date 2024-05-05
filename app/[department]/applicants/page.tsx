@@ -1,6 +1,6 @@
 export default function Applicants() {
     return (
-        <section>
+        <section className="flex  justify-between">
             <div className="bg-amber-500 w-[800px] mt-10 container px-6 m-auto rounded-lg">
                 <div className="pt-8 pl-8 flex items-center">
                     <div className="bg-gray-300 h-32 w-32 rounded-full overflow-hidden mr-4 flex-shrink-0"></div>
@@ -14,7 +14,7 @@ export default function Applicants() {
                 <div className="mt-12">
                     <div className="grid w-full max-w-xs items-center gap-1.5">
                         <label className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            Email
+                            Email Address
                         </label>
                         <input
                             placeholder="example@email.com"
@@ -71,6 +71,40 @@ export default function Applicants() {
                     </div>
                 </div>
             </div>
+
+            <div className="flex ml-10 mt-10 w-48 h-80 rounded-lg bg-amber-500 justify-center text-white">
+                <div className="flex flex-col justify-center text-center pr-10 w-full h-full">
+                    <p className="font-bold text-2xl mt-4 h-full">STATUS</p>
+                    <p className="h-full text-sm break-all mt-3">
+                        Screening
+                    </p>
+                    <p className="h-full text-sm break-all ">
+                        INITIAL
+                        <br />
+                        INTERVIEW
+                    </p>
+                    <p className="h-full text-sm break-all mt-2">
+                        TEACHING
+                        <br />
+                        DEMO
+                    </p>
+                    <p className="h-full text-sm break-all mt-2">
+                        PSYCHOLOGICAL
+                        <br />
+                        EXAM
+                    </p>
+                    <p className="h-full text-sm break-all mt-2">
+                        PANEL
+                        <br />
+                        INTERVIEW
+                    </p>
+                    <p className="h-full text-sm break-all mt-2 mb-4">
+                        RECOMMENDATION
+                        <br />
+                        FOR HIRING
+                    </p>
+                </div>
+            </div>
         </section>
     );
-}
+}   
