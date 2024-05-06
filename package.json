@@ -22,6 +22,7 @@
         "@nextui-org/radio": "^2.0.27",
         "@vercel/postgres": "^0.7.2",
         "arctic": "^1.4.0",
+        "chart.js": "^4.4.2",
         "drizzle-orm": "^0.30.6",
         "lucia": "^3.1.1",
         "lucide-react": "^0.372.0",
