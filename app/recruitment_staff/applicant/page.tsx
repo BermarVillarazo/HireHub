@@ -1,8 +1,7 @@
 import { getAllApplicants } from "@/app/GET/GET";
-import { ApplicantGet } from "@/lib/schema";
 
 export default async function Applicant() {
-    const { applicants }: { applicants: ApplicantGet[] } = await getAllApplicants();
+    const applicants = await getAllApplicants();
 
     const applicantHeaders = ["Name", "Email", "Contact", "Resume", "Position"];
 

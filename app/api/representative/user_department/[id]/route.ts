@@ -14,7 +14,6 @@ export async function GET(request: Request, { params }: ParamsProps) {
                 department: true,
             },
         });
-        console.log(result);
         return NextResponse.json({ result: result?.department?.department_code });
     } catch (error) {
         console.log(error);

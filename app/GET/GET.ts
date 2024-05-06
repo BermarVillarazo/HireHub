@@ -1,4 +1,4 @@
-import { DepartmentSelect, OfficeInsert, User } from "@/lib/schema";
+import { ApplicantSelect, DepartmentSelect, OfficeInsert, User } from "@/lib/schema";
 
 export async function getAllUsers() {
     const reponse = await fetch("http://localhost:3000/api/applicant", {
@@ -48,5 +48,6 @@ export async function getAllApplicants() {
         cache: "no-cache",
     });
     const data = await response.json();
-    return data;
+    const applicants: ApplicantSelect[] = data.applicants;
+    return applicants;
 }

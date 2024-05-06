@@ -38,7 +38,7 @@ export default async function Dashboard() {
 	);
 }
 
-export function Highlight({ title, value }: HighlightProps): JSX.Element {
+function Highlight({ title, value }: HighlightProps) {
 	return (
 		<div className="w-1/4 p-5 rounded-lg bg-amber-500">
 			<h1 className="text-lg font-bold">{title}</h1>

@@ -2,14 +2,14 @@
 
 import { applicantInputs } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
-import { ApplicantInsert, Department, Office } from "@/lib/schema";
+import { ApplicantInsert, DepartmentSelect, OfficeInsert } from "@/lib/schema";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
 type ApplicantFormProps = {
-    departments: Department[];
-    offices: Office[];
+    departments: DepartmentSelect[];
+    offices: OfficeInsert[];
 };
 
 export default function ApplicantForm({ departments, offices }: ApplicantFormProps) {

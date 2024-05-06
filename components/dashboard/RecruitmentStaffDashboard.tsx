@@ -1,6 +1,6 @@
 "use client";
 
-import { Department, Office, User } from "@/lib/schema";
+import { DepartmentSelect, OfficeInsert, OfficeSelect, User } from "@/lib/schema";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
@@ -12,8 +12,8 @@ export default function RecruitmentStaffDashboard({
     offices,
 }: {
     users: User[];
-    departments: Department[];
-    offices: Office[];
+    departments: DepartmentSelect[];
+    offices: OfficeInsert[];
 }) {
     const [showConfirmationMessage, setShowConfirmationMessage] = useState<boolean>(false);
     const [formData, setFormData] = useState<{
