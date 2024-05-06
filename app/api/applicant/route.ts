@@ -11,7 +11,10 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ message: "No user found!", status: 404 });
         }
 
-        return NextResponse.json({ users, status: 200 });
+        return NextResponse.json({
+            users,
+            status: 200,
+        });
     } catch (error) {
         return NextResponse.json({ message: "Internal Server Error", status: 500 });
     }

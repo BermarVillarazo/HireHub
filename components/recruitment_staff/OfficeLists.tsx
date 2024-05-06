@@ -1,27 +1,27 @@
 "use client";
 
+import { OfficeInsert } from "@/lib/schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import ConfirmationPopup from "../Modal";
-import { DepartmentInsert } from "@/lib/schema";
 
-export default function DepartmentLists({ departments }: { departments: DepartmentInsert[] }) {
+export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
     const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
-    const [selectedDepartmentId, setSelectedDepartmentId] = useState<number | null>(null);
+    const [selectedOfficeId, setSelectedOfficeId] = useState<number | null>(null);
     const router = useRouter();
 
-    function handleDeleteDepartment(departmentId: number) {
-        setSelectedDepartmentId(departmentId);
+    function handleDeleteOffice(officeId: number) {
+        setSelectedOfficeId(officeId);
         setShowConfirmationMessage(true);
     }
 
-    async function handleConfirmDeleteDepartment() {
-        if (setSelectedDepartmentId === null) return;
+    async function handleConfirmDeleteOffice() {
+        if (setSelectedOfficeId === null) return;
 
-        const response = await fetch(`/api/recruitment_staff/department/${selectedDepartmentId}`, {
+        const response = await fetch(`/api/recruitment_staff/office/${selectedOfficeId}`, {
             method: "DELETE",
-            body: JSON.stringify({ selectedDepartmentId }),
+            body: JSON.stringify({ selectedOfficeId }),
         });
 
         const data = await response.json();
@@ -50,25 +50,25 @@ export default function DepartmentLists({ departments }: { departments: Departme
                         <span className="mx-auto text-lg font-bold">Action</span>
                     </div>
                 </div>
-                {departments.map(({ department_id, department_name, department_code }) => (
-                    <form key={department_id} className="flex justify-between gap-3 items-center">
+                {offices.map(({ office_id, office_name, office_code }) => (
+                    <form key={office_id} className="flex justify-between gap-3 items-center">
                         <div className="flex justify-between items-center w-52 p-3 bg-white rounded-lg shadow-xl">
-                            <span className="mx-auto">{department_code.toUpperCase()}</span>
+                            <span className="mx-auto">{office_code.toUpperCase()}</span>
                         </div>
                         <div className="flex justify-between items-center w-full p-3 bg-white rounded-lg shadow-xl">
-                            <span className="mx-auto">{department_name}</span>
+                            <span className="mx-auto">{office_name}</span>
                         </div>
                         <button
-                            formAction={(e) => handleDeleteDepartment(department_id)}
+                            formAction={(e) => handleDeleteOffice(office_id!)}
                             className="group w-32 relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-red-900 bg-gradient-to-tr from-red-700 to-red-800 p-3 font-bold text-white shadow-lg transition duration-100 ease-in-out active:translate-y-0.5 hover:scale-95 active:shadow-none"
                         >
                             Delete
                         </button>
                         {showConfirmationMessage && (
                             <ConfirmationPopup
-                                message={`Are you sure you want to delete "${department_name}"?`}
+                                message={`Are you sure you want to delete "${office_name}"?`}
                                 onCancel={() => setShowConfirmationMessage(false)}
-                                onConfirm={handleConfirmDeleteDepartment}
+                                onConfirm={handleConfirmDeleteOffice}
                             />
                         )}
                     </form>

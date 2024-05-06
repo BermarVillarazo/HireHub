@@ -1,28 +1,23 @@
-import { Button, Input, Title } from "../department/page";
+import { getAllOffices } from "@/app/GET/GET";
+import OfficeForm from "@/components/recruitment_staff/OfficeForm";
+import OfficeLists from "@/components/recruitment_staff/OfficeLists";
+import { Title } from "../department/page";
 
-export default function Office() {
+export default async function OfficePage() {
+    const offices = await getAllOffices();
+
     return (
-        <section>
-            <section className="w-10/12 mx-auto mt-10 rounded-lg bg-amber-500">
+        <section className="py-10">
+            <section className="w-10/12 mx-auto rounded-lg bg-amber-500">
                 <div className="p-10">
-                    <Title title="Office" />
-                    <form className="flex gap-8 mt-5">
-                        <div className="flex flex-1 gap-8">
-                            <div className="">
-                                <Input name="office_code" placeholder="Office Code" />
-                            </div>
-                            <div className="w-10/12">
-                                <Input name="office_name" placeholder="Office Name" />
-                            </div>
-                        </div>
-
-                        <Button title="Add Office" />
-                    </form>
+                    <Title title="Department" />
+                    <OfficeForm />
                 </div>
             </section>
             <section className="w-10/12 mx-auto mt-10 rounded-lg bg-amber-500">
                 <div className="p-10">
-                    <Title title="Lists of Offices" />
+                    <Title title="Lists of Departments" />
+                    <OfficeLists offices={offices} />
                 </div>
             </section>
         </section>

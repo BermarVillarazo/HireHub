@@ -1,57 +1,63 @@
 "use client";
 
-import { DepartmentListsProps, OfficeListsProps, applicantInputs } from "@/app/types/type";
+import { applicantInputs } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
-import * as schema from "@/lib/schema";
+import { ApplicantInsert, Department, Office } from "@/lib/schema";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
-export default function ApplicantForm({
-    departments,
-    offices,
-}: {
-    departments: DepartmentListsProps;
-    offices: OfficeListsProps;
-}) {
+type ApplicantFormProps = {
+    departments: Department[];
+    offices: Office[];
+};
+
+export default function ApplicantForm({ departments, offices }: ApplicantFormProps) {
     const [selectedPosition, setSelectedPosition] = useState<
         "teachingStaff" | "non-teachingStaff"
     >();
 
     async function clientAction(formData: FormData) {
-        const applicantData: schema.applicants = {
-            first_Name: formData.get("first_name") as string,
-            last_Name: formData.get("last_name") as string,
-            email: formData.get("email") as string,
-            contactNumber: formData.get("contact_number") as unknown as number,
-            resume: formData.get("resume_url") as string,
-            communication: formData.get("communicationOption") as "Email" | "PhoneNumber",
-            position: formData.get("applyingType") as "teachingStaff" | "non-teachingStaff",
-            departmentName: formData.get("teachingStaff") as string,
-            officeName: formData.get("non-teachingStaff") as string,
-        };
+        try {
+            const applicantData: ApplicantInsert = {
+                first_Name: formData.get("first_name") as string,
+                last_Name: formData.get("last_name") as string,
+                email: formData.get("email") as string,
+                contactNumber: formData.get("contact_number") as unknown as number,
+                resume: formData.get("resume_url") as string,
+                communication: formData.get("communicationOption") as "Email" | "PhoneNumber",
+                position: formData.get("applyingType") as "teachingStaff" | "non-teachingStaff",
+                departmentName: formData.get("teachingStaff") as string,
+                officeName: formData.get("non-teachingStaff") as string,
+            };
 
-        const response = await fetch("/api/applicant/apply-now", {
-            method: "POST",
-            body: JSON.stringify(applicantData),
-        });
+            const response = await fetch("/api/applicant/apply-now", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(applicantData),
+            });
 
-        if (response.status === 409) {
-            const error = await response.json();
-            if (Array.isArray(error)) {
-                const errorMessages = error.map(({ message }) => message);
-                errorMessages.forEach((errorMessages) => {
+            if (response.status === 409) {
+                const error = await response.json();
+                if (Array.isArray(error)) {
+                    const errorMessages = error.map(({ message }) => message);
+                    errorMessages.forEach((errorMessages) => {
+                        console.log(error);
+                        return toast.error(errorMessages);
+                    });
+                } else {
                     console.log(error);
-                    return toast.error(errorMessages);
-                });
+                    return toast.error(error.message);
+                }
             } else {
-                console.log(error);
-                return toast.error(error.message);
+                return toast.success("Application submitted successfully!");
             }
-        } else {
-            return toast.success("Application submitted successfully!");
+            console.log(applicantData);
+        } catch (error) {
+            return toast.error("Internal Server Error");
         }
-        console.log(applicantData);
     }
 
     const [fileStates, setFileStates] = useState<FileState[]>([]);
@@ -111,12 +117,11 @@ export default function ApplicantForm({
                         <div className="flex flex-col text-white">
                             <label className="text-lg font-semibold">Department</label>
                             <select name="teachingStaff" className="text-black rounded-md p-1.5">
-                                {Array.isArray(departments) &&
-                                    departments.map(({ department_id, department_name }) => (
-                                        <option key={department_id} value={department_name}>
-                                            {department_name}
-                                        </option>
-                                    ))}
+                                {departments.map(({ department_id, department_name }) => (
+                                    <option key={department_id} value={department_name}>
+                                        {department_name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     ) : (

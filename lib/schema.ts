@@ -1,18 +1,12 @@
 import { relations } from "drizzle-orm";
-import { PgColumn, PgTableWithColumns, bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-
-export const roleEnums = pgEnum("role", [
-    "applicant",
-    "user",
-    "representave",
-    "recruitment_staff",
-]);
+export const roleEnums = pgEnum("role", ["applicant", "user", "representave", "recruitment_staff"]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
 export const departmentEnums = pgEnum("departmentEnums", ["CCS", "CE", "SHS"]);
-export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"])
+export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"]);
 
 // Todo: Generate migration, update Application table
 export const users = pgTable("users", {
@@ -27,7 +21,6 @@ export const users = pgTable("users", {
     departmentName: text("department_name"),
     officeId: integer("office_id").references(() => office.office_id),
     officeName: text("office_name"),
-
 });
 
 export const applicant = pgTable("applicant", {
@@ -45,8 +38,7 @@ export const applicant = pgTable("applicant", {
     officeId: integer("office_id").references(() => office.office_id),
     departmentName: text("department_name").default("empty"),
     officeName: text("office_name").default("empty"),
-    status: statusEnums("status").notNull().default("pending")
-    
+    status: statusEnums("status").default("pending"),
 });
 
 export const department = pgTable("department", {
@@ -61,10 +53,9 @@ export const office = pgTable("office", {
     office_code: text("office_code").unique().notNull(),
 });
 
-
 export const departmenttRelation = relations(department, ({ many }) => ({
-  applicant: many(applicant),
-  user: many(users),
+    applicant: many(applicant),
+    user: many(users),
 }));
 
 export const officeRelation = relations(office, ({ many }) => ({
@@ -72,34 +63,30 @@ export const officeRelation = relations(office, ({ many }) => ({
     user: many(users),
 }));
 
-
 export const applicantRelation = relations(applicant, ({ one }) => ({
-  department: one(department, {
-    fields: [applicant.departmentId],
-    references: [department.department_id],
-  }),
-  office: one(office, {
-    fields: [applicant.officeId],
-    references: [office.office_id],
-  }),
+    department: one(department, {
+        fields: [applicant.departmentId],
+        references: [department.department_id],
+    }),
+    office: one(office, {
+        fields: [applicant.officeId],
+        references: [office.office_id],
+    }),
 }));
 
 export const userRelation = relations(users, ({ one }) => ({
-  department: one(department, {
-    fields: [users.departmentId],
-    references: [department.department_id],
-  }),
-  office: one(office, {
-    fields: [users.officeId],
-    references: [office.office_id],
-  }),
+    department: one(department, {
+        fields: [users.departmentId],
+        references: [department.department_id],
+    }),
+    office: one(office, {
+        fields: [users.officeId],
+        references: [office.office_id],
+    }),
 }));
 
-
-
-
 // export const departmentRelation = relations(department, ({ }) => ({
-//   user: 
+//   user:
 // }))
 
 // export const Office = pgTable("Office", {
@@ -136,8 +123,11 @@ export const sessions = pgTable("sessions", {
 });
 
 export type User = typeof users.$inferSelect;
-export type applicants = typeof applicant.$inferInsert;
+export type ApplicantSelect = typeof applicant.$inferSelect;
+export type ApplicantInsert = typeof applicant.$inferInsert;
+export type DepartmentSelect = typeof department.$inferSelect;
+export type DepartmentInsert = typeof department.$inferSelect;
+export type OfficeSelect = typeof office.$inferSelect;
+export type OfficeInsert = typeof office.$inferInsert;
 export type UserRole = typeof roleEnums.enumValues;
 export type communicationEnums = typeof communicationEnums.enumValues;
-
-
