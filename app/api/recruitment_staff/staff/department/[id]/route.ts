@@ -36,7 +36,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             .set({
                 departmentName: departmentName,
                 departmentId: deptId,
-                role: "representave",
+                role: "representative",
             })
             .where(eq(schema.users.id, id));
 
@@ -52,6 +52,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             { status: 200 }
         );
     } catch (error) {
+        console.log(error)
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }

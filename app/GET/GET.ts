@@ -43,6 +43,10 @@ export async function getAllOffices() {
     return offices;
 }
 
+export async function getAllOfficesWithID(officeId: number) {
+    const response = await fetch(`http://localhost:3000/api/`)
+}
+
 export async function getAllApplicants() {
     const response = await fetch("http://localhost:3000/api/recruitment_staff/applicant", {
         cache: "no-cache",

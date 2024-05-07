@@ -43,7 +43,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             .set({
                 officeName: officeName,
                 officeId: oId,
-                role: "representave",
+                role: "representative",
             })
             .where(eq(schema.users.id, id));
 

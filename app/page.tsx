@@ -5,12 +5,12 @@ import { redirect } from "next/navigation";
 export default async function Home() {
     const { user } = await validateRequest();
 
-    if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
+    if (user && user?.role === "user") {
+        return redirect("/user");
+    } else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
     } else if (user && !["user", "recruitment_staff"].includes(user?.role)) {
         return redirect(`/${user?.role}/requests`);
-    } else if (user && user?.role === "user") {
-        return redirect("/user");
     }
     // TODO: ADD DEPARTMENT/OFFICE REDIRECT
     // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS

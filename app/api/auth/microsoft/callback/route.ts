@@ -77,7 +77,6 @@ export async function GET(request: Request): Promise<Response> {
                 firstName: microsoftUser.given_name,
                 lastName: microsoftUser.family_name,
                 avatarUrl: microsoftUser.picture,
-                role: microsoftUser.role === "recruitment_staff" ? "recruitment_staff" : "user",
             });
             await tx
                 .insert(oauthAccounts)

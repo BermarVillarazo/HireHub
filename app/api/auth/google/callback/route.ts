@@ -77,7 +77,6 @@ export async function GET(request: Request): Promise<Response> {
                 firstName: googleUser.given_name,
                 lastName: googleUser.family_name,
                 avatarUrl: googleUser.picture,
-                role: googleUser.role === "recruitment_staff" ? "recruitment_staff" : "user",
             });
             await tx
                 .insert(oauthAccounts)
