@@ -13,6 +13,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
         const data: staffDepartmentSchemaProps = await request.json();
 
         const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
+        
 
         if (!user) {
             return NextResponse.json(
@@ -23,6 +24,20 @@ export async function PUT(request: Request, { params }: ParamsProps) {
 
         let deptId;
         const departmentName = data.departmentName;
+
+        const departmentExist = await db
+            .select()
+            .from(schema.department)
+            .where(eq(schema.department.department_name, departmentName));
+
+        if (departmentExist.length === 0) {
+            return NextResponse.json(
+                { message: "Error, No department name found" },
+                { status: 404 }
+            );
+        }
+
+
         const departmentId = await db
             .select()
             .from(schema.department)

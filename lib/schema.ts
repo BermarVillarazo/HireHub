@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
 import { bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { request } from "http";
 
 export const roleEnums = pgEnum("role", ["applicant", "user", "recruitment_staff", "representative"]);
 
@@ -53,15 +54,42 @@ export const office = pgTable("office", {
     office_code: text("office_code").unique().notNull(),
 });
 
-export const departmenttRelation = relations(department, ({ many }) => ({
+export const jobRequest = pgTable("jobRequest", {
+    request_id: serial("request_request").primaryKey(),
+    requested_position: text("requested_position").notNull(),
+    request_type: text("request_type").notNull(),
+    request_description: text("request_description").notNull(),
+    request_qualification: text("request_qualification").notNull(),
+    departmentName: text("department_name").default("empty"),
+    officeName: text("office_name").default("empty"),
+    request_date: timestamp('request_date').defaultNow(),
+    departmentId: integer("department_id").references(() => department.department_id),
+    officeId: integer("office_id").references(() => office.office_id),
+    
+});
+
+export const departmenttRelation = relations(department, ({ many, one }) => ({
     applicant: many(applicant),
-    user: many(users),
+    user: one(users),
 }));
 
-export const officeRelation = relations(office, ({ many }) => ({
+export const officeRelation = relations(office, ({ many, one }) => ({
     applicant: many(applicant),
-    user: many(users),
+    user: one(users),
 }));
+
+export const requestRelation = relations(jobRequest, ({  one }) => ({
+    department: one(department, {
+        fields: [jobRequest.departmentId],
+        references: [department.department_id],
+    }),
+     office: one(office, {
+        fields: [jobRequest.officeId],
+        references: [office.office_id],
+    }),
+
+}))
+
 
 export const applicantRelation = relations(applicant, ({ one }) => ({
     department: one(department, {
@@ -84,6 +112,9 @@ export const userRelation = relations(users, ({ one }) => ({
         references: [office.office_id],
     }),
 }));
+
+
+
 
 // export const departmentRelation = relations(department, ({ }) => ({
 //   user:

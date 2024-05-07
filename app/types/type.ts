@@ -163,6 +163,21 @@ export const departmentSchema = z.object({
 
 export type departmentSchemaProps = z.infer<typeof departmentSchema>;
 
+export const jobRequestSchema= z.object({ 
+	requested_position: z.string(),
+	request_type: z.string() ,
+	request_description: z
+		.string() 
+		.min(1, { message: "Reques Description must have 2 or more characters" }),
+	request_qualification: z.string(),
+	departmentName: z.string().default("empty"),
+	officeName: z.string().default("empty")
+
+
+})
+
+export  type jobRequestSchemaProps = z.infer<typeof jobRequestSchema>
+
 export const staffDepartmentSchema = z.object({
 	departmentName: z.string(),
 });
