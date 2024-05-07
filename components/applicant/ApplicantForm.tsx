@@ -86,7 +86,7 @@ export default function ApplicantForm({ departments, offices }: ApplicantFormPro
                             <input
                                 type={type}
                                 name={name}
-                                className="text-black rounded-md p-1.5 mt-1.5"
+                                className="input input-warning w-full text-black"
                             />
                         </div>
                     ))}
@@ -249,13 +249,7 @@ export type CommunicationRadioButtonProps = {
 function CommunicationRadioButton({ id, value, name, label }: CommunicationRadioButtonProps) {
     return (
         <div>
-            <input
-                type="radio"
-                id={id}
-                value={value}
-                name={name}
-                className="w-4 h-4 transition-colors bg-white border-2 rounded-full appearance-none cursor-pointer peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600"
-            />
+            <input type="radio" id={id} value={value} name={name} className="radio radio-error" />
             <label className="pl-2 cursor-pointer text-lg font-medium">{label}</label>
         </div>
     );
@@ -278,7 +272,7 @@ function PositionOption({ id, value, name, label, onChange }: PositionOptionProp
                 value={value}
                 name={name}
                 onChange={onChange}
-                className="w-4 h-4 transition-colors bg-white border-2 rounded-full appearance-none cursor-pointer peer border-slate-500 checked:border-emerald-500 checked:bg-emerald-500 checked:hover:border-emerald-600"
+                className="radio radio-error"
             />
             <label className="pl-2 cursor-pointer text-lg font-medium">{label}</label>
         </div>

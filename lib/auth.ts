@@ -25,7 +25,9 @@ export const lucia = new Lucia(adapter, {
         email: attr.email,
         role: attr.role,
         departmentId: attr.departmentId,
-        officeId: attr.officeId
+        departmentName: attr.departmentName,
+        officeId: attr.officeId,
+        officeName: attr.officeName,
     }),
 });
 

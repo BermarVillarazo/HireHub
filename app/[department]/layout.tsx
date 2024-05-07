@@ -13,13 +13,16 @@ export default async function layout({
     const { user } = await validateRequest();
 
     if (!user) return redirect("/login");
+    else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
+        return redirect(`/${user?.role}`);
+    } else if (user && user?.departmentName !== params.department) return redirect(`/${user?.departmentName}/requests`);
     // else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
     //     return redirect(`/${user?.role}`);
     // } else if (user && params.department !== user?.role) return redirect(`/${user?.role}/requests`);
 
     return (
         <div className="flex min-h-screen flex-col items-center ">
-            {user && user?.role !== "user" && <DepartmentNavigation />}
+            {user && user?.role !== "user" && <DepartmentNavigation department={params.department} />}
             {children}
         </div>
     );

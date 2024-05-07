@@ -10,7 +10,9 @@ export default async function Login() {
 
     if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
-    } else if (user && user?.role) return redirect(`/${user?.role}/requests`);
+    } else if (user && user?.departmentName) {
+        return redirect(`/${user?.departmentName}/requests`);
+    }
 
     return (
         <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">

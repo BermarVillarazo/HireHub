@@ -1,9 +1,9 @@
+import Logout from "@/components/Logout";
 import RecruitmentStaffNavigation from "@/components/RecruitmentStaffNavigation";
 import { validateRequest } from "@/lib/auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChildrenProps, RecruitmentStaffNavigationLinks } from "../types/type";
-import Link from "next/link";
-import Logout from "@/components/Logout";
 
 export default async function layout({ children }: ChildrenProps) {
     const { user } = await validateRequest();
@@ -12,15 +12,11 @@ export default async function layout({ children }: ChildrenProps) {
     if (!user) return redirect("/login");
     // IF USER IS LOGGED IN AND ROLE IS USER OR RECRUITMENT STAFF, REDIRECT TO RESPECTIVE DASHBOARD
     // SO REDIRECT TO /USER OR /RECRUITMENT_STAFF
-    else if (user && user?.role !== "recruitment_staff") {
-        return redirect("/recruitment_staff");
+    else if (user && user?.departmentName && user?.role !== "recruitment_staff") {
+        return redirect(`/${user?.departmentName}/requests`);
     }
-    // TODO: ADD DEPARTMENT/OFFICE REDIRECT
-    // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
 
-    // IF USER IS LOGGED IN AND ROLE IS NOT USER OR RECRUITMENT STAFF, REDIRECT TO RESPECTIVE DASHBOARD
-    // SO REDIRECT TO /${ROLE}/REQUESTS
-    // EXAMPLE: /[DEPARTMENT] || [OFFICE]/REQUESTS
+    console.log(user);
 
     return (
         <>

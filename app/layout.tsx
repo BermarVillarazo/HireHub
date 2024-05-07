@@ -21,7 +21,7 @@ export default async function RootLayout({
     const { user } = await validateRequest();
 
     return (
-        <html lang="en">
+        <html lang="en" data-theme="light">
             <body className={inter.className}>
                 <Toaster position="top-center" />
                 {user && !(<ApplicantNavigation />)}
