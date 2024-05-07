@@ -1,6 +1,6 @@
 "use client";
 
-import { DepartmentSelect, OfficeInsert, OfficeSelect, User } from "@/lib/schema";
+import { DepartmentSelect, OfficeInsert, User } from "@/lib/schema";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
@@ -12,7 +12,7 @@ export default function RecruitmentStaffDashboard({
     offices,
 }: {
     users: User[];
-    departments: DepartmentSelect[];
+    departments: DepartmentSelect[]
     offices: OfficeInsert[];
 }) {
     const [showConfirmationMessage, setShowConfirmationMessage] = useState<boolean>(false);
@@ -44,12 +44,23 @@ export default function RecruitmentStaffDashboard({
     async function handleConfirmUpdateUserRole() {
         try {
             if (selectedRepresentative === "department_representative") {
-                await fetch(`api/recruitment_staff/staff/department/${selectedRepresentativeId}`, {
-                    method: "PUT",
-                    body: JSON.stringify(formData),
-                });
+                try {
+                    const response = await fetch(
+                        `/api/recruitment_staff/staff/department/${selectedRepresentativeId}`,
+                        {
+                            method: "PUT",
+                            body: JSON.stringify(formData),
+                        }
+                    );
+                    if (!response.ok) {
+                        console.log(formData);
+                        console.log(response);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
             } else if (selectedRepresentative === "office_representative") {
-                await fetch(`api/recruitment_staff/staff/office/${selectedRepresentativeId}`, {
+                await fetch(`/api/recruitment_staff/staff/office/${selectedRepresentativeId}`, {
                     method: "PUT",
                     body: JSON.stringify(formData),
                 });
@@ -125,17 +136,11 @@ export default function RecruitmentStaffDashboard({
                                         name="select_department_representative"
                                         className="w-full h-full"
                                     >
-                                        {Array.isArray(departments) &&
-                                            departments.map(
-                                                ({ department_id, department_name }) => (
-                                                    <option
-                                                        key={department_id}
-                                                        value={department_name}
-                                                    >
-                                                        {department_name}
-                                                    </option>
-                                                )
-                                            )}
+                                        {departments.map(({ department_id, department_name }) => (
+                                            <option key={department_id} value={department_name}>
+                                                {department_name}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                             ) : selectedRepresentative === "office_representative" ? (
@@ -145,12 +150,11 @@ export default function RecruitmentStaffDashboard({
                                             name="select_office_representative"
                                             className="w-full h-full"
                                         >
-                                            {Array.isArray(offices) &&
-                                                offices.map(({ office_id, office_name }) => (
-                                                    <option key={office_id} value={office_name}>
-                                                        {office_name}
-                                                    </option>
-                                                ))}
+                                            {offices.map(({ office_id, office_name }) => (
+                                                <option key={office_id} value={office_name}>
+                                                    {office_name}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 )

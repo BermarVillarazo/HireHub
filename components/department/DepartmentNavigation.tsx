@@ -1,12 +1,12 @@
-import { CCSNavigation } from "@/app/types/type";
 import { validateRequest } from "@/lib/auth";
 import Link from "next/link";
 import Logout from "../Logout";
 
-export default async function DepartmentNavigation() {
+export default async function DepartmentNavigation({ department }: { department: string }) {
     const { user } = await validateRequest();
+
     return (
-        <nav className="bg-white border-gray-200 w-full dark:bg-gray-900">
+        <nav className="bg-white text-white border-gray-200 w-full dark:bg-gray-900">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link
                     href="https://flowbite.com/"
@@ -27,7 +27,27 @@ export default async function DepartmentNavigation() {
                 </button>
                 <div className="hidden w-full md:block md:w-auto" id="navbar-default">
                     <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        
+                        <Link
+                            href={`${
+                                department.startsWith("/") ? department : "/ok"
+                            }/requests`}
+                        >
+                            Requests
+                        </Link>
+                        <Link
+                            href={`${
+                                department.startsWith("/") ? department : "/ok"
+                            }/applicants`}
+                        >
+                            Applicant
+                        </Link>
+                        <Link
+                            href={`${
+                                department.startsWith("/") ? department : "/ok"
+                            }/records`}
+                        >
+                            Records
+                        </Link>
                     </ul>
                 </div>
                 <Logout />

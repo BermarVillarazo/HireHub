@@ -8,6 +8,8 @@ export default async function LandingPage() {
 
     if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
         return redirect(`/${user?.role}`);
+    } else if (user && user?.departmentName) {
+        return redirect(`/${user?.departmentName}/requests`);
     }
     // TODO: ADD DEPARTMENT/OFFICE REDIRECT
     // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
