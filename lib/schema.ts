@@ -1,11 +1,10 @@
 import { relations } from "drizzle-orm";
 import { bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const roleEnums = pgEnum("role", ["applicant", "user", "representave", "recruitment_staff"]);
+export const roleEnums = pgEnum("role", ["applicant", "user", "recruitment_staff", "representative"]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
-export const departmentEnums = pgEnum("departmentEnums", ["CCS", "CE", "SHS"]);
 export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"]);
 
 // Todo: Generate migration, update Application table
@@ -21,6 +20,7 @@ export const users = pgTable("users", {
     departmentName: text("department_name"),
     officeId: integer("office_id").references(() => office.office_id),
     officeName: text("office_name"),
+    appliedAt: timestamp('applied_at').defaultNow(),
 });
 
 export const applicant = pgTable("applicant", {
