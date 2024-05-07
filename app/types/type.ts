@@ -1,6 +1,7 @@
 import { User } from "@/lib/schema";
 import { ReactNode } from "react";
 import { z } from "zod";
+import * as schema from "@/lib/schema";
 
 export interface ActionResult {
 	error: string | null;
@@ -197,3 +198,10 @@ export const officeSchema = z.object({
 });
 
 export type officeSchemaProps = z.infer<typeof officeSchema>;
+
+export const statusSchema = z.object({
+	status: z.enum(schema.statusEnums.enumValues),
+	rating: z.number()
+});
+
+export type statusSchemaProps = z.infer<typeof statusSchema>;

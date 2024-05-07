@@ -2,6 +2,8 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import {  statusSchema, statusSchemaProps ,} from "@/app/types/type";
+
 
 export async function GET(request: NextRequest) {
     try {
@@ -19,3 +21,4 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ message: "Internal Server Error", status: 500 });
     }
 }
+

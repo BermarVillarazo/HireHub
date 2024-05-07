@@ -1,9 +1,18 @@
+import {  statusSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import validator from "validator";
 import { z } from "zod";
+
+
+type ParamsProps = {
+    params: {
+        id: number;
+    };
+};
+
 
 export async function GET() {
     try {
@@ -112,3 +121,4 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+

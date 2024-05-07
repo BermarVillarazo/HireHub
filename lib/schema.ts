@@ -1,12 +1,13 @@
 import { relations } from "drizzle-orm";
-import { bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { float } from "drizzle-orm/mysql-core";
+import { bigint, integer, numeric, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { request } from "http";
 
-export const roleEnums = pgEnum("role", ["applicant", "user", "recruitment_staff", "representative"]);
+export const roleEnums = pgEnum("role", ["applicant", "user", "recruitment_staff", "representative",]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
-export const statusEnums = pgEnum("statusEnums", ["pending", "approved", "declined"]);
+export const statusEnums = pgEnum("statusEnums", [ "Screening", "Initial Interview", "TeachingDemo", "Pyschological Exam", "Panel InterView", "Recommendation for Hiring"]);
 
 // Todo: Generate migration, update Application table
 export const users = pgTable("users", {
@@ -39,7 +40,7 @@ export const applicant = pgTable("applicant", {
     officeId: integer("office_id").references(() => office.office_id),
     departmentName: text("department_name").default("empty"),
     officeName: text("office_name").default("empty"),
-    status: statusEnums("status").default("pending"),
+    status: statusEnums("status").default("Screening"),
 });
 
 export const department = pgTable("department", {
@@ -68,9 +69,25 @@ export const jobRequest = pgTable("jobRequest", {
     
 });
 
+export const rating = pgTable("rating", {
+    rating_id: serial("rating_id").primaryKey(),
+    status_name: text("status_name").notNull(),
+    applicantId: integer("applicantid").references(() => applicant.id),
+    rating: integer("rating").notNull(),
+});
+
 export const departmenttRelation = relations(department, ({ many, one }) => ({
     applicant: many(applicant),
     user: one(users),
+}));
+
+
+export const Rating =  relations(rating, ({ one }) => ({
+    applicant: one(applicant,{
+        fields: [rating.applicantId],
+        references: [applicant.id],
+    }),
+
 }));
 
 export const officeRelation = relations(office, ({ many, one }) => ({
@@ -162,3 +179,5 @@ export type OfficeSelect = typeof office.$inferSelect;
 export type OfficeInsert = typeof office.$inferInsert;
 export type UserRole = typeof roleEnums.enumValues;
 export type communicationEnums = typeof communicationEnums.enumValues;
+export type StatusEnums = typeof statusEnums.enumValues;
+export type rating = typeof rating.$inferSelect;
