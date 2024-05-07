@@ -274,6 +274,20 @@
       "when": 1714981297487,
       "tag": "0038_misty_doctor_doom",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "5",
+      "when": 1715053866749,
+      "tag": "0039_youthful_rage",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "5",
+      "when": 1715054023964,
+      "tag": "0040_conscious_grey_gargoyle",
+      "breakpoints": true
     }
   ]
 }
