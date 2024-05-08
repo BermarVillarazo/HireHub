@@ -12,7 +12,7 @@ import { useDropzone, type DropzoneOptions } from "react-dropzone";
 import { twMerge } from "tailwind-merge";
 
 const variants = {
-    base: "relative rounded-md p-4 w-full max-w-[calc(100vw-1rem)] flex justify-center items-center flex-col cursor-pointer border border-dashed border-white dark:border-gray-300 transition-colors duration-200 ease-in-out",
+    base: "relative rounded-md p-4 w-full max-w-[calc(100vw-1rem)] flex justify-center items-center flex-col cursor-pointer border border-dashed border-white dark:border-gray-300 transition-colors duration-200 ease-in-out bg-slate-50/40 hover:scale-95 transition duration-100",
     active: "border-2",
     disabled:
         "bg-gray-200 border-gray-300 cursor-default pointer-events-none bg-opacity-30 dark:bg-gray-700 dark:border-gray-600",
@@ -121,7 +121,7 @@ const MultiFileDropzone = React.forwardRef<HTMLInputElement, InputProps>(
         }, [fileRejections, dropzoneOptions]);
 
         return (
-            <div>
+            <div className="py-5">
                 <div className="flex flex-col gap-2">
                     <div>
                         {/* Main File Input */}

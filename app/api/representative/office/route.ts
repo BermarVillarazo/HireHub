@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET(response: NextResponse, request: NextRequest) {
     try {
         const result = await db.query.department.findFirst({
             with: {

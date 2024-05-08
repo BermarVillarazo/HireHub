@@ -1,44 +1,49 @@
+import Button from "@/components/Button";
 import { validateRequest } from "@/lib/auth";
+import homepageLogo from "@/public/images/large-logo.png";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
     const { user } = await validateRequest();
 
-    if (user && user?.role === "user") {
-        return redirect("/user");
-    } else if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
-        return redirect(`/${user?.role}`);
-    } else if (user && user?.departmentName) {
-        return redirect(`/${user?.departmentName}/requests`);
+    if (user && user?.role === "user") return redirect("/user");
+    else if (user && user?.role === "recruitment_staff") return redirect("/recruitment_staff");
+    else if (user && user?.role === "representative") {
+        if (user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
+        else if (user?.officeName) return redirect(`/${user?.officeName}/requests`);
     }
 
-    console.log(user);
-    // TODO: ADD DEPARTMENT/OFFICE REDIRECT
-    // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
-
     return (
-        <section className="flex min-h-screen w-full flex-col items-center text-white justify-center bg-white gap-y-8">
-            <div className="h-96 w-1/2 flex items-center justify-center bg-amber-500 rounded-xl">
-                <div className="h-full w-full flex flex-row gap-x-10 p-10 justify-center items-center">
-                    <div className="w-3/5 flex flex-col text-center gap-y-1.5">
-                        <div className="text-5xl font-bold">WORK AT CIT UNIVERSITY</div>
-                        <div className="font-semibold">
+        <section className="flex min-h-screen w-full flex-col items-center p-5 sm:p-14 md:p-10 text-white justify-center bg-white gap-y-8">
+            <div className="xl:w-4/6 bg-amber-500 rounded-xl">
+                <div className="h-full px-4 py-10 md:p-8 w-full flex flex-col md:flex-row justify-between items-center">
+                    <div className="md:w-3/5 flex flex-col gap-5 text-center">
+                        <div className="text-4xl md:text-5xl font-semibold xl:font-bold">
+                            WORK AT CIT UNIVERSITY
+                        </div>
+                        <div className="font-semibold text-lg">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                             veniam, quis nostrud exercitation ullamco laboris
                         </div>
                     </div>
-                    <div className="bg-gray-600 w-2/5 h-full rounded-xl" />
+                    <Image
+                        src={homepageLogo}
+                        alt="Landing Page Logo"
+                        width={300}
+                        height={300}
+                        priority
+                    />
                 </div>
             </div>
 
-            <Link
-                href="/apply-now"
-                className="py-3 px-14 rounded-lg text-xl bg-red-900 font-bold transform hover:scale-95 duration-200"
-            >
-                APPLY NOW
-            </Link>
+            <Button>
+                <Link href="/apply-now" className="text-xl">
+                    APPLY NOW
+                </Link>
+            </Button>
         </section>
     );
 }

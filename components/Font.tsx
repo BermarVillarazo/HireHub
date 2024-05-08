@@ -6,6 +6,8 @@ type TextColorWhiteProps = {
 
 export default function Font({ children, textColorWhite }: ChildrenProps & TextColorWhiteProps) {
     return (
-        <h1 className={`text-7xl ${textColorWhite ? "text-white" : "text-black"}`}>{children}</h1>
+        <h1 className={`text-5xl sm:text-7xl ${textColorWhite ? "text-white" : "text-black"}`}>
+            {children}
+        </h1>
     );
 }

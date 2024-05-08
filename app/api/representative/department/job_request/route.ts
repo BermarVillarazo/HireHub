@@ -1,10 +1,10 @@
-import { jobRequestSchema, jobRequestSchemaProps,  } from "@/app/types/type";
+import { jobRequestSchema, jobRequestSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
-import { NextRequest, NextResponse } from "next/server";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET(response: NextResponse, request: NextRequest) {
     try {
         const result = await db.query.jobRequest.findFirst({
             with: {
@@ -21,34 +21,36 @@ export async function GET(request: NextRequest) {
     }
 }
 
-
-export async function POST(request: Request) {
+export async function POST(response: NextResponse, request: NextRequest) {
     try {
         const data: jobRequestSchemaProps = await request.json();
         const validationResult = jobRequestSchema.safeParse(data);
-         let deptId;
+        let deptId;
 
-        if(!validationResult.success){
+        if (!validationResult.success) {
             return NextResponse.json(validationResult.error.issues, { status: 409 });
         }
 
-        const requestExist = await db 
+        const requestExist = await db
             .select()
             .from(schema.jobRequest)
-            .where(eq(schema.jobRequest.requested_position, data.requested_position))
+            .where(eq(schema.jobRequest.requested_position, data.requested_position));
 
-       
         if (requestExist.length > 0) {
             return NextResponse.json(
                 {
-                    message: "Job request for that position already exists please create a new request.",
+                    message:
+                        "Job request for that position already exists please create a new request.",
                     status: 409,
                 },
                 { status: 409 }
             );
         }
 
-        const departmentName = await db.select().from(schema.department).where(eq(schema.department.department_name, data.departmentName))
+        const departmentName = await db
+            .select()
+            .from(schema.department)
+            .where(eq(schema.department.department_name, data.departmentName));
 
         departmentName.forEach(({ department_id }) => {
             deptId = department_id;
@@ -56,12 +58,10 @@ export async function POST(request: Request) {
 
         await db.insert(schema.jobRequest).values({
             ...data,
-            departmentId: deptId
-        })
+            departmentId: deptId,
+        });
 
-       
         return NextResponse.json({ data }, { status: 200 });
-
     } catch (error) {
         console.log(error);
         return NextResponse.json(
