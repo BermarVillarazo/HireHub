@@ -147,6 +147,7 @@ export type ParamsProps = {
 	};
 };
 
+
 export const departmentSchema = z.object({
 	department_name: z
 		.string()
@@ -172,7 +173,6 @@ export const jobRequestSchema= z.object({
 		.min(1, { message: "Reques Description must have 2 or more characters" }),
 	request_qualification: z.string(),
 	departmentName: z.string().default("empty"),
-	officeName: z.string().default("empty")
 
 
 })
