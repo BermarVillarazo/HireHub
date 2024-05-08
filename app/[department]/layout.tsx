@@ -21,7 +21,7 @@ export default async function layout({
 
     return (
         <div className="flex min-h-screen flex-col items-center ">
-            {user && user?.role !== "user" && (
+            {user && user?.role !== "user" && user?.role !== "recruitment_staff" && (
                 <DepartmentNavigation department={params.department} />
             )}
             {children}
