@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export default function ReusableLoading() {
     return (
-        <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
-            <div className="flex flex-col justify-center mx-auto text-center p-12 bg-white rounded-lg">
+        <section className="flex min-h-screen flex-col items-center justify-center gap-24 bg-red-900">
+            <div className="flex flex-col justify-center mx-auto text-center text-xl font-bold p-12 bg-white rounded-lg">
                 <Image
                     src={homepageLogo}
                     alt="Landing Page Logo"

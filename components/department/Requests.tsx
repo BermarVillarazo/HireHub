@@ -1,9 +1,22 @@
-import { ApplicantSelect } from "@/lib/schema";
-import { useState } from "react";
+"use client";
 
-export default function RequestsPage({ applicants }: { applicants: ApplicantSelect[] }) {
+import { ApplicantSelect } from "@/lib/schema";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Button from "../Button";
+
+type RequestPageProps = {
+    applicants: ApplicantSelect[];
+    params: string;
+};
+
+export default function RequestsPage({ applicants, params }: RequestPageProps) {
+    const router = useRouter();
     const [selectedID, setSelectedID] = useState<number | null>();
     const [selectedApplicant, setSelectedApplicant] = useState<ApplicantSelect | null>();
+
+    console.log(params);
 
     function handleDetails(id: number) {
         console.log("Selected", id);
@@ -14,7 +27,7 @@ export default function RequestsPage({ applicants }: { applicants: ApplicantSele
 
     return (
         <>
-            <section className="w-4/12 p-10 bg-gray-200 overflow-auto">
+            <section className="w-4/12 p-10 bg-gray-200 overflow-x-hidden">
                 <h1 className="text-3xl font-bold">REQUEST LIST</h1>
                 <div className="flex flex-col gap-5">
                     {applicants.map(({ id, first_Name, last_Name, email }) => (
@@ -42,9 +55,9 @@ export default function RequestsPage({ applicants }: { applicants: ApplicantSele
                     )}
                 </section>
                 <section className="flex justify-end">
-                    <button className="bg-red-900 p-5 px-10 rounded-xl font-semibold text-xl text-white">
-                        Submit A New Request
-                    </button>
+                    <Button>
+                        <Link href={`/${params}/requests/form`}>Submit A New Request</Link>
+                    </Button>
                 </section>
             </section>
         </>

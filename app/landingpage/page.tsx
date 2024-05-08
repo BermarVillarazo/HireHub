@@ -6,16 +6,15 @@ import { redirect } from "next/navigation";
 export default async function LandingPage() {
     const { user } = await validateRequest();
 
-    if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
-        return redirect(`/${user?.role}`);
-    } else if (user && user?.departmentName) {
-        return redirect(`/${user?.departmentName}/requests`);
+    if (user && user?.role === "user") return redirect("/user");
+    else if (user && user?.role === "recruitment_staff") return redirect("/recruitment_staff");
+    else if (user && user?.role === "representative") {
+        if (user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
+        else if (user?.officeName) return redirect(`/${user?.officeName}/requests`);
     }
-    // TODO: ADD DEPARTMENT/OFFICE REDIRECT
-    // EXAMPLE: /${DEPARTMENT} || /${OFFICE}/REQUESTS
 
     return (
-        <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
+        <section className="flex min-h-screen flex-col items-center justify-center gap-24 bg-red-900">
             <Container />
             <Link
                 href={"/login"}

@@ -8,16 +8,17 @@ import { redirect } from "next/navigation";
 export default async function Login() {
     const { user } = await validateRequest();
 
-    if ((user && user?.role === "user") || user?.role === "recruitment_staff") {
-        return redirect(`/${user?.role}`);
-    } else if (user && user?.departmentName) {
-        return redirect(`/${user?.departmentName}/requests`);
+    if (user && user?.role === "user") return redirect("/user");
+    else if (user && user?.role === "recruitment_staff") return redirect("/recruitment_staff");
+    else if (user && user?.role === "representative") {
+        if (user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
+        else if (user?.officeName) return redirect(`/${user?.officeName}/requests`);
     }
 
     return (
-        <section className="flex min-h-screen flex-col items-center justify-center gap-24 p-24 bg-red-900">
+        <section className="flex min-h-screen justify-center items-center px-5 py-20 bg-red-900">
             <form method="GET">
-                <div className="flex bg-amber-500 rounded-xl">
+                <div className="flex flex-col-reverse md:flex-row bg-amber-500 rounded-xl">
                     <Image
                         src={signInLogo}
                         alt="Sign in Logo"
@@ -27,7 +28,7 @@ export default async function Login() {
                         priority
                         className="p-10"
                     />
-                    <div className="flex flex-col items-center justify-center gap-5 bg-orange-300 px-5 rounded-xl">
+                    <div className="flex flex-col items-center justify-center gap-5 bg-orange-300 px-10 py-20 rounded-xl">
                         <h1 className="font-extrabold text-3xl">LOGIN</h1>
                         <SSOButton formAction="/api/auth/google">
                             Single Sign in with Google

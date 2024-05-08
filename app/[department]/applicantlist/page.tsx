@@ -1,6 +1,7 @@
 // @ts-ignore
 "use client";
 
+import { department } from "@/lib/schema";
 import { useState } from "react";
 
 export default function Requests() {
@@ -8,31 +9,51 @@ export default function Requests() {
         {
             id: 1,
             name: "Yankee Caburnay",
+            email: "example@gmail.com",
             position: "Faculty",
+            phone: "09123456789",
+            communication: "Phone number",
+            department: "CCS",
             date: "applied x days ago",
         },
         {
             id: 2,
             name: "Gieb Gwapo",
+            email: "example@gmail.com",
             position: "Admin",
+            phone: "09123456789",
+            communication: "Email",
+            department: "Accounting",
             date: "applied x days ago",
         },
         {
             id: 3,
             name: "Kimberly Inting",
+            email: "example@gmail.com",
             position: "HR head",
+            phone: "09123456789",
+            communication: "Phone number",
+            department: "HR",
             date: "applied x days ago",
         },
         {
             id: 4,
             name: "Pettes",
+            email: "example@gmailcom",
             position: "HR head",
+            phone: "09123456789",
+            communication: "Email",
+            department: "HR",
             date: "applied x days ago",
         },
         {
             id: 5,
             name: "John Doe",
+            email: "example@gmail.com",
             position: "HR head",
+            phone: "09123456789",
+            communication: "Phone number",
+            department: "HR",
             date: "applied x days ago",
         },
     ];
@@ -54,13 +75,17 @@ export default function Requests() {
         <section className="w-full h-[90vh] mx-auto py-5 px-36 flex flex-row">
             <section className="w-4/12 p-10 bg-gray-200 overflow-auto">
                 <h1 className="text-3xl font-bold">CANDIDATES LIST</h1>
-                {sampleRequests.map(({ id, name, position, date }) => (
+                {sampleRequests.map(({ id, name, email, position, phone, communication, department, date, }) => (
                     <RequestItem
                         key={id}
                         id={id}
                         title={name}
+                        email={email}
                         position={position}
                         date={date}
+                        phone={phone}
+                        communication={communication}
+                        department={department}
                         handleDetails={handleDetails}
                     />
                 ))}
@@ -68,27 +93,66 @@ export default function Requests() {
 
             <section className="w-8/12 p-10 bg-gray-200">
                 <h1 className="text-3xl font-bold">CANDIDATES INFORMATION</h1>
-                <section className="details-section w-full bg-amber-500 rounded-lg my-6 p-16 text-white flex flex-col gap-y-8 items-center">
-                    <section>
-                        <h1 className="text-5xl font-bold">
-                            {requestData.name || "No Candidate Selected"}
-                        </h1>
-                        <p className="text-lg">{requestData.position}</p>
-                        <p className="text-lg">{requestData.date}</p>
+                <section className="details-section h-[73vh] w-full bg-amber-500 rounded-lg my-6 p-16 text-white flex flex-col gap-y-8">
+                    <section className="flex items-center gap-8">
+                        <div className="bg-gray-300 h-32 w-32 rounded-full overflow-hidden flex-shrink-0"></div>
+                        <div>
+                            <h1 className="text-5xl font-bold">
+                                {requestData.name || "No Candidate Selected"}
+                            </h1>
+                            <p className="text-lg">{requestData.position}</p>
+                            <p className="text-lg">{requestData.date}</p>
+                        </div>
                     </section>
-                    <section className="w-8/12 h-25 mx-auto flex justify-center items-center">
-                    <section className="w-8/12 p-10 bg-amber-500 flex flex-col justify-center items-center">
-                        <button className="w-15 bg-black p-5 px-10 rounded-xl font-semibold text-xl text-white mb-4" onClick={handleNewRequest}>
-                            Personal Information
+                    <div className="mt-0 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid w-full max-w-xs items-center gap-2">
+                            <label className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                Email Address
+                            </label>
+                            <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                {requestData.email}
+                            </p>
+                        </div>
+                        <div className="grid w-full max-w-xs items-center gap-2">
+                            <label className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                Contact Number
+                            </label>
+                            <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                {requestData.phone}
+                            </p>
+                        </div>
+                        <div className="grid w-full max-w-xs items-center gap-2">
+                            <label className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                Preferred mode of communication
+                            </label>
+                            <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                {requestData.communication}
+                            </p>
+                        </div>
+                        <div className="grid w-full max-w-xs items-center gap-2">
+                            <label className="text-sm text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                Department
+                            </label>
+                            <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                {requestData.department}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <button className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out whitespace-nowrap">
+                            UPDATE STATUS
                         </button>
-                        <button className="w-25 bg-black p-5 px-10 rounded-xl font-semibold text-xl text-white" onClick={handleNewRequest}>
-                            Uploaded Files
+                        <button className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out whitespace-nowrap">
+                            SEND EMAIL
                         </button>
-                    </section>
+                    </div>
+                    <div className=" mt-10 items-center justify-between">
+                        <h1 className="font-bold mb-2"> APPLICATION STATUS </h1>
+                        <div className="bg-red-800 h-6 w-1/2 rounded-full"></div>
+                    </div>
                 </section>
                 </section>
             </section>
-        </section>
     );
 }
 
@@ -108,7 +172,7 @@ function RequestItem({
     return (
         <div
             key={id}
-            className="w-full bg-amber-500 rounded-lg my-6 p-8 cursor-pointer "
+            className="w-full bg-amber-500 hover:scale-105 hover:text-white hover:bg-red-900 rounded-lg my-6 p-8 cursor-pointer"
             onClick={handleDetails(id)}
         >
             <h1 className="text-2xl font-bold">{title}</h1>

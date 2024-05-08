@@ -1,10 +1,8 @@
+import { statusSchema, statusSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
-import {  statusSchema, statusSchemaProps ,} from "@/app/types/type";
-
-
+import { NextResponse } from "next/server";
 
 type ParamsProps = {
     params: {
@@ -12,40 +10,39 @@ type ParamsProps = {
     };
 };
 
-
-
-export async function PUT(request: Request, {params} : ParamsProps){
-    try{
+export async function PUT(request: Request, { params }: ParamsProps) {
+    try {
         const id = params.id;
-        
+
         const body: statusSchemaProps = await request.json();
         const validationResult = statusSchema.safeParse(body);
 
-         if (!validationResult.success) {
+        if (!validationResult.success) {
             return NextResponse.json(validationResult.error.issues, { status: 409 });
         }
 
         const applicant = await db
             .select()
-            .from(schema.applicant).where(eq(schema.applicant.id, id))
+            .from(schema.applicant)
+            .where(eq(schema.applicant.id, id));
 
-        if(!applicant){
-                return NextResponse.json(
+        if (!applicant) {
+            return NextResponse.json(
                 { message: "Applicant not found", status: 404 },
                 { status: 404 }
             );
         }
 
-        const response = await db.update(schema.applicant).set({status : body.status}).where(eq(schema.applicant.id, id ))
+        const response = await db
+            .update(schema.applicant)
+            .set({ status: body.status })
+            .where(eq(schema.applicant.id, id));
 
-        
         const ApplicantRating = await db.insert(schema.rating).values({
             status_name: body.status,
             rating: body.rating,
             applicantId: id,
-        })
-
-
+        });
 
         // const { command } = response;
 
@@ -59,15 +56,11 @@ export async function PUT(request: Request, {params} : ParamsProps){
             },
             { status: 200 }
         );
-
-    
-
-    }catch (error) {
-        console.log(error)
+    } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }
         );
     }
-
 }

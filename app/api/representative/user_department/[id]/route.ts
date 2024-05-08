@@ -3,9 +3,9 @@
 
 import { ParamsProps } from "@/app/types/type";
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: ParamsProps) {
+export async function GET(response: NextResponse, request: NextRequest, { params }: ParamsProps) {
     try {
         const id = params.id;
         const result = await db.query.users.findFirst({
