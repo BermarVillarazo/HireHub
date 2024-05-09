@@ -52,9 +52,10 @@ export default function RecruitmentStaffDashboard({
                             body: JSON.stringify(formData),
                         }
                     );
-                    if (!response.ok) {
-                        console.log(formData);
-                        console.log(response);
+                    if(response.status === 404) {
+                        return toast.error("Department not found");
+                    } else if (response.status === 409) {
+                        return toast.error("Department already exists");
                     }
                 } catch (error) {
                     console.log(error);

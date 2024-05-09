@@ -1,4 +1,4 @@
-import { ParamsProps, departmentSchemaProps, staffDepartmentSchemaProps } from "@/app/types/type";
+import { ParamsProps, staffDepartmentSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
@@ -13,7 +13,6 @@ export async function PUT(request: Request, { params }: ParamsProps) {
         const data: staffDepartmentSchemaProps = await request.json();
 
         const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
-        
 
         if (!user) {
             return NextResponse.json(
@@ -37,7 +36,6 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             );
         }
 
-
         const departmentId = await db
             .select()
             .from(schema.department)
@@ -46,16 +44,14 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             deptId = department_id;
         });
 
-        if(departmentId.length > 0) {
+        if (departmentId.length > 0) {
             return NextResponse.json(
-            {
-                message: "There is Already a User with this department",
-                status: 409,
-               
-            },
-            { status: 409 }
+                {
+                    message: "There is already a user with this department",
+                    status: 409,
+                },
+                { status: 409 }
             );
-
         }
 
         const reponse = await db
@@ -79,7 +75,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             { status: 200 }
         );
     } catch (error) {
-        console.log(error)
+        console.log(error);
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },
             { status: 500 }

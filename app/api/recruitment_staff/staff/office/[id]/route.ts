@@ -38,16 +38,14 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             oId = office_id;
         });
 
-        if(officeId.length > 0) {
+        if (officeId.length > 0) {
             return NextResponse.json(
-            {
-            
-                message: "There's already a user with this office",
-                status: 409,
-            },
-            { status: 409 }
-        );
-
+                {
+                    message: "There's already a user with this office",
+                    status: 409,
+                },
+                { status: 409 }
+            );
         }
 
         const reponse = await db
