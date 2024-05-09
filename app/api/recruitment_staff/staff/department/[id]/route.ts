@@ -46,6 +46,18 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             deptId = department_id;
         });
 
+        if(departmentId.length > 0) {
+            return NextResponse.json(
+            {
+                message: "There is Already a User with this department",
+                status: 409,
+               
+            },
+            { status: 409 }
+            );
+
+        }
+
         const reponse = await db
             .update(schema.users)
             .set({
