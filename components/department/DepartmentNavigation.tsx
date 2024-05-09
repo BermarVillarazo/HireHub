@@ -1,13 +1,10 @@
-import { validateRequest } from "@/lib/auth";
 import Link from "next/link";
 import Logout from "../Logout";
 
 export default async function DepartmentNavigation({ department }: { department: string }) {
-    const { user } = await validateRequest();
-
     return (
         <nav className="bg-white text-white border-gray-200 w-full dark:bg-gray-900">
-            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <div className="flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link
                     href="https://flowbite.com/"
                     className="flex items-center space-x-3 rtl:space-x-reverse"

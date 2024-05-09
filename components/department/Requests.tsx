@@ -14,14 +14,12 @@ type RequestPageProps = {
 export default function RequestsPage({ applicants, params }: RequestPageProps) {
     const router = useRouter();
     const [selectedID, setSelectedID] = useState<number | null>();
-    const [selectedApplicant, setSelectedApplicant] = useState<ApplicantSelect | null>();
-
-    console.log(params);
+    const [selectedRequest, setSelectedRequest] = useState<ApplicantSelect | null>();
 
     function handleDetails(id: number) {
         console.log("Selected", id);
         const applicant = applicants.find((applicant) => applicant.id === id);
-        setSelectedApplicant(applicant);
+        setSelectedRequest(applicant);
         setSelectedID(id);
     }
 
@@ -47,10 +45,10 @@ export default function RequestsPage({ applicants, params }: RequestPageProps) {
             <section className="w-8/12 p-10 bg-gray-200">
                 <h1 className="text-3xl font-bold">REQUEST DETAILS</h1>
                 <section className="details-section w-full bg-black rounded-lg my-6 p-16 text-white flex flex-col gap-y-8">
-                    {selectedApplicant && (
+                    {selectedRequest && (
                         <section>
-                            <h1 className="text-xl font-bold">{selectedApplicant.first_Name}</h1>
-                            <p className="text-md">{selectedApplicant.last_Name}</p>
+                            <h1 className="text-xl font-bold">{selectedRequest.first_Name}</h1>
+                            <p className="text-md">{selectedRequest.last_Name}</p>
                         </section>
                     )}
                 </section>

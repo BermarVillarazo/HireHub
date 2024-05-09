@@ -1,77 +1,123 @@
 "use client";
 
-import { InputProps } from "@/app/types/type";
+import ConfirmationPopup from "@/components/Modal";
+import { JobRequest } from "@/lib/schema";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
-const RequestsForm = () => {
-    const [selectedOption, setSelectedOption] = useState("requested");
+export default function RequestsForm({ params }: { params: { department: string } }) {
+    const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
+    const [formData, setFormData] = useState<JobRequest | null>(null);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        console.log("TO BE HANDLED...");
-    };
+        const requestFormData: JobRequest = {
+            request_description: e.currentTarget.request_description.value,
+            request_qualification: e.currentTarget.request_qualification.value,
+            request_type: e.currentTarget.request_type.value,
+            requested_position: e.currentTarget.requested_position.value,
+        };
+
+        setFormData(requestFormData);
+        setShowConfirmationMessage(true);
+    }
+
+    async function handleSubmitRequestForm() {
+        try {
+            const response = await fetch(`/api/representative/job_request/${params.department}`, {
+                method: "POST",
+                body: JSON.stringify(formData),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.status === 409) {
+                return toast.error(
+                    "Job request for that position already exists please create a new request."
+                );
+            }
+            return toast.success("Job request created successfully.");
+        } catch (error) {
+            console.error(error);
+            return toast.error("Internal Server Error. Please try again later.");
+        }
+    }
 
     return (
-        <div className="w-full h-screen flex items-center justify-center">
+        <div className="w-full min-h-screen flex py-10 items-center justify-center">
             <form
                 onSubmit={handleSubmit}
-                className="w-3/4 h-[80%] bg-black rounded-2xl p-10 text-white"
+                className="w-11/12 flex flex-col gap-10 bg-black rounded-2xl px-5 sm:px-10 py-10 text-white"
             >
-                <h1 className="text-center font-bold text-4xl text-white mb-8">
-                    PERSONNEL REQUEST FORM
-                </h1>
-                <div className="flex text-white gap-10">
-                    <div className="flex flex-col w-2/3">
-                        <label className="mb-2 font-bold">Position Requested</label>
-                        <Input name="position-requested" placeholder="" />
-                    </div>
-                    <div className="flex flex-col w-1/3">
-                        <label className="mb-2 font-bold">Date Requested</label>
-                        <Input name="date-requested" placeholder="" />
-                    </div>
+                <h1 className="text-center font-bold text-xl text-white">PERSONNEL REQUEST FORM</h1>
+                <div className="flex flex-col text-white gap-10">
+                    <LabelAndInput name="requested_position" title="Position Requested" />
                 </div>
-                <div className="mt-5 flex">
-                    <label className="text-white mr-6 font-bold">Type</label>
-                    <label className="text-white mr-5 flex items-center">
-                        <input
-                            type="radio"
-                            value="new"
-                            onChange={(e) => setSelectedOption("new")}
-                            className="h-6 w-6 mr-2"
-                        />
-                        New
-                    </label>
-                    <label className="text-white mr-5 flex items-center">
-                        <input
-                            type="radio"
-                            value="requested"
-                            onChange={(e) => setSelectedOption("requested")}
-                            className="h-6 w-6 mr-2"
-                        />
-                        Requested
-                    </label>
+                <div className="flex flex-col gap-1">
+                    <label className="text-white font-bold">Type</label>
+                    <CommunicationRadioButton value="new" name="request_type" label="New" />
+                    <CommunicationRadioButton
+                        value="replacement"
+                        name="request_type"
+                        label="Replacement"
+                    />
                 </div>
 
-                <label className="block mt-5 mb-2 font-bold">Description</label>
-                <textarea className="w-full h-[25%] text-black p-3 rounded-lg"></textarea>
-                <label className="block mt-5 mb-2 font-bold">Qualifications</label>
-                <textarea className="w-full h-[25%] text-black p-3 rounded-lg"></textarea>
+                <div className="flex flex-col gap-5">
+                    <LabelAndTextarea name="request_description" title="Description" />
+                    <LabelAndTextarea name="request_qualification" title="Qualifications" />
+                </div>
+
+                <button
+                    type="submit"
+                    className="w-full py-3 px-14 rounded-lg text-white text-center bg-red-900 font-bold transform hover:scale-95 duration-200"
+                >
+                    Button
+                </button>
+                {showConfirmationMessage && (
+                    <ConfirmationPopup
+                        message="Are you sure you want to add office?"
+                        onCancel={() => setShowConfirmationMessage(false)}
+                        onConfirm={handleSubmitRequestForm}
+                    />
+                )}
             </form>
         </div>
     );
+}
+
+function LabelAndInput({ title, name }: { title: string; name: string }) {
+    return (
+        <div className="w-full flex flex-col gap-1">
+            <label className="font-semibold">{title}</label>
+            <input type="text" name={name} className="input input-sm text-black" />
+        </div>
+    );
+}
+
+type CommunicationRadioButtonProps = {
+    value: string;
+    name: string;
+    label: string;
 };
 
-export default RequestsForm;
-
-export function Input({ name, placeholder = "" }: InputProps) {
+function CommunicationRadioButton({ value, name, label }: CommunicationRadioButtonProps) {
     return (
-        <input
-            type="text"
-            name={name}
-            placeholder={placeholder}
-            required
-            className="block w-full p-3 text-sm text-black border border-gray-300 rounded-lg dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
+        <div className="flex items-center">
+            <label className="flex justify-center gap-3 py-2 cursor-pointer text-sm lg:text-lg font-medium">
+                <input type="radio" value={value} name={name} className="radio radio-error" />
+                {label}
+            </label>
+        </div>
+    );
+}
+
+function LabelAndTextarea({ title, name }: { title: string; name: string }) {
+    return (
+        <div className="w-full flex flex-col gap-1">
+            <label className="font-semibold">{title}</label>
+            <textarea name={name} rows={10} className="textarea textarea-md text-black" />
+        </div>
     );
 }
