@@ -1,13 +1,23 @@
 import { relations } from "drizzle-orm";
-import { float } from "drizzle-orm/mysql-core";
-import { bigint, integer, numeric, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
-import { request } from "http";
+import { bigint, integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const roleEnums = pgEnum("role", ["applicant", "user", "recruitment_staff", "representative",]);
+export const roleEnums = pgEnum("role", [
+    "applicant",
+    "user",
+    "recruitment_staff",
+    "representative",
+]);
 
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
-export const statusEnums = pgEnum("statusEnums", [ "Screening", "Initial Interview", "TeachingDemo", "Pyschological Exam", "Panel InterView", "Recommendation for Hiring"]);
+export const statusEnums = pgEnum("statusEnums", [
+    "Screening",
+    "Initial Interview",
+    "TeachingDemo",
+    "Pyschological Exam",
+    "Panel InterView",
+    "Recommendation for Hiring",
+]);
 
 // Todo: Generate migration, update Application table
 export const users = pgTable("users", {
@@ -22,7 +32,7 @@ export const users = pgTable("users", {
     departmentName: text("department_name"),
     officeId: integer("office_id").references(() => office.office_id),
     officeName: text("office_name"),
-    appliedAt: timestamp('applied_at').defaultNow(),
+    appliedAt: timestamp("applied_at").defaultNow(),
 });
 
 export const applicant = pgTable("applicant", {
@@ -63,10 +73,9 @@ export const jobRequest = pgTable("jobRequest", {
     request_qualification: text("request_qualification").notNull(),
     departmentName: text("department_name").default("empty"),
     officeName: text("office_name").default("empty"),
-    request_date: timestamp('request_date').defaultNow(),
+    request_date: timestamp("request_date").defaultNow(),
     departmentId: integer("department_id").references(() => department.department_id),
     officeId: integer("office_id").references(() => office.office_id),
-    
 });
 
 export const rating = pgTable("rating", {
@@ -81,13 +90,11 @@ export const departmenttRelation = relations(department, ({ many, one }) => ({
     user: one(users),
 }));
 
-
-export const Rating =  relations(rating, ({ one }) => ({
-    applicant: one(applicant,{
+export const Rating = relations(rating, ({ one }) => ({
+    applicant: one(applicant, {
         fields: [rating.applicantId],
         references: [applicant.id],
     }),
-
 }));
 
 export const officeRelation = relations(office, ({ many, one }) => ({
@@ -95,18 +102,16 @@ export const officeRelation = relations(office, ({ many, one }) => ({
     user: one(users),
 }));
 
-export const requestRelation = relations(jobRequest, ({  one }) => ({
+export const requestRelation = relations(jobRequest, ({ one }) => ({
     department: one(department, {
         fields: [jobRequest.departmentId],
         references: [department.department_id],
     }),
-     office: one(office, {
+    office: one(office, {
         fields: [jobRequest.officeId],
         references: [office.office_id],
     }),
-
-}))
-
+}));
 
 export const applicantRelation = relations(applicant, ({ one }) => ({
     department: one(department, {
@@ -129,9 +134,6 @@ export const userRelation = relations(users, ({ one }) => ({
         references: [office.office_id],
     }),
 }));
-
-
-
 
 // export const departmentRelation = relations(department, ({ }) => ({
 //   user:
@@ -177,6 +179,7 @@ export type DepartmentSelect = typeof department.$inferSelect;
 export type DepartmentInsert = typeof department.$inferSelect;
 export type OfficeSelect = typeof office.$inferSelect;
 export type OfficeInsert = typeof office.$inferInsert;
+export type JobRequest = typeof jobRequest.$inferInsert;
 export type UserRole = typeof roleEnums.enumValues;
 export type communicationEnums = typeof communicationEnums.enumValues;
 export type StatusEnums = typeof statusEnums.enumValues;

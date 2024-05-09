@@ -13,12 +13,10 @@ export default function Navbar() {
 
     return (
         <>
-            {/* Mobile Navigation Icon */}
             <div onClick={handleNav} className="block px-3 md:hidden">
                 {nav ? "Close" : "Open"}
             </div>
 
-            {/* Mobile Navigation Menu */}
             <ul
                 className={
                     nav
@@ -26,10 +24,8 @@ export default function Navbar() {
                         : "ease-in-out w-[60%] duration-500 fixed top-0 bottom-0 left-[-100%]"
                 }
             >
-                {/* Mobile Logo */}
                 <h1 className="w-full text-3xl font-bold m-4">HireHub</h1>
 
-                {/* Mobile Navigation Items */}
                 {RecruitmentStaffNavigationLinks.map(({ href, name }) => (
                     <li key={href} className="py-2 px-5">
                         <Link
