@@ -118,12 +118,16 @@ export default function Requests() {
             <h1 className="text-3xl font-bold">CANDIDATES LIST</h1>
                 {sampleRequests.map(({ id, name, email, position, phone, communication, department, date, }) => (
                     <RequestItem
-                        key={id}
-                        id={id}
-                        title={name}
-                        position={position}
-                        date={date}
-                        handleDetails={handleDetails}
+                    key={id}
+                    id={id}
+                    title={name}
+                    email={email}
+                    position={position}
+                    date={date}
+                    phone={phone}
+                    communication={communication}
+                    department={department}
+                    handleDetails={handleDetails}
                     />
                 ))}
             </section>
@@ -132,8 +136,13 @@ export default function Requests() {
                 <h1 className="text-3xl font-bold">CANDIDATES INFORMATION</h1>
                 <section className="details-section mt-6 p-4 sm:p-10 bg-amber-500 rounded-lg text-white">
                     <section className="flex items-center gap-8">
-                        <div className="bg-gray-300 h-32 w-32 rounded-full overflow-hidden flex-shrink-0">
-                            _
+                        <div className="bg-gray-300 h-32 w-32 rounded-full overflow-hidden flex-shrink-0"></div>
+                        <div>
+                            <h1 className="text-5xl font-bold">
+                                {requestData.name || "No Candidate Selected"}
+                            </h1>
+                            <p className="text-lg">{requestData.position}</p>
+                            <p className="text-lg">{requestData.date}</p>
                         </div>
                         <div>
                             <h1 className="text-5xl font-bold">
@@ -149,7 +158,7 @@ export default function Requests() {
                                 Email Address
                             </label>
                             <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                               
+                            {requestData.email}
                             </p>
                         </div>
                         <div className="grid w-full max-w-xs items-center gap-2 py-4">
@@ -157,7 +166,7 @@ export default function Requests() {
                                 Contact Number
                             </label>
                             <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                               
+                            {requestData.phone}
                             </p>
                         </div>
                         <div className="grid w-full max-w-xs items-center gap-2">
@@ -165,7 +174,7 @@ export default function Requests() {
                                 Preferred mode of communication
                             </label>
                             <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                               
+                            {requestData.communication}
                             </p>
                         </div>
                         <div className="grid w-full max-w-xs items-center gap-2">
@@ -173,11 +182,11 @@ export default function Requests() {
                                 Department
                             </label>
                             <p className="flex mb-2 h-10 w-full rounded-md border border-input text-black bg-white px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                               
+                            {requestData.department}
                             </p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
                         <button className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out whitespace-nowrap">
                             UPDATE STATUS
                         </button>
@@ -226,9 +235,6 @@ export default function Requests() {
     </div>
 </div>
 </div>
-
-
-
                 </section>
                 </section>
             </section>
