@@ -1,13 +1,9 @@
-import { getAllApplicants } from "@/app/GET/GET";
-import RequestsPage from "@/components/department/Requests";
-import { ApplicantSelect } from "@/lib/schema";
+import RequestsPage from "@/components/department/RequestsPage";
 
 export default async function Requests({ params }: { params: { department: string } }) {
-    const applicants: ApplicantSelect[] = await getAllApplicants();
-
     return (
-        <section className="w-full h-[100vh] mx-auto py-5 px-36 flex flex-row">
-            <RequestsPage applicants={applicants} params={params.department} />
+        <section className="w-11/12 h-screen mx-auto flex flex-row">
+            <RequestsPage department={params.department} />
         </section>
     );
 }

@@ -30,8 +30,8 @@ export default {
     out: "./.drizzle",
     schema: "./lib/schema.ts",
     breakpoints: true,
-    driver: "pg",
+    dialect: "postgresql",
     dbCredentials: {
-        connectionString: connectionString ? connectionString + "?sslmode=require" : "",
+        url: connectionString ? connectionString + "?sslmode=require" : "",
     },
 } satisfies Config;

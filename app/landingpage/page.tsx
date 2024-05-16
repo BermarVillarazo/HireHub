@@ -6,12 +6,10 @@ import { redirect } from "next/navigation";
 export default async function LandingPage() {
     const { user } = await validateRequest();
 
-    if (user && user?.role === "user") return redirect("/user");
+    if (user && user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
+    else if (user && user?.officeName) return redirect(`/${user?.officeName}/requests`);
     else if (user && user?.role === "recruitment_staff") return redirect("/recruitment_staff");
-    else if (user && user?.role === "representative") {
-        if (user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
-        else if (user?.officeName) return redirect(`/${user?.officeName}/requests`);
-    }
+    else if (user && user?.role === "user") return redirect("/user");
 
     return (
         <section className="flex min-h-screen flex-col items-center justify-center gap-24 bg-red-900">

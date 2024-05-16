@@ -3,7 +3,7 @@ import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
     try {
         const users = await db.select().from(schema.users).where(eq(schema.users.role, "user"));
 
@@ -14,14 +14,5 @@ export async function GET(request: NextRequest, response: NextResponse) {
         return NextResponse.json({ users, status: 200 });
     } catch (error) {
         return NextResponse.json({ message: "Internal Server Error", status: 500 });
-    }
-}
-
-export async function POST(response: NextResponse, request: NextRequest) {
-    try {
-        const body = await request.json();
-        return NextResponse.json({ body }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }

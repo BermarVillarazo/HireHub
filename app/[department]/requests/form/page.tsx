@@ -1,22 +1,25 @@
 "use client";
 
+import Button from "@/components/Button";
 import ConfirmationPopup from "@/components/Modal";
-import { JobRequest } from "@/lib/schema";
-import { useState } from "react";
+import { JobRequestInsert } from "@/lib/schema";
+import { useRouter } from "next/navigation";
+import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function RequestsForm({ params }: { params: { department: string } }) {
     const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
-    const [formData, setFormData] = useState<JobRequest | null>(null);
+    const [formData, setFormData] = useState<JobRequestInsert | null>(null);
+    const router = useRouter();
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const requestFormData: JobRequest = {
+        const requestFormData = {
+            requested_position: e.currentTarget.requested_position.value,
+            request_type: e.currentTarget.request_type.value,
             request_description: e.currentTarget.request_description.value,
             request_qualification: e.currentTarget.request_qualification.value,
-            request_type: e.currentTarget.request_type.value,
-            requested_position: e.currentTarget.requested_position.value,
         };
 
         setFormData(requestFormData);
@@ -27,17 +30,20 @@ export default function RequestsForm({ params }: { params: { department: string 
         try {
             const response = await fetch(`/api/representative/job_request/${params.department}`, {
                 method: "POST",
-                body: JSON.stringify(formData),
                 headers: {
                     "Content-Type": "application/json",
                 },
+                body: JSON.stringify(formData),
             });
             if (response.status === 409) {
                 return toast.error(
                     "Job request for that position already exists please create a new request."
                 );
+            } else {
+                setShowConfirmationMessage(false);
+                router.refresh();
+                return toast.success("Job request created successfully.");
             }
-            return toast.success("Job request created successfully.");
         } catch (error) {
             console.error(error);
             return toast.error("Internal Server Error. Please try again later.");
@@ -45,10 +51,10 @@ export default function RequestsForm({ params }: { params: { department: string 
     }
 
     return (
-        <div className="w-full min-h-screen flex py-10 items-center justify-center">
+        <div className="w-full min-h-screen flex p-5 items-center justify-center">
             <form
                 onSubmit={handleSubmit}
-                className="w-11/12 flex flex-col gap-10 bg-black rounded-2xl px-5 sm:px-10 py-10 text-white"
+                className="w-full flex flex-col gap-10 bg-black/80 rounded-2xl p-10 text-white"
             >
                 <h1 className="text-center font-bold text-xl text-white">PERSONNEL REQUEST FORM</h1>
                 <div className="flex flex-col text-white gap-10">
@@ -69,12 +75,7 @@ export default function RequestsForm({ params }: { params: { department: string 
                     <LabelAndTextarea name="request_qualification" title="Qualifications" />
                 </div>
 
-                <button
-                    type="submit"
-                    className="w-full py-3 px-14 rounded-lg text-white text-center bg-red-900 font-bold transform hover:scale-95 duration-200"
-                >
-                    Button
-                </button>
+                <Button>Submit Form</Button>
                 {showConfirmationMessage && (
                     <ConfirmationPopup
                         message="Are you sure you want to add office?"
@@ -117,7 +118,7 @@ function LabelAndTextarea({ title, name }: { title: string; name: string }) {
     return (
         <div className="w-full flex flex-col gap-1">
             <label className="font-semibold">{title}</label>
-            <textarea name={name} rows={10} className="textarea textarea-md text-black" />
+            <textarea name={name} rows={15} className="textarea textarea-md text-black" />
         </div>
     );
 }

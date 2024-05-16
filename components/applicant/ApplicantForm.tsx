@@ -1,6 +1,6 @@
 "use client";
 
-import { TitleProps, applicantInputs } from "@/app/types/type";
+import { TitleProps } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
 import { ApplicantInsert, DepartmentSelect, OfficeInsert } from "@/lib/schema";
 import { ChangeEvent, useState } from "react";
@@ -18,6 +18,13 @@ export default function ApplicantForm({ departments, offices }: ApplicantFormPro
         "teachingStaff" | "non-teachingStaff"
     >();
     const [isSuccessfulApplication, setIsSuccessfulApplication] = useState(false);
+
+    const applicantInputs = [
+        { label: "First Name", type: "text", name: "first_name" },
+        { label: "Last Name", type: "text", name: "last_name" },
+        { label: "Email", type: "email", name: "email" },
+        { label: "Contact Number", type: "number", name: "contact_number" },
+    ];
 
     async function clientAction(formData: FormData) {
         try {

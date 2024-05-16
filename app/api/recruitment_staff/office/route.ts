@@ -4,7 +4,7 @@ import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
     try {
         const offices = await db.select().from(schema.office);
 
@@ -14,13 +14,15 @@ export async function GET(request: NextRequest, response: NextResponse) {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const body: officeSchemaProps = await request.json();
         const validationResult = officeSchema.safeParse(body);
+
         if (!validationResult.success) {
             return NextResponse.json(validationResult.error.issues, { status: 409 });
         }
+
         const OfficeExist = await db
             .select()
             .from(schema.office)
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
         if (OfficeExist.length > 0) {
             return NextResponse.json(
                 {
-                    message: "Department already exists.",
+                    message: "Office already exists.",
                     status: 409,
                 },
                 { status: 409 }

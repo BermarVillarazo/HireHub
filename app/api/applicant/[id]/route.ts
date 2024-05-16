@@ -1,16 +1,28 @@
-import { statusSchema, statusSchemaProps } from "@/app/types/type";
+import { ParamsIdProps, statusSchema, statusSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-type ParamsProps = {
-    params: {
-        id: number;
-    };
-};
+export async function GET(request: NextRequest, { params }: ParamsIdProps) {
+    try {
+        const id = params.id;
 
-export async function PUT(request: Request, { params }: ParamsProps) {
+        const applicant = await db
+            .select()
+            .from(schema.applicant)
+            .where(eq(schema.applicant.id, id));
+
+        return NextResponse.json(applicant, { status: 200 });
+    } catch (error) {
+        return NextResponse.json(
+            { message: "Internal Server Error", status: 500 },
+            { status: 500 }
+        );
+    }
+}
+
+export async function PUT(request: Request, { params }: ParamsIdProps) {
     try {
         const id = params.id;
 

@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
     try {
         const applicants = await db.select().from(schema.applicant);
 

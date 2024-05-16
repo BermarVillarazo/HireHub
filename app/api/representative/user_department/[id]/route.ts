@@ -1,11 +1,8 @@
-// todo: Get all department
-// todo: Get all applicants sa
-
 import { ParamsProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(response: NextResponse, request: NextRequest, { params }: ParamsProps) {
+export async function GET(request: NextRequest, { params }: ParamsProps) {
     try {
         const id = params.id;
         const result = await db.query.users.findFirst({

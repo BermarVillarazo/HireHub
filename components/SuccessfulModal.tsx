@@ -11,7 +11,7 @@ const SuccessfulModal = ({ setOpen }: { setOpen: any }) => {
 
     return (
         <>
-            <input type="checkbox" id="id_name" className="modal-toggle " checked={true} />
+            <input type="checkbox" id="id_name" className="modal-toggle" checked={true} />
             <div className="modal w-full" role="dialog">
                 <div
                     className="modal-box p-12 text-center text-black  bg-amber-500 shadow-3xl"

@@ -12,7 +12,7 @@ export default function RecruitmentStaffDashboard({
     offices,
 }: {
     users: User[];
-    departments: DepartmentSelect[]
+    departments: DepartmentSelect[];
     offices: OfficeInsert[];
 }) {
     const [showConfirmationMessage, setShowConfirmationMessage] = useState<boolean>(false);
@@ -52,19 +52,35 @@ export default function RecruitmentStaffDashboard({
                             body: JSON.stringify(formData),
                         }
                     );
-                    if(response.status === 404) {
-                        return toast.error("Department not found");
-                    } else if (response.status === 409) {
-                        return toast.error("Department already exists");
+                    const data = await response.json();
+                    if (data.status === 404) {
+                        return toast.error(data.error);
+                    } else if (data.status === 409) {
+                        return toast.error(data.error);
                     }
                 } catch (error) {
                     console.log(error);
+                    return toast.error("Internal Server Error. Something went wrong!");
                 }
             } else if (selectedRepresentative === "office_representative") {
-                await fetch(`/api/recruitment_staff/staff/office/${selectedRepresentativeId}`, {
-                    method: "PUT",
-                    body: JSON.stringify(formData),
-                });
+                try {
+                    const response = await fetch(
+                        `/api/recruitment_staff/staff/office/${selectedRepresentativeId}`,
+                        {
+                            method: "PUT",
+                            body: JSON.stringify(formData),
+                        }
+                    );
+                    const data = await response.json();
+                    if (data.status === 404) {
+                        return toast.error(data.message);
+                    } else if (data.status === 409) {
+                        return toast.error(data.message);
+                    }
+                } catch (error) {
+                    console.log(error);
+                    return toast.error("Internal Server Error. Something went wrong!");
+                }
             }
 
             router.refresh();
@@ -180,21 +196,6 @@ export default function RecruitmentStaffDashboard({
             </div>
         </div>
     );
-}
-
-function DIV({ title, name, fixWidth }: { title: string; name: string; fixWidth: string }) {
-    return (
-        <div className="flex justify-between items-center p-3 bg-white rounded-lg shadow-xl">
-            <div className="flex flex-col">
-                {/* <Label title={title} /> */}
-                <span className="mx-auto">{name}</span>
-            </div>
-        </div>
-    );
-}
-
-function Label({ title }: { title: string }) {
-    return <label className="font-bold">{title}</label>;
 }
 
 type FieldSetProps = {

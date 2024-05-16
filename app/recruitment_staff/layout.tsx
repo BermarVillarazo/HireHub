@@ -9,11 +9,10 @@ export default async function layout({ children }: ChildrenProps) {
     const { user } = await validateRequest();
 
     if (!user) return redirect("/login");
+    else if (user && user?.departmentName) return redirect(`/${user.departmentName}/requests`);
+    else if (user && user?.officeName) return redirect(`/${user.officeName}/requests`);
+    else if (user && user?.role !== "recruitment_staff") return redirect("/recruitment_staff");
     else if (user && user?.role === "user") return redirect("/user");
-    else if (user && user?.role === "representative") {
-        if (user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
-        else if (user?.officeName) return redirect(`/${user?.officeName}/requests`);
-    }
 
     return (
         <>

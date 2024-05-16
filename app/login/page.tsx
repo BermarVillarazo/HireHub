@@ -8,12 +8,10 @@ import { redirect } from "next/navigation";
 export default async function Login() {
     const { user } = await validateRequest();
 
-    if (user && user?.role === "user") return redirect("/user");
+    if (user && user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
+    else if (user && user?.officeName) return redirect(`/${user?.officeName}/requests`);
     else if (user && user?.role === "recruitment_staff") return redirect("/recruitment_staff");
-    else if (user && user?.role === "representative") {
-        if (user?.departmentName) return redirect(`/${user?.departmentName}/requests`);
-        else if (user?.officeName) return redirect(`/${user?.officeName}/requests`);
-    }
+    else if (user && user?.role === "user") return redirect("/user");
 
     return (
         <section className="flex min-h-screen justify-center items-center px-5 py-20 bg-red-900">

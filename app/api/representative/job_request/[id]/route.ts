@@ -1,23 +1,18 @@
-import { ParamsProps, jobRequestSchema, jobRequestSchemaProps } from "@/app/types/type";
+import { ParamsIdProps, ParamsProps, jobRequestSchema, jobRequestSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(response: NextResponse, request: NextRequest, { params }: ParamsProps) {
+export async function GET(request: NextRequest, { params }: ParamsIdProps) {
     try {
-        const name = params.id;
-        const existDepartment = await db
+        const { id } = params;
+        const jobRequest = await db
             .select()
-            .from(schema.department)
-            .where(eq(schema.department.department_code, name));
+            .from(schema.jobRequest)
+            .where(eq(schema.jobRequest.request_id, id));
 
-        const result = await db.query.jobRequest.findFirst({
-            with: {
-                department: true,
-            },
-        });
-        return NextResponse.json({ result: result?.department });
+        return NextResponse.json({ jobRequest });
     } catch (error) {
         console.log(error);
         return NextResponse.json(
@@ -26,6 +21,7 @@ export async function GET(response: NextResponse, request: NextRequest, { params
         );
     }
 }
+
 
 export async function POST(request: Request, { params }: ParamsProps) {
     try {

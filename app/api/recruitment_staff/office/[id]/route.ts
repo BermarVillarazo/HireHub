@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
 type ParamsProps = {
     params: {
@@ -88,10 +87,7 @@ export async function DELETE(request: Request, { params }: ParamsProps) {
         const office = await db.select().from(schema.office).where(eq(schema.office.office_id, id));
 
         if (!office) {
-            return NextResponse.json(
-                { message: "Office Not Found", status: 404 },
-                { status: 404 }
-            );
+            return NextResponse.json({ message: "Office Not Found", status: 404 }, { status: 404 });
         }
 
         const response = await db.delete(schema.office).where(eq(schema.office.office_id, id));

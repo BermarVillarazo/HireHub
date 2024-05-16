@@ -17,6 +17,7 @@
         "@auth/drizzle-adapter": "^0.8.2",
         "@edgestore/react": "^0.1.6",
         "@edgestore/server": "^0.1.6",
+        "@headlessui/react": "^2.0.3",
         "@lucia-auth/adapter-drizzle": "^1.0.7",
         "@next/env": "^14.2.3",
         "@nextui-org/radio": "^2.0.27",
@@ -46,7 +47,7 @@
         "@types/validator": "^13.11.9",
         "autoprefixer": "^10.0.1",
         "daisyui": "^4.10.5",
-        "drizzle-kit": "^0.20.17",
+        "drizzle-kit": "^0.21.1",
         "postcss": "^8",
         "tailwindcss": "^3.3.0",
         "typescript": "^5"

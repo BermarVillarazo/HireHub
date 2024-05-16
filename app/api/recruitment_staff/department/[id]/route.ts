@@ -1,4 +1,7 @@
-import { requirementStaffDepartmentSchema, requirementStaffDepartmentSchemaProps } from "@/app/types/type";
+import {
+    requirementStaffDepartmentSchema,
+    requirementStaffDepartmentSchemaProps,
+} from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";

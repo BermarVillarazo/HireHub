@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { isEmpty } from "validator";
 
 // Note: set Department
 // uses: To set/ update Deparment ID
@@ -16,7 +17,7 @@ export async function PUT(request: Request, { params }: ParamsProps) {
 
         if (!user) {
             return NextResponse.json(
-                { message: "User Id not found", status: 404 },
+                { error: "User Id not found", status: 404 },
                 { status: 404 }
             );
         }
@@ -44,10 +45,10 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             deptId = department_id;
         });
 
-        if (departmentId.length > 0) {
+        if (user[0].departmentId !== null) {
             return NextResponse.json(
                 {
-                    message: "There is already a user with this department",
+                    error: "There is already a user with this department",
                     status: 409,
                 },
                 { status: 409 }

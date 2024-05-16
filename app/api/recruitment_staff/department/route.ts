@@ -4,7 +4,7 @@ import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
     try {
         const departments = await db.select().from(schema.department);
 
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, response: NextResponse) {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const body: departmentSchemaProps = await request.json();
         const validationResult = departmentSchema.safeParse(body);
