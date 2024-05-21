@@ -3,6 +3,8 @@ import * as schema from "@/lib/schema";
 import { isNotNull } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
     try {
         const departmentUsers = await db
