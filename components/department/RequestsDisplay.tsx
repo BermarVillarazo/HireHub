@@ -6,75 +6,117 @@ import { Fragment, useState } from "react";
 import { Title } from "../Title";
 
 const stepsSequence = [
-    "Screening",
-    "Initial Interview",
-    "Teaching Demo",
-    "Psychological Exam",
-    "Panel Interview",
-    "Recommendation for Hiring",
+  "Screening",
+  "Initial Interview",
+  "Teaching Demo",
+  "Psychological Exam",
+  "Panel Interview",
+  "Recommendation for Hiring",
 ];
 
-export default function RequestsDisplay({ jobRequests }: { jobRequests: JobRequestSelect[] }) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedStep, setSelectedStep] = useState<string>("Screening");
+export default function RequestsDisplay({
+  jobRequests,
+}: {
+  jobRequests: JobRequestSelect[];
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStep, setSelectedStep] = useState<string>("Screening");
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-    };
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
-    const handleUpdateStatus = (newStep: string) => {
-        setSelectedStep(newStep);
-        setIsModalOpen(false);
-    };
+  const handleUpdateStatus = (newStep: string) => {
+    setSelectedStep(newStep);
+    setIsModalOpen(false);
+  };
 
-    const handleStepChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedStep(event.target.value);
-    };
+  const handleStepChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedStep(event.target.value);
+  };
 
-    // Function to determine if a step is before the selected step in the sequence
-    const isBeforeSelectedStep = (step: string) => {
-        return stepsSequence.indexOf(step) < stepsSequence.indexOf(selectedStep);
-    };
+  // Function to determine if a step is before the selected step in the sequence
+  const isBeforeSelectedStep = (step: string) => {
+    return stepsSequence.indexOf(step) < stepsSequence.indexOf(selectedStep);
+  };
 
-    const [selectedID, setSelectedID] = useState(0);
-    const [applicantData, setApplicantData] = useState<ApplicantSelect>();
+  const [selectedID, setSelectedID] = useState(0);
+  const [applicantData, setApplicantData] = useState<ApplicantSelect>();
 
-    // function handleDetails(id: number) {
-    //     setSelectedID(id);
-    //     const applicantId = jobRequest.find((jobRequest) => applicant.id === id);
-    //     setApplicantData(applicantId);
-    // }
+  // function handleDetails(id: number) {
+  //     setSelectedID(id);
+  //     const applicantId = jobRequest.find((jobRequest) => applicant.id === id);
+  //     setApplicantData(applicantId);
+  // }
 
-    const handleNewRequest = () => {
-        // Implement the functionality for submitting a new request
-    };
-    return (
-        <section className="flex-1 p-5">
-            <Title title="CANDIDATES INFORMATION" />
-            <section className="w-full bg-amber-500 rounded-lg my-6 p-12 text-white flex flex-col gap-y-8">
-                {jobRequests.map(
-                    ({
-                        request_id,
-                        requested_position,
-                        request_type,
-                        request_description,
-                        request_qualification,
-                        departmentName,
-                        request_date,
-                    }) => (
-                        <Fragment key={request_id}>
-                            <section className="flex flex-col gap-5">
-                                <h1 className="text-2xl font-bold">{requested_position}</h1>
-                                <p>{request_date ? DateConverter(request_date.toString()) : ""}</p>
-                                <p>{request_type && FirstLetterUpperCase(request_type)}</p>
-                                <p>{request_description}</p>
-                                <p>{request_qualification}</p>
-                            </section>
-                        </Fragment>
-                    )
-                )}
+  const handleNewRequest = () => {
+    // Implement the functionality for submitting a new request
+  };
+  return (
+    <section className="flex-1 p-5">
+      {/* <Title title="CANDIDATES INFORMATION" />   */}
+      <section className="w-full border-red-500 bg-gradient-to-r from-[#FAA916] to-[#FDDFA8] border-l-4 rounded-xl my-12 p-12 text-white flex flex-col gap-y-8">
+        {jobRequests.map(
+          ({
+            request_id,
+            requested_position,
+            request_type,
+            request_description,
+            request_qualification,
+            departmentName,
+            request_date,
+          }) => (
+            <Fragment key={request_id}>
+              <section className="flex flex-col gap-5">
+                <h1 className="text-4xl font-bold text-slate-700">
+                  📝 Request Details
+                </h1>
+                <div className="text-sm font-bold mt-7">
+                  <span className="py-1 px-2 rounded-md bg-red-500">
+                    REQUESTED POSITION:
+                  </span>
+                  <h1 className="text-2xl mt-2 text-slate-50">
+                    ∙ {requested_position}
+                  </h1>
+                </div>
+                <div className="text-sm font-bold mt-2">
+                  <span className="py-1 px-2 rounded-md bg-red-500">
+                    REQUEST DATE:
+                  </span>
+                  <h1 className="text-2xl mt-2 text-slate-50">
+                    ∙{" "}
+                    {request_date ? DateConverter(request_date.toString()) : ""}
+                  </h1>
+                </div>
+                <div className="text-sm font-bold mt-2">
+                  <span className="py-1 px-2 rounded-md bg-red-500">TYPE:</span>
+                  <h1 className="text-2xl mt-2 text-slate-50">
+                    ∙ {request_type && FirstLetterUpperCase(request_type)}
+                  </h1>
+                </div>
+                <div className="text-sm font-bold mt-2">
+                  <span className="py-1 px-2 rounded-md bg-red-500">
+                    DESCRIPTION:
+                  </span>
+                  <h1 className="text-lg font-medium mt-2 text-slate-50">
+                    ∙ {request_description}
+                  </h1>
+                </div>
 
-                {/* <div className="w-full items-center justify-between">
+                <div className="text-sm font-bold mt-2">
+                  <span className="py-1 px-2 rounded-md bg-red-500">
+                    QUALIFICATION:
+                  </span>
+                  <h1 className="text-lg font-medium mt-2 text-slate-50">
+                    ∙ {request_qualification}
+                  </h1>
+                </div>
+              </section>
+            </Fragment>
+          )
+        )}
+
+        {/* <div className="w-full items-center justify-between">
                         <h1 className="font-bold"> APPLICATION STATUS </h1>
 
                         <section className="flex w-full h-52 text-white text-balance relative overflow-hidden">
@@ -233,7 +275,7 @@ export default function RequestsDisplay({ jobRequests }: { jobRequests: JobReque
                             </Dialog>
                         </Transition>
                     </div> */}
-            </section>
-        </section>
-    );
+      </section>
+    </section>
+  );
 }
