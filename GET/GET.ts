@@ -2,22 +2,31 @@ import {
     ApplicantSelect,
     DepartmentSelect,
     JobRequestSelect,
-    OfficeInsert,
+    OfficeSelect,
     User,
 } from "@/lib/schema";
 
 const baseUrl =
     process.env.NODE_ENV === "production"
         ? "https://cit-application-tracker.vercel.app"
-        : "http://localhost:3000";
+        : process.env.NODE_ENV === "development" && "http://localhost:3000";
 
 async function FetchApi(url: string) {
-    const response = await fetch(url, {
-        cache: "no-cache",
-        method: "GET",
-    });
+    try {
+        const response = await fetch(url, {
+            cache: "no-cache",
+            method: "GET",
+        });
 
-    return response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error(`Fetch API error: ${url}`);
+        return null; // Return null or handle the error appropriately
+    }
 }
 
 export async function getAllUsers() {
@@ -36,20 +45,21 @@ export async function getUsersbyID() {
     return data;
 }
 
-export async function getAllDepartments() {
-    const data = await FetchApi(`${baseUrl}/api/recruitment_staff/department`);
-    const departments: DepartmentSelect[] = data.departments;
-    return departments;
-}
+// export async function getAllDepartments() {
+//     const data = await FetchApi(`${baseUrl}/api/recruitment_staff/department`);
+//     const departments: DepartmentSelect[] = data.departments;
+//     return departments;
+// }
 
-export async function getAllOffices() {
-    const response = await fetch("http://localhost:3000/api/recruitment_staff/office", {
-        cache: "no-cache",
-    });
-    const data = await response.json();
-    const offices: OfficeInsert[] = data.offices;
-    return offices;
-}
+// export async function getAllOffices() {
+//     // const response = await fetch("http://localhost:3000/api/recruitment_staff/office", {
+//     //     cache: "no-cache",
+//     // });
+//     // const data = await response.json();
+//     const data = await FetchApi(`${baseUrl}/api/recruitment_staff/office`);
+//     const offices: OfficeSelect[] = data.offices;
+//     return offices;
+// }
 
 export async function getAllOfficesById(id: string) {
     const data = await FetchApi(`${baseUrl}/api/representative/job_request/${id}`);
@@ -91,6 +101,9 @@ export async function getAllDeptartmentOrOfficeRequests(name: string) {
     const officeJobRequests: JobRequestSelect[] = office?.officeRequests;
     return { departmentJobRequests, officeJobRequests };
 }
+// 
+// 
+// 
 
 export async function getAllApplicantsOffice(name: string) {
     const data = await FetchApi(`${baseUrl}/api/representative/office/applicants/${name}`);

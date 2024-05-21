@@ -1,14 +1,12 @@
-import { getAllApplicantsLists } from "@/app/GET/GET";
-import { ApplicantSelect } from "@/lib/schema";
+import { getAllApplicantsLists } from "@/GET/GET";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { Title } from "../Title";
-import { revalidatePath } from "next/cache";
 
 export default async function SidebarApplicant({ department }: { department: string }) {
     const { departmentApplicants, officeApplicants } = await getAllApplicantsLists(department);
 
     revalidatePath(`${department}/requests`);
-    // he 
 
     return (
         <section className="flex flex-col gap-5 w-1/3 h-[100vh] py-5 px-4 sticky top-0 overflow-y-scroll overflow-x-hidden text-base-content">
@@ -56,7 +54,7 @@ type DisplayApplicantProps = {
     position: string;
     departmentName: string;
     officeName: string;
-}
+};
 
 function DisplayApplicant({
     id,

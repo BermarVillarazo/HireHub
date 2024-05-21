@@ -7,7 +7,6 @@ export const roleEnums = pgEnum("role", [
     "recruitment_staff",
     "representative",
 ]);
-
 export const communicationEnums = pgEnum("communicationType", ["Email", "PhoneNumber"]);
 export const positionEnums = pgEnum("positionType", ["teachingStaff", "non-teachingStaff"]);
 export const statusEnums = pgEnum("statusEnums", [
@@ -184,4 +183,5 @@ export type JobRequestInsert = typeof jobRequest.$inferInsert;
 export type UserRole = typeof roleEnums.enumValues;
 export type communicationEnums = typeof communicationEnums.enumValues;
 export type StatusEnums = typeof statusEnums.enumValues;
-export type rating = typeof rating.$inferSelect;
+export type RatingSelect = typeof rating.$inferSelect;
+export type RatingInsert = typeof rating.$inferSelect;

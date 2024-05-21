@@ -167,7 +167,7 @@ export function DateConverter(date: string) {
 }
 
 export function FirstLetterUpperCase(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export const departmentSchema = z.object({
@@ -186,18 +186,6 @@ export const departmentSchema = z.object({
 });
 
 export type departmentSchemaProps = z.infer<typeof departmentSchema>;
-
-export const jobRequestSchema = z.object({
-    requested_position: z.string(),
-    request_type: z.string(),
-    request_description: z
-        .string()
-        .min(1, { message: "Reques Description must have 2 or more characters" }),
-    request_qualification: z.string(),
-    departmentName: z.string().default("empty"),
-});
-
-export type jobRequestSchemaProps = z.infer<typeof jobRequestSchema>;
 
 export const staffDepartmentSchema = z.object({
     departmentName: z.string(),
@@ -218,10 +206,3 @@ export const officeSchema = z.object({
 });
 
 export type officeSchemaProps = z.infer<typeof officeSchema>;
-
-export const statusSchema = z.object({
-    status: z.enum(schema.statusEnums.enumValues),
-    rating: z.number(),
-});
-
-export type statusSchemaProps = z.infer<typeof statusSchema>;

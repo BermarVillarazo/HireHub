@@ -1,6 +1,6 @@
-import { ParamsNameProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
+import { ParamsNameProps } from "@/types/type";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 

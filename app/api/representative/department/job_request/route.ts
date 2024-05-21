@@ -3,6 +3,8 @@ import * as schema from "@/lib/schema";
 import { eq, ne } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
     try {
         const jobRequest = await db.select().from(schema.jobRequest).where(ne(schema.jobRequest.departmentName, "empty"));

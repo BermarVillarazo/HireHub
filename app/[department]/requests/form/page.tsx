@@ -36,9 +36,17 @@ export default function RequestsForm({ params }: { params: { department: string 
                 body: JSON.stringify(formData),
             });
             if (response.status === 409) {
-                return toast.error(
-                    "Job request for that position already exists please create a new request."
-                );
+                const error = await response.json();
+                console.log(error)
+                if(Array.isArray(error)) {
+                    const errorMessages = error.map(({message}) => message)
+                    errorMessages.forEach((errorMessages) => {
+                        console.log(errorMessages)
+                        return toast.error(errorMessages)
+                    })
+                }
+            } else if (!formData) {
+                return toast.error("Please input the fields");
             } else {
                 setShowConfirmationMessage(false);
                 router.refresh();

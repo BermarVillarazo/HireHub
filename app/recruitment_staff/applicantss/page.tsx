@@ -1,4 +1,4 @@
-import { getAllApplicants } from "@/app/GET/GET";
+import { getAllApplicants } from "@/GET/GET";
 
 export default async function Applicant() {
     const applicants = await getAllApplicants();

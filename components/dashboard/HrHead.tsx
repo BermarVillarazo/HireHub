@@ -1,4 +1,4 @@
-import { UserProps } from "@/app/types/type";
+import { UserProps } from "@/types/type";
 
 export default function HrHead({ user }: UserProps) {
     return (

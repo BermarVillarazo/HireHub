@@ -1,4 +1,4 @@
-import { getAllApplicants } from "@/app/GET/GET";
+import { getAllApplicants } from "@/GET/GET";
 import Link from "next/link";
 import { Title } from "../Title";
 
@@ -55,7 +55,7 @@ function DisplayApplicant({
 }: DisplayApplicantProps) {
     return (
         <div className="w-full p-3.5 bg-amber-500 hover:text-white hover:bg-red-900 rounded-lg cursor-pointer hover:scale-95 transition duration-200">
-            <Link href={`/recruitment_staff/applicants/${id}`} scroll={false}>
+            <Link href={`/recruitment_staff/applicant/${id}`} scroll={false}>
                 <div>
                     <h1 className="text-md font-semibold">
                         {first_Name} {last_Name}

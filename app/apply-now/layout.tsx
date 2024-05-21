@@ -1,6 +1,6 @@
-import { ChildrenProps } from "@/app/types/type";
 import { validateRequest } from "@/lib/auth";
 import { EdgeStoreProvider } from "@/lib/edgestore";
+import { ChildrenProps } from "@/types/type";
 import { redirect } from "next/navigation";
 
 export default async function layout({ children }: ChildrenProps) {

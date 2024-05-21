@@ -1,5 +1,5 @@
-import { ParamsProps } from "@/app/types/type";
 import { db } from "@/lib/db";
+import { ParamsProps } from "@/types/type";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest, { params }: ParamsProps) {

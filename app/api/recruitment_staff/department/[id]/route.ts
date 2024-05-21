@@ -1,9 +1,9 @@
+import { db } from "@/lib/db";
+import * as schema from "@/lib/schema";
 import {
     requirementStaffDepartmentSchema,
     requirementStaffDepartmentSchemaProps,
-} from "@/app/types/type";
-import { db } from "@/lib/db";
-import * as schema from "@/lib/schema";
+} from "@/types/type";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -17,19 +17,14 @@ export async function GET(request: Request, { params }: ParamsProps) {
     try {
         const id = params.id;
 
+        const user = await db.select().from(schema.users).where(eq(schema.users.departmentId, id));
+
         const departmentId = await db
             .select()
             .from(schema.department)
             .where(eq(schema.department.department_id, id));
 
-        if (!departmentId) {
-            return NextResponse.json(
-                { message: "Department not found", status: 404 },
-                { status: 404 }
-            );
-        }
-
-        return NextResponse.json({ departmentId, status: 200 }, { status: 200 });
+        return NextResponse.json({ departmentId, user }, { status: 200 });
     } catch (error) {
         return NextResponse.json(
             { message: "Internal Server Error", status: 500 },

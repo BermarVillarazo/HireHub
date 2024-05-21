@@ -12,7 +12,7 @@ export default function LabelInput({ label, value }: LabelInputProps) {
             <input
                 type="text"
                 value={value}
-                className="input input-bordered w-full input-md"
+                className="input input-bordered w-full input-md text-base"
                 disabled
             />
         </div>

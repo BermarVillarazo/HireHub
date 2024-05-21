@@ -1,4 +1,4 @@
-import { FormProps } from "@/app/types/type";
+import { FormProps } from "@/types/type";
 
 export default function SSOButton({ formAction, children }: FormProps) {
     return (

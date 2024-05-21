@@ -1,4 +1,4 @@
-import { getApplicantById } from "@/app/GET/GET";
+import { getApplicantById } from "@/GET/GET";
 import ApplicantListDisplay from "@/components/department/ApplicantListDisplay";
 
 export default async function ApplicantId({ params }: { params: { id: string } }) {

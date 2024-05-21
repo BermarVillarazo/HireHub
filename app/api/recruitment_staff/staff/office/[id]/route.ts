@@ -1,12 +1,22 @@
-import { ParamsProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
+import { ParamsIdProps, ParamsProps } from "@/types/type";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-//Note: update Office
-// Uses : To set/Update the User's OfficeId
+export async function GET(request: NextRequest, { params }: ParamsIdProps) {
+    const { id } = params;
+
+    const user = await db.select().from(schema.users).where(eq(schema.users.departmentId, id));
+    const department = await db
+        .select()
+        .from(schema.department)
+        .where(eq(schema.department.department_id, id));
+
+    return NextResponse.json({ department, user }, { status: 200 });
+}
+
 const officeSchema = z.object({
     officeName: z.string(),
 });
@@ -15,10 +25,10 @@ type officeSchemaProps = z.infer<typeof officeSchema>;
 
 export async function PUT(request: Request, { params }: ParamsProps) {
     try {
-        const id = params.id.toString();
+        const { id } = params;
         const data: officeSchemaProps = await request.json();
 
-        const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
+        const user = await db.select().from(schema.users).where(eq(schema.users.officeName, id));
 
         if (!user) {
             return NextResponse.json(
@@ -38,12 +48,9 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             oId = office_id;
         });
 
-        if (user[0].officeId !== null) {
+        if (officeId.length > 0 && user.length > 1) {
             return NextResponse.json(
-                {
-                    message: "There's already a user with this office",
-                    status: 409,
-                },
+                { error: "There is already a user in this department" },
                 { status: 409 }
             );
         }
@@ -55,18 +62,11 @@ export async function PUT(request: Request, { params }: ParamsProps) {
                 officeId: oId,
                 role: "representative",
             })
-            .where(eq(schema.users.id, id));
+            .where(eq(schema.users.id, id.toString()));
 
         const { command } = reponse;
 
-        return NextResponse.json(
-            {
-                command,
-                message: "Office has been set",
-                status: 200,
-            },
-            { status: 200 }
-        );
+        return NextResponse.json({ officeId, user }, { status: 200 });
     } catch (error) {
         console.log(error);
         return NextResponse.json(

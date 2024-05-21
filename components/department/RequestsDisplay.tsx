@@ -1,7 +1,7 @@
 "use client";
 
-import { DateConverter, FirstLetterUpperCase } from "@/app/types/type";
 import { ApplicantSelect, JobRequestSelect } from "@/lib/schema";
+import { DateConverter, FirstLetterUpperCase } from "@/types/type";
 import { Fragment, useState } from "react";
 import { Title } from "../Title";
 

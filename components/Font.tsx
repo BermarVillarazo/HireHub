@@ -1,4 +1,4 @@
-import { ChildrenProps } from "@/app/types/type";
+import { ChildrenProps } from "@/types/type";
 
 type TextColorWhiteProps = {
     textColorWhite: boolean;

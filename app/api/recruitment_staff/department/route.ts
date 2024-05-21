@@ -1,8 +1,10 @@
-import { departmentSchema, departmentSchemaProps } from "@/app/types/type";
+import { departmentSchema, departmentSchemaProps } from "@/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
     try {

@@ -1,30 +1,30 @@
 "use client";
 
-import { TitleProps } from "@/app/types/type";
 import { useEdgeStore } from "@/lib/edgestore";
-import { ApplicantInsert, DepartmentSelect, OfficeInsert } from "@/lib/schema";
-import { ChangeEvent, useState } from "react";
+import { ApplicantInsert, DepartmentSelect, OfficeInsert, OfficeSelect } from "@/lib/schema";
+import { TitleProps } from "@/types/type";
+import { ChangeEvent, Suspense, useState } from "react";
 import toast from "react-hot-toast";
 import SuccessfulModal from "../SuccessfulModal";
 import { FileState, MultiFileDropzone } from "../multi-file-dropzone";
 
 type ApplicantFormProps = {
     departments: DepartmentSelect[];
-    offices: OfficeInsert[];
+    offices: OfficeSelect[];
 };
+
+const applicantInputs = [
+    { label: "First Name", type: "text", name: "first_name" },
+    { label: "Last Name", type: "text", name: "last_name" },
+    { label: "Email", type: "email", name: "email" },
+    { label: "Contact Number", type: "number", name: "contact_number" },
+] as const;
 
 export default function ApplicantForm({ departments, offices }: ApplicantFormProps) {
     const [selectedPosition, setSelectedPosition] = useState<
         "teachingStaff" | "non-teachingStaff"
     >();
     const [isSuccessfulApplication, setIsSuccessfulApplication] = useState(false);
-
-    const applicantInputs = [
-        { label: "First Name", type: "text", name: "first_name" },
-        { label: "Last Name", type: "text", name: "last_name" },
-        { label: "Email", type: "email", name: "email" },
-        { label: "Contact Number", type: "number", name: "contact_number" },
-    ];
 
     async function clientAction(formData: FormData) {
         try {
@@ -63,7 +63,6 @@ export default function ApplicantForm({ departments, offices }: ApplicantFormPro
             } else {
                 setIsSuccessfulApplication(true);
             }
-            console.log(applicantData);
         } catch (error) {
             return toast.error("Internal Server Error");
         }
@@ -122,9 +121,11 @@ export default function ApplicantForm({ departments, offices }: ApplicantFormPro
                                 <label className="text-lg font-semibold">Department</label>
                                 <select name="teachingStaff" className="text-black rounded-md p-2">
                                     {departments.map(({ department_id, department_name }) => (
-                                        <option key={department_id} value={department_name}>
-                                            {department_name}
-                                        </option>
+                                        <Suspense key={department_id} fallback={<>Loading...</>}>
+                                            <option value={department_name}>
+                                                {department_name}
+                                            </option>
+                                        </Suspense>
                                     ))}
                                 </select>
                             </div>
@@ -137,9 +138,9 @@ export default function ApplicantForm({ departments, offices }: ApplicantFormPro
                                         className="text-black rounded-md p-2"
                                     >
                                         {offices.map(({ office_id, office_name }) => (
-                                            <option key={office_id} value={office_name}>
-                                                {office_name}
-                                            </option>
+                                            <Suspense key={office_name} fallback={<>Loading...</>}>
+                                                <option value={office_name}>{office_name}</option>
+                                            </Suspense>
                                         ))}
                                     </select>
                                 </div>

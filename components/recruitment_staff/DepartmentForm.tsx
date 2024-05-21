@@ -1,6 +1,6 @@
 "use client";
 
-import { InputProps } from "@/app/types/type";
+import { InputProps } from "@/types/type";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";

@@ -1,6 +1,6 @@
-import { officeSchema, officeSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
+import { officeSchema, officeSchemaProps } from "@/types/type";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

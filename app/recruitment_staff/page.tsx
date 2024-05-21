@@ -1,7 +1,59 @@
-import { HighlightProps } from "@/app/types/type";
 import ApplicantsChart from "@/components/recruitment_staff/charts/ApplicantsChart";
+import { baseUrl } from "@/constants";
+import { ApplicantSelect, DepartmentSelect, OfficeSelect } from "@/lib/schema";
+import { HighlightProps } from "@/types/type";
+import { Suspense } from "react";
 
 export default async function Dashboard() {
+    let applicantsUser: ApplicantSelect[] = [];
+    try {
+        const response = await fetch(`${baseUrl}/api/recruitment_staff/applicant`);
+        const applicants = await response.json();
+        applicantsUser = applicants.applicants;
+    } catch (error) {
+        console.error("Error fetching APPLICANTS:", error);
+    }
+    const totalApplicants = applicantsUser.length;
+
+    let department: DepartmentSelect[] = [];
+    try {
+        const departmentResponse = await fetch(`${baseUrl}/api/representative/department`);
+        const departmentData = await departmentResponse.json();
+        department = departmentData.departmentJobRequests;
+    } catch (error) {
+        console.error("Error fetching DEPARTMENTS:", error);
+    }
+
+    let office: OfficeSelect[] = [];
+    try {
+        const officeResponse = await fetch(`${baseUrl}/api/representative/office`);
+        const officeData = await officeResponse.json();
+        office = officeData.officeJobRequests;
+    } catch (error) {
+        console.error("Error fetching OFFICES:", error);
+    }
+
+    const totalDepartmentJobRequests = department.length + office.length;
+
+    const highlightData = [
+        {
+            title: "Total Employees",
+            value: totalApplicants,
+        },
+        {
+            title: "Total Applicants",
+            value: totalApplicants,
+        },
+        {
+            title: "Job View",
+            value: totalApplicants,
+        },
+        {
+            title: "Job Requests",
+            value: totalDepartmentJobRequests,
+        },
+    ];
+
     // bar chart
     const data = {
         labels: ["January", "February", "March", "April", "May", "June", "July"], // y-axis
@@ -22,10 +74,11 @@ export default async function Dashboard() {
     return (
         <section className="py-14">
             <section className="w-10/12 mx-auto flex flex-row gap-x-8">
-                <Highlight title="Total Employees" value={343} />
-                <Highlight title="Total Applicants" value={343} />
-                <Highlight title="Job View" value={343} />
-                <Highlight title="Job Requests" value={343} />
+                <Suspense fallback={<div className="loading loading-spinner loading-lg"></div>}>
+                    {highlightData.map(({ title, value }) => (
+                        <Highlight key={title} title={title} value={value} />
+                    ))}
+                </Suspense>
             </section>
             <section>
                 <div className="w-10/12 h-[70vh] mx-auto rounded-lg my-8 bg-amber-500 flex">

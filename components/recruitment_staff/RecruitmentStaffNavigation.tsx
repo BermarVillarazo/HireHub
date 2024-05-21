@@ -1,10 +1,10 @@
 "use client";
 
-import { RecruitmentStaffNavigationLinks } from "@/app/types/type";
+import { RecruitmentStaffNavigationLinks } from "@/types/type";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function Navbar() {
+export default function RecruitmentStaffNavigation() {
     const [nav, setNav] = useState(false);
 
     function handleNav() {

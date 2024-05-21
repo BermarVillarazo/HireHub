@@ -1,25 +1,33 @@
-import { ParamsProps, staffDepartmentSchemaProps } from "@/app/types/type";
 import { db } from "@/lib/db";
 import * as schema from "@/lib/schema";
+import { ParamsIdProps, ParamsProps, staffDepartmentSchemaProps } from "@/types/type";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
-import { isEmpty } from "validator";
+import { NextRequest, NextResponse } from "next/server";
 
-// Note: set Department
-// uses: To set/ update Deparment ID
+export async function GET(request: NextRequest, { params }: ParamsIdProps) {
+    const { id } = params;
 
-export async function PUT(request: Request, { params }: ParamsProps) {
+    const user = await db.select().from(schema.users).where(eq(schema.users.departmentId, id));
+    const department = await db
+        .select()
+        .from(schema.department)
+        .where(eq(schema.department.department_id, id));
+
+    return NextResponse.json({ department, user }, { status: 200 });
+}
+
+export async function PUT(request: NextRequest, { params }: ParamsProps) {
     try {
-        const id = params.id.toString();
+        const { id } = params;
         const data: staffDepartmentSchemaProps = await request.json();
 
-        const user = await db.select().from(schema.users).where(eq(schema.users.id, id));
+        const user = await db
+            .select()
+            .from(schema.users)
+            .where(eq(schema.users.departmentName, id));
 
         if (!user) {
-            return NextResponse.json(
-                { error: "User Id not found", status: 404 },
-                { status: 404 }
-            );
+            return NextResponse.json({ error: "User Id not found", status: 404 }, { status: 404 });
         }
 
         let deptId;
@@ -45,12 +53,9 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             deptId = department_id;
         });
 
-        if (user[0].departmentId !== null) {
+        if (departmentId.length > 0 && user.length > 1) {
             return NextResponse.json(
-                {
-                    error: "There is already a user with this department",
-                    status: 409,
-                },
+                { error: "There is already a user in this department" },
                 { status: 409 }
             );
         }
@@ -62,19 +67,11 @@ export async function PUT(request: Request, { params }: ParamsProps) {
                 departmentId: deptId,
                 role: "representative",
             })
-            .where(eq(schema.users.id, id));
+            .where(eq(schema.users.id, id.toString()));
 
         const { command } = reponse;
 
-        return NextResponse.json(
-            {
-                command,
-                message: "Department has been set",
-                status: 200,
-                user,
-            },
-            { status: 200 }
-        );
+        return NextResponse.json({ departmentId, user }, { status: 200 });
     } catch (error) {
         console.log(error);
         return NextResponse.json(

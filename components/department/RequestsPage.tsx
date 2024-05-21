@@ -1,6 +1,5 @@
 "use client";
 
-import { TitleProps } from "@/app/types/type";
 import Link from "next/link";
 import Button from "../Button";
 import { Title } from "../Title";
@@ -12,7 +11,7 @@ type RequestPageProps = {
 export default function RequestsPage({ department }: RequestPageProps) {
     return (
         <>
-            <section className="flex-1 p-5">
+            <section className="w-full p-5">
                 <section className="flex justify-between items-center">
                     <Title title="REQUEST DETAILS" />
                     <Button>
@@ -26,5 +25,3 @@ export default function RequestsPage({ department }: RequestPageProps) {
         </>
     );
 }
-
-

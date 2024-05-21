@@ -26,7 +26,7 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "components/dashboard/RecruitmentStaffDashboard.tsx",
+        "components/recruitment_staff/RecruitmentStaffUsersPage.tsx",
         "components/Title.tsx"
     ],
     "exclude": ["node_modules"]
