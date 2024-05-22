@@ -19,7 +19,7 @@ type RecruitmentStaffUsersPageProps = {
     offices: OfficeSelect[];
 };
 
-export default function RecruitmentStaffUsersPage({
+export default function wRecruitmentStaffUsersPage({
     users,
     departments,
     offices,

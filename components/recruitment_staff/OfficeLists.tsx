@@ -11,7 +11,8 @@ export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
     const [selectedOfficeId, setSelectedOfficeId] = useState<number | null>(null);
     const router = useRouter();
 
-    function handleDeleteOffice(officeId: number) {
+    function handleDeleteOffice(e: any, officeId: number) {
+        e.preventDefault();
         setSelectedOfficeId(officeId);
         setShowConfirmationMessage(true);
     }
@@ -26,11 +27,11 @@ export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
 
         const data = await response.json();
 
+        router.refresh();
         if (response.status === 404) {
             const error = await response.json();
             return toast.error(error);
         } else {
-            router.refresh();
             setShowConfirmationMessage(false);
             return toast.success(data.message);
         }
@@ -47,7 +48,9 @@ export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
                         <span className="mx-auto">{office_name}</span>
                     </div>
                     <button
-                        formAction={(e) => handleDeleteOffice(office_id!)}
+                        onClick={(e) => {
+                            handleDeleteOffice(e, office_id!);
+                        }}
                         className="group w-32 relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-red-900 bg-gradient-to-tr from-red-700 to-red-800 p-3 font-bold text-white shadow-lg transition duration-100 ease-in-out active:translate-y-0.5 hover:scale-95 active:shadow-none"
                     >
                         Delete
