@@ -62,6 +62,11 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             })
             .where(eq(schema.office.office_id, id));
 
+        // await db.update(schema.office).set({
+        //     office_name: null,
+        //     office_code: null,
+        // });
+
         const { command } = reponse;
 
         return NextResponse.json(

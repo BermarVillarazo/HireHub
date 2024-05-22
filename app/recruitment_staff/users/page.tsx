@@ -32,7 +32,13 @@ export default async function RecruitmentStaff() {
 
     let departments: DepartmentSelect[] = [];
     try {
-        const response = await fetch(`${baseUrl}/api/recruitment_staff/department`);
+        const response = await fetch(`${baseUrl}/api/recruitment_staff/department`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const data = await response.json();
         departments = data.departments;
     } catch (error) {
@@ -41,7 +47,13 @@ export default async function RecruitmentStaff() {
 
     let offices: OfficeSelect[] = [];
     try {
-        const response = await fetch(`${baseUrl}/api/recruitment_staff/office`);
+        const response = await fetch(`${baseUrl}/api/recruitment_staff/office`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const data = await response.json();
         offices = data.offices;
     } catch (error) {

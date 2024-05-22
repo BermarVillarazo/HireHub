@@ -7,7 +7,13 @@ import { ReactNode, Suspense } from "react";
 export default async function DepartmentPage() {
     let departments: DepartmentSelect[] = [];
     try {
-        const response = await fetch(`${baseUrl}/api/recruitment_staff/department`);
+        const response = await fetch(`${baseUrl}/api/recruitment_staff/department`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const data = await response.json();
         departments = data.departments;
     } catch (error) {

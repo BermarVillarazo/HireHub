@@ -1,103 +1,51 @@
 "use client";
 
 import { ApplicantSelect } from "@/lib/schema";
-import Link from "next/link";
 import { Fragment, useState } from "react";
-import LabelInput from "./LabelInput";
 import { Title } from "../Title";
+import LabelInput from "./LabelInput";
 
 const stepsSequence = [
-  "Screening",
-  "Initial Interview",
-  "Teaching Demo",
-  "Psychological Exam",
-  "Panel Interview",
-  "Recommendation for Hiring",
+    "Screening",
+    "Initial Interview",
+    "Teaching Demo",
+    "Psychological Exam",
+    "Panel Interview",
+    "Recommendation for Hiring",
 ];
 
-export default function ApplicantListDisplay({
-  applicant,
-}: {
-  applicant: ApplicantSelect[];
-}) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedStep, setSelectedStep] = useState<string>("Screening");
+export default function ApplicantListDisplay({ applicant }: { applicant: ApplicantSelect[] }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedStep, setSelectedStep] = useState<string>("Screening");
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+    return (
+        <section className="flex-1 p-5">
+            <Title title="CANDIDATES INFORMATION" />
+            <section className="w-full bg-amber-500 rounded-lg mt-5 p-12 text-white flex flex-col gap-y-8">
+                {applicant.map(({ id, first_Name, last_Name, email, position, communication, status }) => (
+                    <Fragment key={id}>
+                        <section className="flex items-center gap-5">
+                            <div className="bg-gray-300 h-24 w-24 rounded-full overflow-hidden"></div>
+                            <h1 className="text-2xl font-bold">
+                                {first_Name} {last_Name}
+                            </h1>
+                        </section>
+                        <div className="grid grid-cols-2 gap-5">
+                            <LabelInput label="Email" value={email} />
+                            <LabelInput label="Contact Number" value={communication} />
+                            <LabelInput label="Preferred Communication Type" value={email} />
+                            <LabelInput
+                                label="Applied as"
+                                value={`${position === "teachingStaff" && "Teaching Staff"}`}
+                            />
+                        </div>
+                        <div>
+                            <label>Status: {status}</label>
+                        </div>
+                    </Fragment>
+                ))}
 
-  const handleUpdateStatus = (newStep: string) => {
-    setSelectedStep(newStep);
-    setIsModalOpen(false);
-  };
-
-  const handleStepChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedStep(event.target.value);
-  };
-
-  // Function to determine if a step is before the selected step in the sequence
-  const isBeforeSelectedStep = (step: string) => {
-    return stepsSequence.indexOf(step) < stepsSequence.indexOf(selectedStep);
-  };
-
-  const [selectedID, setSelectedID] = useState(0);
-  const [applicantData, setApplicantData] = useState<ApplicantSelect>();
-
-  function handleDetails(id: number) {
-    setSelectedID(id);
-    const applicantId = applicant.find((applicant) => applicant.id === id);
-    setApplicantData(applicantId);
-  }
-
-  const handleNewRequest = () => {
-    // Implement the functionality for submitting a new request
-  };
-
-  console.log(applicant.length);
-
-  return (
-    <section className="flex-1 p-5">
-      <Title title="CANDIDATES INFORMATION" />
-      <section className="w-full bg-amber-500 rounded-lg mt-5 p-12 text-white flex flex-col gap-y-8">
-        {}
-        {/* {applicant.map(
-          ({ id, first_Name, last_Name, email, position, communication }) => (
-            <Fragment key={id}>
-              <section className="flex items-center gap-5">
-                <div className="bg-gray-300 h-24 w-24 rounded-full overflow-hidden"></div>
-                <h1 className="text-2xl font-bold">
-                  {first_Name} {last_Name}
-                </h1>
-              </section>
-              <div className="grid grid-cols-2 gap-5">
-                <LabelInput label="Email" value={email} />
-                <LabelInput label="Contact Number" value={communication} />
-                <LabelInput
-                  label="Preferred Communication Type"
-                  value={email}
-                />
-                <LabelInput
-                  label="Applied as"
-                  value={`${position === "teachingStaff" && "Teaching Staff"}`}
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out whitespace-nowrap">
-                  UPDATE STATUS
-                </button>
-                <Link
-                  href={`mailto:${email}`}
-                  className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out whitespace-nowrap"
-                >
-                  SEND EMAIL
-                </Link>
-              </div>
-            </Fragment>
-          )
-        )} */}
-
-        {/* <div className="w-full items-center justify-between">
+                {/* <div className="w-full items-center justify-between">
                         <h1 className="font-bold"> APPLICATION STATUS </h1>
 
                         <section className="flex w-full h-52 text-white text-balance relative overflow-hidden">
@@ -256,7 +204,7 @@ export default function ApplicantListDisplay({
                             </Dialog>
                         </Transition>
                     </div> */}
-      </section>
-    </section>
-  );
+            </section>
+        </section>
+    );
 }

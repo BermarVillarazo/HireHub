@@ -11,13 +11,7 @@ export type ParamsNameProps = {
     params: {
         name: string;
     };
-};
-
-export type DepartmentProps = {
-    params: {
-        department: string;
-    };
-};
+}
 
 export const RecruitmentStaffNavigationLinks = [
     { href: "/recruitment_staff", name: "Dashboard" },

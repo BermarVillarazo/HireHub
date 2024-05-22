@@ -14,8 +14,8 @@ const baseUrl =
 async function FetchApi(url: string) {
     try {
         const response = await fetch(url, {
-            cache: "no-cache",
             method: "GET",
+            cache: "no-cache",
         });
 
         if (!response.ok) {
@@ -94,13 +94,13 @@ export async function getAllApplicantsLists(name: string) {
 // GETS ALL THE JOB REQUESTS LISTS FOR A PARTICULAR DEPARTMENT OR OFFICE
 // DEPENDING ON THE NAME PASSED
 // THE NAME IS EITHER THE DEPARTMENT NAME OR OFFICE NAME
-export async function getAllDeptartmentOrOfficeRequests(name: string) {
-    const department = await FetchApi(`${baseUrl}/api/representative/department/${name}`);
-    const office = await FetchApi(`${baseUrl}/api/representative/office/${name}`);
-    const departmentJobRequests: JobRequestSelect[] = department?.departmentRequests;
-    const officeJobRequests: JobRequestSelect[] = office?.officeRequests;
-    return { departmentJobRequests, officeJobRequests };
-}
+// export async function getAllDeptartmentOrOfficeRequests(name: string) {
+//     const department = await FetchApi(`${baseUrl}/api/representative/department/${name}`);
+//     const office = await FetchApi(`${baseUrl}/api/representative/office/${name}`);
+//     const departmentJobRequests: JobRequestSelect[] = department?.departmentRequests;
+//     const officeJobRequests: JobRequestSelect[] = office?.officeRequests;
+//     return { departmentJobRequests, officeJobRequests };
+// }
 // 
 // 
 // 

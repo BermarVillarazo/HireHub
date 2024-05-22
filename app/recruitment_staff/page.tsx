@@ -7,7 +7,13 @@ import { Suspense } from "react";
 export default async function Dashboard() {
     let applicantsUser: ApplicantSelect[] = [];
     try {
-        const response = await fetch(`${baseUrl}/api/recruitment_staff/applicant`);
+        const response = await fetch(`${baseUrl}/api/recruitment_staff/applicant`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const applicants = await response.json();
         applicantsUser = applicants.applicants;
     } catch (error) {
@@ -17,7 +23,13 @@ export default async function Dashboard() {
 
     let department: DepartmentSelect[] = [];
     try {
-        const departmentResponse = await fetch(`${baseUrl}/api/representative/department`);
+        const departmentResponse = await fetch(`${baseUrl}/api/representative/department`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const departmentData = await departmentResponse.json();
         department = departmentData.departmentJobRequests;
     } catch (error) {
@@ -26,7 +38,13 @@ export default async function Dashboard() {
 
     let office: OfficeSelect[] = [];
     try {
-        const officeResponse = await fetch(`${baseUrl}/api/representative/office`);
+        const officeResponse = await fetch(`${baseUrl}/api/representative/office`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const officeData = await officeResponse.json();
         office = officeData.officeJobRequests;
     } catch (error) {
@@ -56,11 +74,23 @@ export default async function Dashboard() {
 
     // bar chart
     const data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"], // y-axis
+        labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+        ], // y-axis
         datasets: [
             {
                 label: "My First Dataset",
-                data: [65, 59, 80, 81, 56, 55, 40], // x-axis
+                data: [0, 0, 0, 0, totalApplicants], // x-axis
                 backgroundColor: "black",
                 borderColor: "black",
                 borderWidth: 1,

@@ -3,13 +3,17 @@ import { DepartmentSelect, OfficeSelect } from "@/lib/schema";
 import { Suspense } from "react";
 
 export default async function ApplyNow() {
-    // const departments = await getAllDepartments();
-    // const offices = await getAllOffices();
     let departments: DepartmentSelect[] = [];
-    let offices: OfficeSelect[] = [];
     try {
         const departmentsResponse = await fetch(
-            `https://cit-application-tracker.vercel.app/api/recruitment_staff/department`
+            `https://cit-application-tracker.vercel.app/api/recruitment_staff/department`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                cache: "no-cache",
+            }
         );
         const department = await departmentsResponse.json();
         departments = department.departments;
@@ -17,9 +21,17 @@ export default async function ApplyNow() {
         console.log("Failed to fetch DEPARTMENT:", error);
     }
 
+    let offices: OfficeSelect[] = [];
     try {
         const officeResponse = await fetch(
-            `https://cit-application-tracker.vercel.app/api/recruitment_staff/office`
+            `https://cit-application-tracker.vercel.app/api/recruitment_staff/office`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                cache: "no-cache",
+            }
         );
         const office = await officeResponse.json();
         offices = office.offices;

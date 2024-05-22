@@ -110,7 +110,7 @@ export default function RecruitmentStaffUsersPage({
                         <Div>{lastName}</Div>
                         <Div>{email}</Div>
                         <Div>{role}</Div>
-                        <select name="departmentName" className="w-full h-full text-base">
+                        <select name="departmentName" className="w-full h-full text-sm">
                             <DefualtOption>Choose a Dept...</DefualtOption>
                             {departments.map(({ department_id, department_name }) => (
                                 <Fragment key={department_id}>
@@ -118,7 +118,7 @@ export default function RecruitmentStaffUsersPage({
                                 </Fragment>
                             ))}
                         </select>
-                        <select name="officeName" className="w-full h-full text-base">
+                        <select name="officeName" className="w-full h-full text-sm">
                             <DefualtOption>Choose an Office...</DefualtOption>
                             {offices.map(({ office_id, office_name }) => (
                                 <Fragment key={office_id}>
@@ -149,7 +149,7 @@ export default function RecruitmentStaffUsersPage({
 }
 
 function Div({ children }: ChildrenProps) {
-    return <div className="flex items-center justify-center text-base leading-4">{children}</div>;
+    return <div className="flex items-center justify-center text-sm leading-4">{children}</div>;
 }
 
 function DefualtOption({ children }: ChildrenProps) {

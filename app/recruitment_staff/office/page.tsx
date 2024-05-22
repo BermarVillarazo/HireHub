@@ -7,7 +7,13 @@ import { ReactNode, Suspense } from "react";
 export default async function OfficePage() {
     let offices: OfficeSelect[] = [];
     try {
-        const response = await fetch(`${baseUrl}/api/recruitment_staff/office`);
+        const response = await fetch(`${baseUrl}/api/recruitment_staff/office`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
+        });
         const data = await response.json();
         offices = data.offices;
     } catch (error) {

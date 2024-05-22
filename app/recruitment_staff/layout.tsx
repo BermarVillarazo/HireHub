@@ -1,10 +1,9 @@
 import Logout from "@/components/Logout";
+import RecruitmentStaffNavigation from "@/components/recruitment_staff/RecruitmentStaffNavigation";
 import { validateRequest } from "@/lib/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChildrenProps, RecruitmentStaffNavigationLinks } from "../../types/type";
-import RecruitmentStaffSubnavigation from "@/components/recruitment_staff/RecruitmentStaffSubnavigation";
-import RecruitmentStaffNavigation from "@/components/recruitment_staff/RecruitmentStaffNavigation";
 
 export default async function layout({ children }: ChildrenProps) {
     const { user } = await validateRequest();

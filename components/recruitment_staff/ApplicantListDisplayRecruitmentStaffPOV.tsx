@@ -9,8 +9,10 @@ import Button from "../Button";
 import ConfirmationPopup from "../Modal";
 import LabelInput from "../department/LabelInput";
 
+import { baseUrl } from "@/constants";
 import EmptyStar from "@/public/empty-star.svg";
 import SolidStar from "@/public/solid-star.svg";
+import Link from "next/link";
 
 const stepsSequence = [
     "Screening",
@@ -55,8 +57,6 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // const status_name = e.currentTarget.status_name.value;
-        // const rating = e.currentTarget.rating.value;
         const updateStatus: StatusUpdate = {
             status_name: e.currentTarget.status_name.value,
             rating: Number(e.currentTarget.rating.value),
@@ -68,23 +68,23 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
 
     async function handleConfirmUpdateUserRole() {
         try {
-            // const response = await fetch(`${baseUrl}/api/applicant/${id}`, {
-            //     method: "PUT",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify(formData),
-            // });
+            const response = await fetch(`${baseUrl}/api/applicant/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
 
-            // const data = await response.json();
+            const data = await response.json();
 
-            // if (data.status === 409) {
-            //     return toast.error(data.message);
-            // } else if (data.status === 404) {
-            //     return toast.error(data.message);
-            // }
+            if (data.status === 409) {
+                return toast.error(data.message);
+            } else if (data.status === 404) {
+                return toast.error(data.message);
+            }
+
             setRating(0);
-
             setShowConfirmationMessage(false);
             router.refresh();
             handleNextStep();
@@ -108,13 +108,19 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
                     position,
                     communication,
                     status,
+                    resume,
                 }) => (
                     <Fragment key={id}>
                         <section className="flex items-center gap-5">
                             <div className="bg-gray-300 h-24 w-24 rounded-full overflow-hidden"></div>
-                            <h1 className="text-2xl font-bold">
-                                {first_Name} {last_Name}
-                            </h1>
+                            <div className="flex flex-col">
+                                <h1 className="text-2xl font-bold">
+                                    {first_Name} {last_Name}
+                                </h1>
+                                <Link href={resume!} target="_blank" className="underline text-blue-600 hover:text-black w-fit">
+                                    Resume
+                                </Link>
+                            </div>
                         </section>
                         <div className="grid grid-cols-2 gap-5">
                             <LabelInput label="Email" value={email} />
@@ -127,7 +133,7 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
                             {departmentName && (
                                 <LabelInput label="Department" value={departmentName} />
                             )}
-                            {officeName && <LabelInput label="Department" value={officeName} />}
+                            {officeName && <LabelInput label="Office" value={officeName} />}
                         </div>
                         <section className="flex flex-col gap-5 w-full">
                             <h1 className="font-bold"> APPLICATION STATUS </h1>
@@ -199,12 +205,12 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
                         </section>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <Button>UPDATE STATUS</Button>
-                            {/* <Link
+                            <Link
                                 href={`mailto:${email}`}
                                 className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-200 ease-in-out whitespace-nowrap"
                             >
                                 SEND EMAIL
-                            </Link> */}
+                            </Link>
                         </div>
                     </Fragment>
                 )
@@ -212,7 +218,7 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
 
             {showConfirmationMessage && (
                 <ConfirmationPopup
-                    message="Are you sure you want to update the role of user"
+                    message="Are you sure you want to update applicant status"
                     onCancel={() => setShowConfirmationMessage(false)}
                     onConfirm={handleConfirmUpdateUserRole}
                 />
@@ -221,36 +227,36 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
     );
 }
 
-type StatusNameProps = {
-    value: string;
-};
+// type StatusNameProps = {
+//     value: string;
+// };
 
-function StatusName({ value }: StatusNameProps) {
-    return (
-        <div className="flex flex-col">
-            <input type="radio" name="status_name" value={value} className="radio radio-error" />
-        </div>
-    );
-}
+// function StatusName({ value }: StatusNameProps) {
+//     return (
+//         <div className="flex flex-col">
+//             <input type="radio" name="status_name" value={value} className="radio radio-error" />
+//         </div>
+//     );
+// }
 
-type RatingProps = {
-    name?: string;
-    value?: string;
-    disabled?: boolean;
-};
+// type RatingProps = {
+//     name?: string;
+//     value?: string;
+//     disabled?: boolean;
+// };
 
-function Rating({ name, value, disabled }: RatingProps) {
-    return (
-        <input
-            type="text"
-            name={name}
-            value={value}
-            maxLength={1}
-            readOnly
-            disabled={disabled}
-            className={`block w-9 h-9 p-2 text-sm font-extrabold text-center text-black bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
-                disabled === true ? "bg-white/60" : "bg-white"
-            }`}
-        />
-    );
-}
+// function Rating({ name, value, disabled }: RatingProps) {
+//     return (
+//         <input
+//             type="text"
+//             name={name}
+//             value={value}
+//             maxLength={1}
+//             readOnly
+//             disabled={disabled}
+//             className={`block w-9 h-9 p-2 text-sm font-extrabold text-center text-black bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
+//                 disabled === true ? "bg-white/60" : "bg-white"
+//             }`}
+//         />
+//     );
+// }

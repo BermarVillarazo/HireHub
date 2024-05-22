@@ -20,7 +20,7 @@ export default function DepartmentForm() {
         e.preventDefault();
 
         const formDepartmentData = {
-            department_code: e.currentTarget.department_code.value,
+            department_code: e.currentTarget.department_code.value.toUpperCase(),
             department_name: e.currentTarget.department_name.value,
         };
 

@@ -37,21 +37,21 @@ export async function PUT(request: Request, { params }: ParamsIdProps) {
         const body: statusSchemaProps = await request.json();
         const validationResult = statusSchema.safeParse(body);
 
-        // if (!validationResult.success) {
-        //     return NextResponse.json(validationResult.error.issues, { status: 409 });
-        // }
+        if (!validationResult.success) {
+            return NextResponse.json(validationResult.error.issues, { status: 409 });
+        }
 
         const applicant = await db
             .select()
             .from(schema.applicant)
             .where(eq(schema.applicant.id, id));
 
-        // if (!applicant) {
-        //     return NextResponse.json(
-        //         { message: "Applicant not found", status: 404 },
-        //         { status: 404 }
-        //     );
-        // }
+        if (!applicant) {
+            return NextResponse.json(
+                { message: "Applicant not found", status: 404 },
+                { status: 404 }
+            );
+        }
 
         await db
             .update(schema.applicant)

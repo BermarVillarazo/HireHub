@@ -1,35 +1,21 @@
+import { Title } from "@/components/Title";
+import Image from "next/image";
+
 export default async function Applicants() {
-    // const { departmentApplicants, officeApplicants } = await getAllApplicantsLists(
-    //     params.department
-    // );
-
-    // let departmentApplicants: ApplicantSelect[] = [];
-    // let officeApplicants: ApplicantSelect[] = [];
-
-    // try {
-    //     const departmentResponse = await fetch(
-    //         `https://cit-application-tracker.vercel.app/api/representative/department/applicants/${params.department}`
-    //     );
-    //     const department = await departmentResponse.json();
-    //     departmentApplicants = department.applicants;
-    // } catch (error) {
-    //     console.log("Failed to fetch DEPARTMENTS:", error);
-    // }
-
-    // try {
-    //     const officeResponse = await fetch(
-    //         `https://cit-application-tracker.vercel.app/api/representative/office/applicants/${params.department}`
-    //     );
-    //     const office = await officeResponse.json();
-    //     officeApplicants = office.applicants;
-    // } catch (error) {
-    //     console.log("Failed to fetch OFFICES:", error);
-    // }
-
     return (
-        <section className="w-11/12 flex flex-row gap-10 mx-auto p-5">
-            DEFAULT DISPLAY
-            {/* <ApplicantsList applicants={departmentApplicants || officeApplicants} /> */}
+        <section className="w-full p-5">
+            <section className="flex justify-between items-center">
+                <Title title="Request Details" />
+            </section>
+            <section className="details-section w-full bg-gradient-to-r from-[#7F0000] to-[#d9a5a5] rounded-2xl mt-5 text-white flex flex-col gap-y-4 items-center shadow-2xl">
+                <Image src="/Checklist-pana.svg" width={300} height={300} alt="Checklist" />
+                <div className="w-full bg-white text-slate-700 p-6 rounded-b-2xl">
+                    <h1 className="text-left font-bold text-3xl mb-2">Welcome!</h1>
+                    <p className="text-slate-500 mb-6">
+                        Here, you can view, update, and track all the applicants requests.
+                    </p>
+                </div>
+            </section>
         </section>
     );
 }

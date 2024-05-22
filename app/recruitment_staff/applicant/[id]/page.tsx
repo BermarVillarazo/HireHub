@@ -8,6 +8,10 @@ export default async function ApplicantId({ params }: { params: { id: string } }
     try {
         const response = await fetch(`${baseUrl}/api/applicant/${params.id}`, {
             method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
         });
         const data = await response.json();
         applicant = data.applicant;
@@ -19,6 +23,10 @@ export default async function ApplicantId({ params }: { params: { id: string } }
     try {
         const response = await fetch(`${baseUrl}/api/applicant/status`, {
             method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            cache: "no-cache",
         });
         const data = await response.json();
         status = data.status;
