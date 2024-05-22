@@ -84,9 +84,9 @@ function DisplayApplicant({
   index,
 }: DisplayApplicantProps) {
   return (
-    <div className="w-full border-l-4 border-red-500 bg-gradient-to-r from-[#FAA916] to-[#FDDFA8] px-8 py-6 rounded-xl shadow-md hover:scale-95 duration-500 flex flex-col gap-5">
-      <div className="flex gap-4">
-        <span className="font-bold text-4xl w-[18%] min-w-[70px] flex items-center justify-center bg-white text-custom-yellow rounded-full">
+    <div className="w-full border-l-4 border-red-500 bg-gradient-to-l from-[#FAA916] to-[#FDDFA8] px-8 py-6 rounded-xl shadow-md hover:scale-95 duration-500 flex flex-col gap-5">
+      <div className="flex gap-4 relative">
+        <span className="font-bold text-3xl p-4 flex items-center justify-center bg-white text-custom-yellow rounded-full absolute -right-2 -top-2">
           {index < 10 ? "0" + (index + 1).toString() : index}
         </span>
         <div className="flex flex-col">

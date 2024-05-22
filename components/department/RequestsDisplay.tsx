@@ -55,7 +55,7 @@ export default function RequestsDisplay({
   return (
     <section className="flex-1 p-5">
       {/* <Title title="CANDIDATES INFORMATION" />   */}
-      <section className="w-full border-red-500 bg-gradient-to-r from-[#FAA916] to-[#FDDFA8] border-l-4 rounded-xl my-12 p-12 text-white flex flex-col gap-y-8">
+      <section className="w-full border-red-500 bg-[#FAA916] shadow-xl border-l-4 rounded-xl my-12 p-12 text-white flex flex-col gap-y-8">
         {jobRequests.map(
           ({
             request_id,
@@ -68,14 +68,14 @@ export default function RequestsDisplay({
           }) => (
             <Fragment key={request_id}>
               <section className="flex flex-col gap-5">
-                <h1 className="text-4xl font-bold text-slate-700">
+                <h1 className="text-4xl font-bold text-black">
                   📝 Request Details
                 </h1>
                 <div className="text-sm font-bold mt-7">
                   <span className="py-1 px-2 rounded-md bg-red-500">
                     REQUESTED POSITION:
                   </span>
-                  <h1 className="text-2xl mt-2 text-slate-50">
+                  <h1 className="text-sm mt-2 text-slate-700 bg-white p-2 rounded-md shadow-inner border-b-2 border-red-500">
                     ∙ {requested_position}
                   </h1>
                 </div>
@@ -83,14 +83,14 @@ export default function RequestsDisplay({
                   <span className="py-1 px-2 rounded-md bg-red-500">
                     REQUEST DATE:
                   </span>
-                  <h1 className="text-2xl mt-2 text-slate-50">
+                  <h1 className="text-sm mt-2 text-slate-700 bg-white p-2 rounded-md shadow-inner border-b-2 border-red-500">
                     ∙{" "}
                     {request_date ? DateConverter(request_date.toString()) : ""}
                   </h1>
                 </div>
                 <div className="text-sm font-bold mt-2">
                   <span className="py-1 px-2 rounded-md bg-red-500">TYPE:</span>
-                  <h1 className="text-2xl mt-2 text-slate-50">
+                  <h1 className="text-sm mt-2 text-slate-700 bg-white p-2 rounded-md shadow-inner border-b-2 border-red-500">
                     ∙ {request_type && FirstLetterUpperCase(request_type)}
                   </h1>
                 </div>
@@ -98,7 +98,7 @@ export default function RequestsDisplay({
                   <span className="py-1 px-2 rounded-md bg-red-500">
                     DESCRIPTION:
                   </span>
-                  <h1 className="text-lg font-medium mt-2 text-slate-50">
+                  <h1 className="text-sm mt-2 text-slate-700 bg-white p-2 rounded-md shadow-inner border-b-2 border-red-500">
                     ∙ {request_description}
                   </h1>
                 </div>
@@ -107,7 +107,7 @@ export default function RequestsDisplay({
                   <span className="py-1 px-2 rounded-md bg-red-500">
                     QUALIFICATION:
                   </span>
-                  <h1 className="text-lg font-medium mt-2 text-slate-50">
+                  <h1 className="text-sm mt-2 text-slate-700 bg-white p-2 rounded-md shadow-inner border-b-2 border-red-500">
                     ∙ {request_qualification}
                   </h1>
                 </div>
