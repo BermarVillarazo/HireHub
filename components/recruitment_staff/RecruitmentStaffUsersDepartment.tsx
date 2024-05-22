@@ -54,7 +54,7 @@ export default function RecruitmentStaffUsersDepartmentPage({
                     `/api/recruitment_staff/staff/department/${selectedRepresentativeId}`,
                     {
                         method: "PUT",
-                        body: JSON.stringify({ ...formData, office_name: null }),
+                        body: JSON.stringify({ ...formData }),
                     }
                 );
                 const data = await response.json();
@@ -80,7 +80,7 @@ export default function RecruitmentStaffUsersDepartmentPage({
                     `/api/recruitment_staff/staff/office/${selectedRepresentativeId}`,
                     {
                         method: "PUT",
-                        body: JSON.stringify({ ...formData, department_name: null }),
+                        body: JSON.stringify({ ...formData }),
                     }
                 );
                 const data = await response.json();

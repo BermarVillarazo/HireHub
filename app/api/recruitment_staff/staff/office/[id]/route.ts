@@ -60,6 +60,8 @@ export async function PUT(request: Request, { params }: ParamsProps) {
             .set({
                 officeName: officeName,
                 officeId: oId,
+                departmentName: null,
+                departmentId: null,
                 role: "representative",
             })
             .where(eq(schema.users.id, id.toString()));
