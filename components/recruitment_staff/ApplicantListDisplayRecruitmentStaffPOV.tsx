@@ -88,7 +88,7 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
             setShowConfirmationMessage(false);
             router.refresh();
             handleNextStep();
-            return toast.success("Applicant status updated successfully. Thanks dear!");
+            return toast.success("Applicant status updated successfully.");
         } catch (error) {
             console.log(error);
             return toast.error("An error occurred. Please try again later.");

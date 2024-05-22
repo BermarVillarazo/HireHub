@@ -11,8 +11,7 @@ export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
     const [selectedOfficeId, setSelectedOfficeId] = useState<number | null>(null);
     const router = useRouter();
 
-    function handleDeleteOffice(e: any, officeId: number) {
-        e.preventDefault();
+    function handleDeleteOffice(officeId: number) {
         setSelectedOfficeId(officeId);
         setShowConfirmationMessage(true);
     }
@@ -33,14 +32,14 @@ export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
             return toast.error(error);
         } else {
             setShowConfirmationMessage(false);
-            return toast.success(data.message);
+            return toast.success("Office Deleted successfully!");
         }
     }
 
     return (
         <>
             {offices.map(({ office_id, office_name, office_code }) => (
-                <form key={office_id} className="flex justify-between gap-3 items-center">
+                <form key={office_id} onSubmit={(e) => e.preventDefault()} className="flex justify-between gap-3 items-center">
                     <div className="flex justify-between items-center w-52 p-3 bg-white rounded-lg shadow-xl">
                         <span className="mx-auto">{office_code.toUpperCase()}</span>
                     </div>
@@ -48,9 +47,7 @@ export default function OfficeLists({ offices }: { offices: OfficeInsert[] }) {
                         <span className="mx-auto">{office_name}</span>
                     </div>
                     <button
-                        onClick={(e) => {
-                            handleDeleteOffice(e, office_id!);
-                        }}
+                        onClick={(e) => handleDeleteOffice(office_id!)}
                         className="group w-32 relative inline-flex cursor-pointer items-center justify-center overflow-hidden rounded-lg border-red-900 bg-gradient-to-tr from-red-700 to-red-800 p-3 font-bold text-white shadow-lg transition duration-100 ease-in-out active:translate-y-0.5 hover:scale-95 active:shadow-none"
                     >
                         Delete
