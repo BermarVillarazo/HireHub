@@ -18,6 +18,7 @@ export const RecruitmentStaffNavigationLinks = [
     { href: "/recruitment_staff/users", name: "Users" },
     { href: "/recruitment_staff/department", name: "Department" },
     { href: "/recruitment_staff/office", name: "Office" },
+    { href: "/recruitment_staff/requests", name: "Request" },
     { href: "/recruitment_staff/applicant", name: "Applicant" },
 ];
 
