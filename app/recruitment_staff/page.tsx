@@ -63,7 +63,7 @@ export default async function Dashboard() {
             value: totalApplicants,
         },
         {
-            title: "Job View",
+            title: "Vacant Positions",
             value: totalApplicants,
         },
         {

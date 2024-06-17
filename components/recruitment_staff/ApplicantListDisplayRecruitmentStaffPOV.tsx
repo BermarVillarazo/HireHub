@@ -18,7 +18,7 @@ const stepsSequence = [
     "Screening",
     "Initial Interview",
     "TeachingDemo",
-    "Pyschological Exam",
+    "Psychological Exam",
     "Panel Interview",
     "Recommendation for Hiring",
 ];
@@ -95,6 +95,10 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
         }
     }
 
+    const handleRatingChange = (rating: number) => {
+        setRating(rating);
+    };
+
     return (
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
             {applicant.map(
@@ -135,128 +139,65 @@ export default function ApplicantListDisplayRecruitmentStaffPOV({
                             )}
                             {officeName && <LabelInput label="Office" value={officeName} />}
                         </div>
-                        <section className="flex flex-col gap-5 w-full">
-                            <h1 className="font-bold"> APPLICATION STATUS </h1>
-                            <div className="flex justify-around">
-                                {stepsSequence.map((step, index) => (
-                                    <div
-                                        key={step}
-                                        className="flex flex-col justify-center items-center gap-3"
-                                    >
-                                        <input
-                                            type="radio"
-                                            name="status_name"
-                                            value={step}
-                                            checked={step === stepsSequence[currentStep]}
-                                            readOnly
-                                            className={`radio radio-error ${
-                                                index < currentStep
-                                                    ? "bg-black"
-                                                    : index === currentStep
-                                                    ? "bg-white"
-                                                    : ""
-                                            }`}
-                                            disabled={index !== currentStep}
-                                        />
-                                        <label className="text-sm">{`${
-                                            step === "TeachingDemo" ? "Teaching Demo" : step
-                                        }`}</label>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="flex justify-center gap-10">
-                                {[...Array(5)].map((star, index) => {
-                                    const currentRate = index + 1;
-                                    return (
-                                        <label key={index}>
-                                            <input
-                                                type="radio"
-                                                name="rating"
-                                                value={currentRate}
-                                                onClick={() => {
-                                                    setRating(currentRate);
-                                                    console.log(currentRate);
-                                                }}
-                                                className="w-10 text-black hidden "
-                                            />
-                                            {currentRate <= rating ? (
-                                                <Image
-                                                    src={SolidStar}
-                                                    alt="Star icon"
-                                                    width={40}
-                                                    height={40}
-                                                    priority
-                                                    className="cursor-pointer text-red-900"
-                                                />
-                                            ) : (
-                                                <Image
-                                                    src={EmptyStar}
-                                                    alt="Star icon"
-                                                    width={40}
-                                                    height={40}
-                                                    priority
-                                                    className="cursor-pointer"
-                                                />
-                                            )}
-                                        </label>
-                                    );
-                                })}
-                            </div>
-                        </section>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <Button>UPDATE STATUS</Button>
                             <Link
                                 href={`mailto:${email}`}
-                                className="bg-red-900 w-40 hover:bg-red-800 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transform hover:scale-105 transition duration-200 ease-in-out whitespace-nowrap"
+                                className="w-full md:w-64 py-3 px-14 rounded-lg text-white text-center bg-red-900 font-bold transition hover:scale-95 duration-200"
                             >
                                 SEND EMAIL
                             </Link>
+                            <Link 
+                                href={`/recruitment_staff/evaluation`}
+                                className="w-full md:w-64 py-3 px-14 rounded-lg text-white text-center bg-red-900 font-bold transition hover:scale-95 duration-200"
+                            >
+                                EVALUATE
+                            </Link>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-semibold mt-6">Evaluation</h2>
+                            <div className="flex flex-col gap-3">
+                                <LabelInput label="Current Step" value={stepsSequence[currentStep]} />
+                                <div className="flex flex-col gap-3">
+                                    <label className="font-semibold">Rating:</label>
+                                    <div className="flex gap-1">
+                                        {[1, 2, 3, 4, 5].map((star) => (
+                                            <Image
+                                                key={star}
+                                                src={star <= rating ? SolidStar : EmptyStar}
+                                                alt="star"
+                                                width={24}
+                                                height={24}
+                                                onClick={() => handleRatingChange(star)}
+                                                className="cursor-pointer"
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                                <label className="font-semibold">Status:</label>
+                                <select
+                                    name="status_name"
+                                    className="border rounded px-3 py-2"
+                                    required
+                                >
+                                    {stepsSequence.map((step, index) => (
+                                        <option key={index} value={step}>
+                                            {step}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                     </Fragment>
                 )
             )}
-
             {showConfirmationMessage && (
                 <ConfirmationPopup
-                    message="Are you sure you want to update applicant status"
-                    onCancel={() => setShowConfirmationMessage(false)}
+                    message="Are you sure you want to update the applicant's status?"
                     onConfirm={handleConfirmUpdateUserRole}
+                    onCancel={() => setShowConfirmationMessage(false)}
                 />
             )}
+            <Button type="submit">Submit Evaluation</Button>
         </form>
     );
 }
-
-// type StatusNameProps = {
-//     value: string;
-// };
-
-// function StatusName({ value }: StatusNameProps) {
-//     return (
-//         <div className="flex flex-col">
-//             <input type="radio" name="status_name" value={value} className="radio radio-error" />
-//         </div>
-//     );
-// }
-
-// type RatingProps = {
-//     name?: string;
-//     value?: string;
-//     disabled?: boolean;
-// };
-
-// function Rating({ name, value, disabled }: RatingProps) {
-//     return (
-//         <input
-//             type="text"
-//             name={name}
-//             value={value}
-//             maxLength={1}
-//             readOnly
-//             disabled={disabled}
-//             className={`block w-9 h-9 p-2 text-sm font-extrabold text-center text-black bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500 ${
-//                 disabled === true ? "bg-white/60" : "bg-white"
-//             }`}
-//         />
-//     );
-// }
